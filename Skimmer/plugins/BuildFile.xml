@@ -1,0 +1,27 @@
+<use name="FWCore/Framework"/>
+<use name="FWCore/PluginManager"/>
+<use name="FWCore/ParameterSet"/>
+<use name="FWCore/MessageLogger"/>
+<use name="FWCore/Common"/>
+<use name="FWCore/ServiceRegistry"/>
+<use name="HLTrigger/HLTcore"/>
+<!-- used physics objects -->
+<use name="DataFormats/PatCandidates"/>
+<use name="DataFormats/CTPPSDetId"/>
+<use name="DataFormats/CTPPSReco"/>
+<use name="DataFormats/ProtonReco"/>
+<use name="CommonTools/UtilAlgos"/>
+<use name="DataFormats/JetReco"/>
+<use name="DataFormats/HcalRecHit"/>
+<use name="DataFormats/HcalDetId"/>
+<use name="DataFormats/HcalDigi"/>
+<use name="DataFormats/EcalDetId"/>
+<use name="CalibFormats/HcalObjects"/>
+<use name="CondFormats/RunInfo"/>
+<use name="CondFormats/DataRecord"/>
+<use name="CondFormats/CTPPSReadoutObjects"/>
+<use name="CommonTools/Utils"/>
+<use name="rootcore"/>
+<use name="Geometry/VeryForwardGeometryBuilder"/>
+<use name="Geometry/VeryForwardRPTopology"/>
+<flags EDM_PLUGIN="1"/>
