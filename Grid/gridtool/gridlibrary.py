@@ -161,13 +161,13 @@ class Parser():
        print "\t" + color.OKGREEN + str(p["site"]) + color.ENDC
 
        tagname = 'crab_%s_%s' % (getpass.getuser(), timestr)
-       localpath = '/%s/%s/' % (p["localpath"], tagname)
-       eospath = '/%s/%s/' % (p["eospath"], tagname)
+       localpath = '%s/%s' % (p["localpath"], tagname)
+       eospath = '%s/%s' % (p["eospath"], tagname)
 
        # Crab common paratemers 
        config.JobType.psetName = p["config"]
-       config.JobType.pyCfgParams = [p["parameters"]] # check how to make it
-       config.JobType.outputFiles = [p["output"]]
+       config.JobType.pyCfgParams = [str(p["parameters"])]
+       config.JobType.outputFiles = [str(p["output"])]
        config.Data.outLFNDirBase = eospath
        config.General.transferOutputs = True
        config.General.requestName = tagname
@@ -198,8 +198,8 @@ class Parser():
         config.Data.outputPrimaryDataset = p["sample"]
         config.Data.inputDBS = 'phys03'
         config.Data.splitting = 'EventBased'
-        config.Data.unitsPerJob = 500
-        config.Data.totalUnits = 6000 * config.Data.unitsPerJob
+        config.Data.unitsPerJob = p["events"]
+        config.Data.totalUnits = 10 * config.Data.unitsPerJob
         config.Data.publication = True
         config.General.transferLogs = False
        else:

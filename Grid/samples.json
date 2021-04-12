@@ -1,20 +1,38 @@
 {
     "datasets": [
         {
-            "eospath": "store/user/", 
+            "eospath": "/store/user/dmf", 
             "enable": 1, 
-            "localpath": "PPSFramework/Grid/", 
+            "localpath": "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working", 
             "lumimask": "", 
             "sample": "PYTHIA8-SD-TOP-GEN", 
             "id": 0, 
             "parameters": [
-                ""
+                "--Mode=Muon", 
+                "--Era=B"
             ], 
             "mode": "mc_private_production", 
             "site": "T2_US_Wisconsin", 
-            "output": "output.root", 
-            "config": "config.py", 
-            "events": "10"
+            "output": "RunIISummer20UL17GEN.root", 
+            "config": "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working/SD-TOP-PYTHIA8_cfg.py", 
+            "events": 10
+        }, 
+        {
+            "eospath": "/store/user/dmf", 
+            "enable": 1, 
+            "localpath": "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working", 
+            "lumimask": "", 
+            "sample": "PYTHIA8-SD-TOP-GEN", 
+            "id": 1, 
+            "parameters": [
+                "--Mode=Muon", 
+                "--Era=B"
+            ], 
+            "mode": "mc_private_production", 
+            "site": "T2_US_Wisconsin", 
+            "output": "RunIISummer20UL17GEN.root", 
+            "config": "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working/SD-TOP-PYTHIA8_cfg.py", 
+            "events": 5
         }
     ]
 }

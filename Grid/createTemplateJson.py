@@ -20,18 +20,34 @@ data['datasets'] = []
 
 data['datasets'].append({
     'id': 0,
-    'enable': 0,
-    'localpath': "PPSFramework/Grid/",
-    'eospath': "store/user/",
+    'enable': 1,
+    'localpath': "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working",
+    'eospath': "/store/user/dmf",
     'sample': "PYTHIA8-SD-TOP-GEN",
     'mode': "mc_private_production",
     'lumimask': "",
-    'config': "config.py",
-    'parameters':[""],
-    'output': "output.root",
-    'events': "10",
+    'config': "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working/SD-TOP-PYTHIA8_cfg.py",
+    'parameters':("--Mode=Muon", "--Era=B"),
+    'output': ("RunIISummer20UL17GEN.root"),
+    'events': 10,
     'site': "T2_US_Wisconsin",
 })
+
+data['datasets'].append({
+    'id': 1,
+    'enable': 1,
+    'localpath': "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working",
+    'eospath': "/store/user/dmf",
+    'sample': "PYTHIA8-SD-TOP-GEN",
+    'mode': "mc_private_production",
+    'lumimask': "",
+    'config': "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working/SD-TOP-PYTHIA8_cfg.py",
+    'parameters':("--Mode=Muon", "--Era=B"),
+    'output': ("RunIISummer20UL17GEN.root"),
+    'events': 5,
+    'site': "T2_US_Wisconsin",
+})
+
 
 print(json.dumps(data, indent=4))
 

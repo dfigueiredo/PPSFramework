@@ -37,6 +37,14 @@ else:
     print("\t >> Please, source the script to enable crab library\n\t\t >> i.e.: source /cvmfs/cms.cern.ch/common/crab-setup.sh\n")
     exit()
 
+if "CMSSW_BASE" in os.environ:
+    cmsswpath = os.getenv("CMSSW_BASE")
+    print("\t >> CMSSW_BASE is defined as {}.\n".format(cmsswpath))
+else:
+    print("\t >> Please, source the cmsenv to enable the CMSSW version you would like to use before submit your crab jobs\n\t\t >> i.e.: [cd CMSSW_X_Y_Z/src] and cmsenv\n")
+    exit()
+
+
 from cmd import Cmd
 from gridtool import colors
 from gridtool import gridlibrary
