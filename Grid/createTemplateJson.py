@@ -12,7 +12,7 @@ import json
 # parameters: parameters of the CMSSW config file.
 #      i.e: 'parameters':["--Mode=Muons", "--Era=B"] or 'parameters':[""]
 # output: name of the output file.
-# events: number of events per job (for mc_analysis) or number of events per NJOBS (for mc_private_production). NJOBS is hardcoded in gridtool library.
+# unitsperjob: number of unitsperjob per job (for mc_analysis) or number of unitsperjob per NJOBS (for mc_private_production). NJOBS is hardcoded in gridtool library.
 # site: 'T2_BR_SPRACE', T2_IT_Pisa, T2_CH_CERNBOX, T2_US_Wisconsin, T2_BR_UERJ
 
 data = {}
@@ -20,16 +20,17 @@ data['datasets'] = []
 
 data['datasets'].append({
     'id': 0,
-    'enable': 1,
+    'enable': 0,
     'localpath': "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working",
     'eospath': "/store/user/dmf",
-    'sample': "PYTHIA8-SD-TOP-GEN",
-    'mode': "mc_private_production",
+    'name': "PYTHIA8-SD-TOP-GEN",
+    'sample': "",
+    'mode': "mc_private_hadron_production",
     'lumimask': "",
     'config': "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working/SD-TOP-PYTHIA8_cfg.py",
     'parameters':("--Mode=Muon", "--Era=B"),
     'output': ("RunIISummer20UL17GEN.root"),
-    'events': 10,
+    'unitsperjob': 250,
     'site': "T2_US_Wisconsin",
 })
 
@@ -38,16 +39,16 @@ data['datasets'].append({
     'enable': 1,
     'localpath': "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working",
     'eospath': "/store/user/dmf",
-    'sample': "PYTHIA8-SD-TOP-GEN",
+    'name': "PYTHIA8-SD-TOP-GEN-SIM-13TEV",
+    'sample': "/PYTHIA8-SD-TOP-GEN-13TEV/dmf-crab_crab_dmf_2021-04-12_UTC15-50-12-90b9c105ac810048514e168d042afef5/USER",
     'mode': "mc_private_production",
     'lumimask': "",
-    'config': "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working/SD-TOP-PYTHIA8_cfg.py",
+    'config': "/afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSFramework/working/RunIISummer20UL17SIM_cfg.py",
     'parameters':("--Mode=Muon", "--Era=B"),
-    'output': ("RunIISummer20UL17GEN.root"),
-    'events': 5,
+    'output': ("RunIISummer20UL17SIM.root"),
+    'unitsperjob': 1,
     'site': "T2_US_Wisconsin",
 })
-
 
 print(json.dumps(data, indent=4))
 

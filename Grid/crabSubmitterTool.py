@@ -96,14 +96,14 @@ class MyPrompt(Cmd):
 
 		if os.path.exists(filename):
 	        	json = gridlibrary.Parser(filename, options.verbose)
-	        	json.prepareSubmission(options.verbose)
+	        	json.prepareSubmission()
 		
 		else:
         	        print color.FAIL+color.BOLD+'\t[gridtool] JSON file does not exist or wrong path! Please use the option --file filename.json or run the application again with the option --f filename.json'+color.ENDC+color.HEADER+color.ENDC
 
 	else:
                 json = gridlibrary.Parser(options.filename, options.verbose)
-                json.prepareSubmission(config)
+                json.prepareSubmission()
 	
     def help_submit(self):
         print("\n\nUse the options --file filename.json\n\tEx: submit --file filename.json <press enter>\n\n")
@@ -125,7 +125,8 @@ if __name__ == '__main__':
     color = colors.Paint()
     options = getOptions()
 
-    config = config()
+    #config = config()
+
     if options.parsing:
 	MyPrompt().onecmd(''.join(options.parsing))
     else:

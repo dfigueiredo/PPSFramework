@@ -42,8 +42,11 @@ from CRABClient.UserUtilities import config
 from httplib import HTTPException
 from multiprocessing import Process
 
+#config=config()
+
 color = colors.Paint()
-NBLOCKS = 12 # number of keys per dataset block.
+NBLOCKS = 13 # number of keys per dataset block.
+NJOBS = 4000 # fixed number of jobs for mc_private_production mode.
 
 class Parser():
 
@@ -78,13 +81,14 @@ class Parser():
               "enable" == key or\
               "localpath" == key or\
               "eospath" == key or\
+              "name" == key or\
               "sample" == key or\
               "mode" == key or\
               "lumimask" == key or\
               "config" == key or\
               "parameters" == key or\
               "output" == key or\
-              "events" == key or\
+              "unitsperjob" == key or\
               "site" == key:
             self.count_key = self.count_key + 1
            else:
@@ -115,14 +119,14 @@ class Parser():
         except ClientException as cle:
             print "Failed submitting task: %s" % (cle)
 
-    def prepareSubmission(self, config):
+    def prepareSubmission(self):
 
      if "datasets" in self.data:
       for p in self.data["datasets"]:
 
+       self.config=config()
+
        timestr = time.strftime("%Y-%m-%d_UTC%H-%M-%S")
-       pathname = "PATHNAME"
-       pathfull = '/store/user/dmf/%s_%s/' % (pathname, timestr)
 
        print "\n\t" + color.BOLD + "id: " + color.ENDC,
        print "\t" + color.OKGREEN + str(p["id"]) + color.ENDC
@@ -135,6 +139,9 @@ class Parser():
  
        print "\t" + color.BOLD + "eospath: " + color.ENDC,
        print "\t" + color.OKGREEN + str(p["eospath"]) + color.ENDC
+
+       print "\t" + color.BOLD + "name: " + color.ENDC,
+       print "\t" + color.OKGREEN + str(p["name"]) + color.ENDC
 
        print "\t" + color.BOLD + "sample: " + color.ENDC,
        print "\t" + color.OKGREEN + str(p["sample"]) + color.ENDC
@@ -154,8 +161,8 @@ class Parser():
        print "\t" + color.BOLD + "output: " + color.ENDC,
        print "\t" + color.OKGREEN + str(p["output"]) + color.ENDC
 
-       print "\t" + color.BOLD + "events: " + color.ENDC,
-       print "\t" + color.OKGREEN + str(p["events"]) + color.ENDC
+       print "\t" + color.BOLD + "unitsperjob: " + color.ENDC,
+       print "\t" + color.OKGREEN + str(p["unitsperjob"]) + color.ENDC
 
        print "\t" + color.BOLD + "site: " + color.ENDC,
        print "\t" + color.OKGREEN + str(p["site"]) + color.ENDC
@@ -165,52 +172,61 @@ class Parser():
        eospath = '%s/%s' % (p["eospath"], tagname)
 
        # Crab common paratemers 
-       config.JobType.psetName = p["config"]
-       config.JobType.pyCfgParams = [str(p["parameters"])]
-       config.JobType.outputFiles = [str(p["output"])]
-       config.Data.outLFNDirBase = eospath
-       config.General.transferOutputs = True
-       config.General.requestName = tagname
-       config.General.workArea = localpath
-       config.Site.storageSite = p["site"]
+       self.config.JobType.psetName = p["config"]
+       self.config.JobType.pyCfgParams = [str(p["parameters"])]
+       self.config.JobType.outputFiles = [str(p["output"])]
+       self.config.Data.outLFNDirBase = eospath
+       self.config.General.transferOutputs = True
+       self.config.General.requestName = tagname
+       self.config.General.workArea = localpath
+       self.config.Site.storageSite = p["site"]
 
        # Crab parameters for each submission case
        if p["mode"] == "data_analysis":
-        config.JobType.pluginName = 'Analysis'
-        config.Data.inputDataset = p["sample"]
-        config.Data.inputDBS = 'global'
-        config.Data.splitting = 'LumiBased'
-        config.Data.unitsPerJob = 20
-        config.Data.publication = False
-        config.Data.lumiMask = p["lumimask"]
-        config.General.transferLogs = True
+        self.config.JobType.pluginName = 'Analysis'
+        self.config.Data.inputDataset = p["sample"]
+        self.config.Data.inputDBS = 'global'
+        self.config.Data.splitting = 'LumiBased'
+        self.config.Data.unitsPerJob = 20
+        self.config.Data.publication = False
+        self.config.Data.lumiMask = p["lumimask"]
+        self.config.General.transferLogs = True
        elif p["mode"] == "mc_analysis":
-        config.JobType.pluginName = 'Analysis'
-        config.Data.inputDataset = p["sample"]
-        config.Data.inputDBS = 'global'
-        config.Data.splitting = 'LumiBased'
-        config.Data.unitsPerJob = 20
-        config.Data.publication = False
-        config.Data.lumiMask = p["lumimask"]
-        config.General.transferLogs = True
+        self.config.JobType.pluginName = 'Analysis'
+        self.config.Data.inputDataset = p["sample"]
+        self.config.Data.inputDBS = 'global'
+        self.config.Data.splitting = 'LumiBased'
+        self.config.Data.unitsPerJob = 20
+        self.config.Data.publication = False
+        self.config.Data.lumiMask = p["lumimask"]
+        self.config.General.transferLogs = True
+       elif p["mode"] == "mc_private_hadron_production":
+        self.config.JobType.pluginName = 'PrivateMC'
+        self.config.Data.outputPrimaryDataset = p["name"]
+        self.config.Data.inputDBS = 'phys03'
+        self.config.Data.splitting = 'EventBased'
+        self.config.Data.unitsPerJob = p["unitsperjob"]
+        self.config.Data.totalUnits = NJOBS * self.config.Data.unitsPerJob
+        self.config.Data.publication = True
+        self.config.General.transferLogs = False
        elif p["mode"] == "mc_private_production":
-        config.JobType.pluginName = 'PrivateMC'
-        config.Data.outputPrimaryDataset = p["sample"]
-        config.Data.inputDBS = 'phys03'
-        config.Data.splitting = 'EventBased'
-        config.Data.unitsPerJob = p["events"]
-        config.Data.totalUnits = 10 * config.Data.unitsPerJob
-        config.Data.publication = True
-        config.General.transferLogs = False
+        self.config.Data.inputDataset = p["sample"]
+        self.config.JobType.pluginName = 'Analysis'
+        self.config.Data.outputDatasetTag = p["name"] 
+        self.config.Data.inputDBS = 'phys03'
+        self.config.Data.splitting = 'FileBased'
+        self.config.Data.unitsPerJob = p["unitsperjob"]
+        self.config.Data.publication = True
+        self.config.General.transferLogs = False
        else:
         print("\n"+color.WARNING+"[gridtool] mode {} is not defined.\nJobs have not been configured for the task id {}."+color.ENDC+"\n").format(p["mode"], p["id"])
         continue
 
        if int(p["enable"]):
-        print("\n")
-        p = Process(target=self.submit, args=(config,))
+        p = Process(target=self.submit, args=(self.config,))
         p.start()
         p.join()
        else:
         print "\t" + color.BOLD + color.HEADER + "-- Submittion not enabled --" + color.ENDC
+
        print("\n")
