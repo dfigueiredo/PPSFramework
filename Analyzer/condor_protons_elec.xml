@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<samples>
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronB-miniAOD2017_2020-01-21_UTC16-50-36/DoubleEG/ElectronB-miniAOD2017/200121_155116/0000/</name>
+		<era>B</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_B/</output>
+		<parameters>--protonfile</parameters>
+		<enable>1</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronB-miniAOD2017_2020-01-21_UTC16-50-36/DoubleEG/ElectronB-miniAOD2017/200121_155116/0000/</name>
+                <era>B</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_B/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronB-miniAOD2017_2020-01-21_UTC16-50-36/DoubleEG/ElectronB-miniAOD2017/200121_155116/0000/</name>
+                <era>B</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_B/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronB-miniAOD2017_2020-01-21_UTC16-50-36/DoubleEG/ElectronB-miniAOD2017/200121_155116/0000/</name>
+                <era>B</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_B/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronC-miniAOD2017_2020-01-21_UTC16-51-16/DoubleEG/ElectronC-miniAOD2017/200121_155130/0000/</name>
+		<era>C</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_C/</output>
+		<parameters>--protonfile</parameters>
+		<enable>1</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronC-miniAOD2017_2020-01-21_UTC16-51-16/DoubleEG/ElectronC-miniAOD2017/200121_155130/0000/</name>
+                <era>C</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_C/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronC-miniAOD2017_2020-01-21_UTC16-51-16/DoubleEG/ElectronC-miniAOD2017/200121_155130/0000/</name>
+                <era>C</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_C/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronC-miniAOD2017_2020-01-21_UTC16-51-16/DoubleEG/ElectronC-miniAOD2017/200121_155130/0000/</name>
+                <era>C</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_C/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronD-miniAOD2017_2020-01-21_UTC16-51-30/DoubleEG/ElectronD-miniAOD2017/200121_155144/0000/</name>
+		<era>D</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_D/</output>
+		<parameters>--protonfile</parameters>
+		<enable>1</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronD-miniAOD2017_2020-01-21_UTC16-51-30/DoubleEG/ElectronD-miniAOD2017/200121_155144/0000/</name>
+                <era>D</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_D/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>                                                                                                                            
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronD-miniAOD2017_2020-01-21_UTC16-51-30/DoubleEG/ElectronD-miniAOD2017/200121_155144/0000/</name>
+                <era>D</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_D/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronD-miniAOD2017_2020-01-21_UTC16-51-30/DoubleEG/ElectronD-miniAOD2017/200121_155144/0000/</name>
+                <era>D</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_D/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronE-miniAOD2017_2020-01-21_UTC16-51-44/DoubleEG/ElectronE-miniAOD2017/200121_155200/0000/</name>
+		<era>E</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_E/</output>
+		<parameters>--protonfile</parameters>
+		<enable>1</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronE-miniAOD2017_2020-01-21_UTC16-51-44/DoubleEG/ElectronE-miniAOD2017/200121_155200/0000/</name>
+                <era>E</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_E/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronE-miniAOD2017_2020-01-21_UTC16-51-44/DoubleEG/ElectronE-miniAOD2017/200121_155200/0000/</name>
+                <era>E</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_E/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronE-miniAOD2017_2020-01-21_UTC16-51-44/DoubleEG/ElectronE-miniAOD2017/200121_155200/0000/</name>
+                <era>E</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_E/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronF-miniAOD2017_2020-01-21_UTC16-52-00/DoubleEG/ElectronF-miniAOD2017/200121_155214/0000/</name>
+		<era>F</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_F/</output>	
+		<parameters>--protonfile</parameters>
+		<enable>1</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronF-miniAOD2017_2020-01-21_UTC16-52-00/DoubleEG/ElectronF-miniAOD2017/200121_155214/0000/</name>
+                <era>F</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_F/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronF-miniAOD2017_2020-01-21_UTC16-52-00/DoubleEG/ElectronF-miniAOD2017/200121_155214/0000/</name>
+                <era>F</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_F/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/ElectronF-miniAOD2017_2020-01-21_UTC16-52-00/DoubleEG/ElectronF-miniAOD2017/200121_155214/0000/</name>
+                <era>F</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>/afs/cern.ch/work/l/lpagliai/public/DYSimulator/CMSSW_10_6_0/src/MissingMass/Analyzer/ERA_F/</output>
+                <parameters>--protonfile</parameters>
+                <enable>1</enable>                                                                   
+        </dataset>
+</samples>

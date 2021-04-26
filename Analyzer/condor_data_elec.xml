@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<samples>
+	<dataset>
+		<name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronB-miniAOD2017_2020-03-09_UTC16-10-00/DoubleEG/ElectronB-miniAOD2017/200309_151023/0000/</name>
+		<era>B</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>Electron_Data_ERA_B_120/</output>
+		<parameters>--protonfile</parameters>
+		<enable>0</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronB-miniAOD2017_2020-03-09_UTC16-10-00/DoubleEG/ElectronB-miniAOD2017/200309_151023/0000/</name>
+                <era>B</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_B_130/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronB-miniAOD2017_2020-03-09_UTC16-10-00/DoubleEG/ElectronB-miniAOD2017/200309_151023/0000/</name>
+                <era>B</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_B_140/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronB-miniAOD2017_2020-03-09_UTC16-10-00/DoubleEG/ElectronB-miniAOD2017/200309_151023/0000/</name>
+                <era>B</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_B_150/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+	<dataset>
+		<name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronC-miniAOD2017_2020-03-09_UTC16-10-23/DoubleEG/ElectronC-miniAOD2017/200309_151036/0000/</name>
+		<era>C</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>Electron_Data_ERA_C_120/</output>
+		<parameters>--protonfile</parameters>
+		<enable>0</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronC-miniAOD2017_2020-03-09_UTC16-10-23/DoubleEG/ElectronC-miniAOD2017/200309_151036/0000/</name>
+                <era>C</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_C_130/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronC-miniAOD2017_2020-03-09_UTC16-10-23/DoubleEG/ElectronC-miniAOD2017/200309_151036/0000/</name>
+                <era>C</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_C_140/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronC-miniAOD2017_2020-03-09_UTC16-10-23/DoubleEG/ElectronC-miniAOD2017/200309_151036/0000/</name>
+                <era>C</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_C_150/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+	<dataset>
+		<name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronD-miniAOD2017_2020-03-09_UTC16-10-37/DoubleEG/ElectronD-miniAOD2017/200309_151050/0000/</name>
+		<era>D</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>Electron_Data_ERA_D_120/</output>
+		<parameters>--protonfile</parameters>
+		<enable>0</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronD-miniAOD2017_2020-03-09_UTC16-10-37/DoubleEG/ElectronD-miniAOD2017/200309_151050/0000/</name>
+                <era>D</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_D_130/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>                                                                                                                            
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronD-miniAOD2017_2020-03-09_UTC16-10-37/DoubleEG/ElectronD-miniAOD2017/200309_151050/0000/</name>
+                <era>D</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_D_140/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronD-miniAOD2017_2020-03-09_UTC16-10-37/DoubleEG/ElectronD-miniAOD2017/200309_151050/0000/</name>
+                <era>D</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_D_150/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+	<dataset>
+		<name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronE-miniAOD2017_2020-03-09_UTC16-10-50/DoubleEG/ElectronE-miniAOD2017/200309_151104/0000/</name>
+		<era>E</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>Electron_Data_ERA_E_120/</output>
+		<parameters>--protonfile</parameters>
+		<enable>0</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronE-miniAOD2017_2020-03-09_UTC16-10-50/DoubleEG/ElectronE-miniAOD2017/200309_151104/0000/</name>
+                <era>E</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_E_130/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronE-miniAOD2017_2020-03-09_UTC16-10-50/DoubleEG/ElectronE-miniAOD2017/200309_151104/0000/</name>
+                <era>E</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_E_140/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronE-miniAOD2017_2020-03-09_UTC16-10-50/DoubleEG/ElectronE-miniAOD2017/200309_151104/0000/</name>
+                <era>E</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_E_150/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+	<dataset>
+		<name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronF-miniAOD2017_2020-03-09_UTC16-11-04/DoubleEG/ElectronF-miniAOD2017/200309_151116/0000/</name>
+		<era>F</era>
+		<mode>Electron</mode>
+		<xa>120</xa>
+		<datatype>Data</datatype>
+		<output>Electron_Data_ERA_F_120/</output>	
+		<parameters>--protonfile</parameters>
+		<enable>1</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronF-miniAOD2017_2020-03-09_UTC16-11-04/DoubleEG/ElectronF-miniAOD2017/200309_151116/0000/</name>
+                <era>F</era>
+                <mode>Electron</mode>
+                <xa>130</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_F_130/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronF-miniAOD2017_2020-03-09_UTC16-11-04/DoubleEG/ElectronF-miniAOD2017/200309_151116/0000/</name>
+                <era>F</era>
+                <mode>Electron</mode>
+                <xa>140</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_F_140/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/user/l/lpagliai/Missing_Mass_Analysis/Skimmer/Electrons_09_03/ElectronF-miniAOD2017_2020-03-09_UTC16-11-04/DoubleEG/ElectronF-miniAOD2017/200309_151116/0000/</name>
+                <era>F</era>
+                <mode>Electron</mode>
+                <xa>150</xa>
+		<datatype>Data</datatype>
+                <output>Electron_Data_ERA_F_150/</output>
+                <parameters>--protonfile</parameters>
+                <enable>0</enable>                                                                   
+        </dataset>
+</samples>

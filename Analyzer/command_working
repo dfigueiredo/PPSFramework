@@ -1,0 +1,5 @@
+./MissingMassNtupleAnalyzer --f /eos/cms/store/group/phys_exotica/PPS-Exo/crab_BTagCSV_B_2021-02-03_UTC11-46-13_2021-02-03_UTC11-46-13/BTagCSV/crab_BTagCSV_B_2021-02-03_UTC11-46-13/210203_104633/0000/output_10.root  --era B --mode Bjets --datatype Data --xa 0
+
+
+find BJets_data_era_*/ -type f -name '*.root' -exec du -ch {} + | grep total$
+

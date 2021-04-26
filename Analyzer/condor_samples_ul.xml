@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<samples>
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/MuonB-miniAOD2017_2019-11-24_UTC16-44-34/DoubleMuon/MuonB-miniAOD2017/191124_154448/0000/</name>
+                <era>B</era>
+                <mode>Muon</mode>
+                <output>MuonB-UL-miniAOD2017</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/MuonC-miniAOD2017_2019-11-24_UTC16-44-48/DoubleMuon/MuonC-miniAOD2017/191124_154458/0000/</name>
+                <era>C</era>
+                <mode>Muon</mode>
+                <output>MuonC-UL-miniAOD2017</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/MuonD-miniAOD2017_2019-11-24_UTC16-44-58/DoubleMuon/MuonD-miniAOD2017/191124_154509/0000/</name>
+                <era>D</era>
+                <mode>Muon</mode>
+                <output>MuonD-UL-miniAOD2017</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/MuonE-miniAOD2017_2019-11-24_UTC16-45-09/DoubleMuon/MuonE-miniAOD2017/191124_154519/0000/</name>
+                <era>E</era>
+                <mode>Muon</mode>
+                <output>MuonE-UL-miniAOD2017</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/MuonF-miniAOD2017_2019-11-24_UTC16-45-20/DoubleMuon/MuonF-miniAOD2017/191124_154530/0000/</name>
+                <era>F</era>
+                <mode>Muon</mode>
+                <output>MuonF-UL-miniAOD2017-p0</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/MuonF-miniAOD2017_2019-11-24_UTC16-45-20/DoubleMuon/MuonF-miniAOD2017/191124_154530/0001/</name>
+                <era>F</era>
+                <mode>Muon</mode>
+                <output>MuonF-UL-miniAOD2017-p1</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+</samples>

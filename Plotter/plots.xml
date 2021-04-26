@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<plots>
+        <drawing> 
+		<enable>1</enable>
+                <signal_file>"/eos/cms/store/group/phys_exotica/PPS-Exo/NtuplesAOD/Ntuples_aod-v22/muon-aod2018.root"</signal_file> 
+                <bkg_file>none</bkg_file> 
+                <variable_name>"missingMassDileptonRP210"</variable_name> 
+                <title_and_axis_name>"Missing Mass (RP210); Missing Mass [GeV]; PDF"</title_and_axis_name> 
+		<bin_size>40</bin_size>
+                <first_bin>0</first_bin> 
+		<last_bin>2200</last_bin>
+		<!--Special characters: "&" to "&amp;"
+					"<" to "&lt;" 
+					">" to "&gt;" 
+		-->
+		<signal_cuts>"leadingLeptonPt&gt;52&amp;&amp;secondLeptonPt&gt;42&amp;&amp;dileptonPt&gt;60&amp;&amp;dileptonMass&gt;88&amp;&amp;dileptonMass&lt;94&amp;&amp;nVertex&lt;25&amp;&amp;dileptonEta&gt;0 &amp;&amp; isprotonRP210==1 &amp;&amp; xi_rp210_Arm45&lt;0.18 &amp;&amp; xi_rp210_Arm56&lt;0.18 &amp;&amp; xi_rp210_Arm45&gt;0.035 &amp;&amp; xi_rp210_Arm56&gt;0.035"</signal_cuts>
+                <bkg_cuts>"leadingLeptonPt&gt;52&amp;&amp;secondLeptonPt&gt;42&amp;&amp;dileptonPt&gt;60&amp;&amp;dileptonMass&gt;88&amp;&amp;dileptonMass&lt;94&amp;&amp;nVertex&lt;25&amp;&amp;dileptonEta&lt;0 &amp;&amp; isprotonRP210==1 &amp;&amp; xi_rp210_Arm45&lt;0.18 &amp;&amp; xi_rp210_Arm56&lt;0.18 &amp;&amp; xi_rp210_Arm45&gt;0.035 &amp;&amp; xi_rp210_Arm56&gt;0.035"</bkg_cuts>
+                <tagname>"rp210"</tagname>
+        </drawing>
+
+        <drawing>
+                <enable>1</enable>
+                <signal_file>"/eos/cms/store/group/phys_exotica/PPS-Exo/NtuplesAOD/Ntuples_aod-v22/muon-aod2018.root"</signal_file>
+                <bkg_file>none</bkg_file>
+                <variable_name>"missingMassDileptonRP220"</variable_name>
+                <title_and_axis_name>"Missing Mass (RP220); Missing Mass [GeV]; PDF"</title_and_axis_name>
+                <bin_size>40</bin_size>
+                <first_bin>0</first_bin>
+                <last_bin>2200</last_bin>
+                <!--Special characters: "&" to "&amp;"
+                                        "<" to "&lt;" 
+                                        ">" to "&gt;" 
+                -->
+                <signal_cuts>"leadingLeptonPt&gt;52&amp;&amp;secondLeptonPt&gt;42&amp;&amp;dileptonPt&gt;60&amp;&amp;dileptonMass&gt;88&amp;&amp;dileptonMass&lt;94&amp;&amp;nVertex&lt;25&amp;&amp;dileptonEta&gt;0 &amp;&amp; isprotonRP220==1 &amp;&amp; xi_rp220_Arm45&lt;0.18 &amp;&amp; xi_rp220_Arm56&lt;0.18 &amp;&amp; xi_rp220_Arm45&gt;0.035 &amp;&amp; xi_rp220_Arm56&gt;0.035"</signal_cuts>
+                <bkg_cuts>"leadingLeptonPt&gt;52&amp;&amp;secondLeptonPt&gt;42&amp;&amp;dileptonPt&gt;60&amp;&amp;dileptonMass&gt;88&amp;&amp;dileptonMass&lt;94&amp;&amp;nVertex&lt;25&amp;&amp;dileptonEta&lt;0 &amp;&amp; isprotonRP220==1 &amp;&amp; xi_rp220_Arm45&lt;0.18 &amp;&amp; xi_rp220_Arm56&lt;0.18 &amp;&amp; xi_rp220_Arm45&gt;0.035 &amp;&amp; xi_rp220_Arm56&gt;0.035"</bkg_cuts>
+                <tagname>"rp220"</tagname>
+        </drawing>
+
+        <drawing>
+                <enable>1</enable>
+                <signal_file>"/eos/cms/store/group/phys_exotica/PPS-Exo/NtuplesAOD/Ntuples_aod-v22/muon-aod2018.root"</signal_file>
+                <bkg_file>none</bkg_file>
+                <variable_name>"missingMassDileptonMulti"</variable_name>
+                <title_and_axis_name>"Missing Mass (Multi); Missing Mass [GeV]; PDF"</title_and_axis_name>
+                <bin_size>40</bin_size>
+                <first_bin>0</first_bin>
+                <last_bin>2200</last_bin>
+                <!--Special characters: "&" to "&amp;"
+                                        "<" to "&lt;" 
+                                        ">" to "&gt;" 
+                -->
+                <signal_cuts>"leadingLeptonPt&gt;52&amp;&amp;secondLeptonPt&gt;42&amp;&amp;dileptonPt&gt;60&amp;&amp;dileptonMass&gt;88&amp;&amp;dileptonMass&lt;94&amp;&amp;nVertex&lt;25&amp;&amp;dileptonEta&gt;0 &amp;&amp; isprotonMulti==1 &amp;&amp; xi_multiArm45&lt;0.18 &amp;&amp; xi_multiArm56&lt;0.18 &amp;&amp; xi_multiArm45&gt;0.035 &amp;&amp; xi_multiArm56&gt;0.035"</signal_cuts>
+                <bkg_cuts>"leadingLeptonPt&gt;52&amp;&amp;secondLeptonPt&gt;42&amp;&amp;dileptonPt&gt;60&amp;&amp;dileptonMass&gt;88&amp;&amp;dileptonMass&lt;94&amp;&amp;nVertex&lt;25&amp;&amp;dileptonEta&lt;0 &amp;&amp; isprotonMulti==1 &amp;&amp; xi_multiArm45&lt;0.18 &amp;&amp; xi_multiArm56&lt;0.18 &amp;&amp; xi_multiArm45&gt;0.035 &amp;&amp; xi_multiArm56&gt;0.035"</bkg_cuts>
+                <tagname>"multi"</tagname>
+        </drawing>
+
+
+</plots>

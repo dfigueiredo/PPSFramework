@@ -1,0 +1,268 @@
+<?xml version="1.0"?>
+<samples>
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-120-miniAOD2017_2020-05-12_UTC17-39-42/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-120-miniAOD2017/200512_153957/0000/</name>
+		<era>postTS2</era>
+		<mode>MC_Muon</mode>
+		<xa>120</xa>
+		<datatype>SD</datatype>
+		<output>SD-top-postTS2-120-p0</output>
+		<parameters>--random</parameters>
+		<enable>1</enable>
+	</dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-120-miniAOD2017_2020-05-12_UTC17-39-42/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-120-miniAOD2017/200512_153957/0001/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>120</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-120-p1</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-120-miniAOD2017_2020-05-12_UTC17-39-42/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-120-miniAOD2017/200512_153957/0002/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>120</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-120-p2</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-130-miniAOD2017_2020-05-12_UTC17-40-08/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-130-miniAOD2017/200512_154018/0000/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>130</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-130-p0</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-130-miniAOD2017_2020-05-12_UTC17-40-08/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-130-miniAOD2017/200512_154018/0001/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>130</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-130-p1</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-130-miniAOD2017_2020-05-12_UTC17-40-08/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-130-miniAOD2017/200512_154018/0002/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>130</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-130-p2</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-140-miniAOD2017_2020-05-12_UTC17-40-28/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-140-miniAOD2017/200512_154039/0000/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>140</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-140-p0</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-140-miniAOD2017_2020-05-12_UTC17-40-28/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-140-miniAOD2017/200512_154039/0001/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>140</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-140-p1</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-140-miniAOD2017_2020-05-12_UTC17-40-28/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-140-miniAOD2017/200512_154039/0002/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>140</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-140-p2</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-150-miniAOD2017_2020-05-12_UTC17-40-49/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-150-miniAOD2017/200512_154059/0000/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>150</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-150-p0</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-150-miniAOD2017_2020-05-12_UTC17-40-49/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-150-miniAOD2017/200512_154059/0001/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>150</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-150-p1</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PostTS2-150-miniAOD2017_2020-05-12_UTC17-40-49/PYTHIA8-SD-top-13TeV/SD-top-PostTS2-150-miniAOD2017/200512_154059/0002/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>150</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-postTS2-150-p2</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-120-miniAOD2017_2020-05-12_UTC17-39-57/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-120-miniAOD2017/200512_154008/0000/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>120</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-120-p0</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-120-miniAOD2017_2020-05-12_UTC17-39-57/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-120-miniAOD2017/200512_154008/0001/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>120</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-120-p1</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-120-miniAOD2017_2020-05-12_UTC17-39-57/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-120-miniAOD2017/200512_154008/0002/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>120</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-120-p2</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-130-miniAOD2017_2020-05-12_UTC17-40-18/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-130-miniAOD2017/200512_154028/0000/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>130</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-130-p0</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-130-miniAOD2017_2020-05-12_UTC17-40-18/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-130-miniAOD2017/200512_154028/0001/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>130</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-130-p1</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-130-miniAOD2017_2020-05-12_UTC17-40-18/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-130-miniAOD2017/200512_154028/0002/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>130</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-130-p2</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-140-miniAOD2017_2020-05-12_UTC17-40-39/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-140-miniAOD2017/200512_154049/0000/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>140</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-140-p0</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-140-miniAOD2017_2020-05-12_UTC17-40-39/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-140-miniAOD2017/200512_154049/0001/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>140</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-140-p1</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-140-miniAOD2017_2020-05-12_UTC17-40-39/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-140-miniAOD2017/200512_154049/0002/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>140</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-140-p2</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-150-miniAOD2017_2020-05-12_UTC17-40-59/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-150-miniAOD2017/200512_154110/0000/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>150</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-150-p0</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-150-miniAOD2017_2020-05-12_UTC17-40-59/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-150-miniAOD2017/200512_154110/0001/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>150</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-150-p1</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+        <dataset>
+                <name>/eos/cms/store/group/phys_exotica/PPS-Exo/SD-top-PreTS2-150-miniAOD2017_2020-05-12_UTC17-40-59/PYTHIA8-SD-top-13TeV/SD-top-PreTS2-150-miniAOD2017/200512_154110/0002/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>150</xa>
+                <datatype>SD</datatype>
+                <output>SD-top-preTS2-150-p2</output>
+                <parameters>--random</parameters>
+                <enable>1</enable>
+        </dataset>
+
+</samples>

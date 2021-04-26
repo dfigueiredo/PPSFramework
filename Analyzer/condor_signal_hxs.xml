@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<samples>
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/signal-hx-PostTS2-120-miniAOD2017_2021-01-07_UTC16-36-06/HXToyMC_NONE_PostTS2_850_120/signal-hx-PostTS2-120-miniAOD2017/210107_153732/0000/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>120</xa>
+                <datatype>Signal</datatype>
+                <output>hxs-posTS2-120</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/signal-hx-PostTS2-130-miniAOD2017_2021-01-07_UTC16-37-49/HXToyMC_NONE_PostTS2_850_130/signal-hx-PostTS2-130-miniAOD2017/210107_153803/0000/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>130</xa>
+                <datatype>Signal</datatype>
+                <output>hxs-posTS2-130</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/signal-hx-PostTS2-140-miniAOD2017_2021-01-07_UTC16-38-17/HXToyMC_NONE_PostTS2_850_140/signal-hx-PostTS2-140-miniAOD2017/210107_153835/0000/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>140</xa>
+                <datatype>Signal</datatype>
+                <output>hxs-posTS2-140</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/signal-hx-PostTS2-150-miniAOD2017_2021-01-07_UTC16-38-54/HXToyMC_NONE_PostTS2_850_150/signal-hx-PostTS2-150-miniAOD2017/210107_153911/0000/</name>
+                <era>postTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>150</xa>
+                <datatype>Signal</datatype>
+                <output>hxs-posTS2-150</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/signal-hx-PreTS2-120-miniAOD2017_2021-01-07_UTC16-37-32/HXToyMC_NONE_PreTS2_850_120/signal-hx-PreTS2-120-miniAOD2017/210107_153749/0000/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>120</xa>
+                <datatype>Signal</datatype>
+                <output>hxs-preTS2-120</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/signal-hx-PreTS2-130-miniAOD2017_2021-01-07_UTC16-38-03/HXToyMC_NONE_PreTS2_850_130/signal-hx-PreTS2-130-miniAOD2017/210107_153817/0000/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>130</xa>
+                <datatype>Signal</datatype>
+                <output>hxs-preTS2-130</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/signal-hx-PreTS2-140-miniAOD2017_2021-01-07_UTC16-38-35/HXToyMC_NONE_PreTS2_850_140/signal-hx-PreTS2-140-miniAOD2017/210107_153854/0000/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>140</xa>
+                <datatype>Signal</datatype>
+                <output>hxs-preTS2-140</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/signal-hx-PreTS2-150-miniAOD2017_2021-01-07_UTC16-39-11/HXToyMC_NONE_PreTS2_850_150/signal-hx-PreTS2-150-miniAOD2017/210107_153926/0000/</name>
+                <era>preTS2</era>
+                <mode>MC_Muon</mode>
+                <xa>150</xa>
+                <datatype>Signal</datatype>
+                <output>hxs-preTS2-150</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+</samples>

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<samples>
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/crab_B_2020-10-05_UTC11-50-11_2020-10-05_UTC11-50-11/BTagCSV/crab_B_2020-10-05_UTC11-50-11/201005_095023/0000/</name>
+                <era>B</era>
+                <mode>Bjets</mode>
+                <xa>0</xa>
+                <datatype>Data</datatype>
+                <output>BJets_data_era_B/</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/crab_C_2020-10-05_UTC11-50-52_2020-10-05_UTC11-50-52/BTagCSV/crab_C_2020-10-05_UTC11-50-52/201005_095104/0000/</name>
+                <era>C</era>
+                <mode>Bjets</mode>
+                <xa>0</xa>
+                <datatype>Data</datatype>
+                <output>BJets_data_era_C/</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/crab_D_2020-10-05_UTC11-51-15_2020-10-05_UTC11-51-15/BTagCSV/crab_D_2020-10-05_UTC11-51-15/201005_095128/0000/</name>
+                <era>D</era>
+                <mode>Bjets</mode>
+                <xa>0</xa>
+                <datatype>Data</datatype>
+                <output>BJets_data_era_D/</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/crab_E_2020-10-05_UTC11-51-37_2020-10-05_UTC11-51-37/BTagCSV/crab_E_2020-10-05_UTC11-51-37/201005_095150/0000/</name>
+                <era>E</era>
+                <mode>Bjets</mode>
+                <xa>0</xa>
+                <datatype>Data</datatype>
+                <output>BJets_data_era_E/</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+	<dataset>
+		<name>/eos/cms/store/group/phys_exotica/PPS-Exo/crab_F_2020-10-05_UTC11-52-00_2020-10-05_UTC11-52-00/BTagCSV/crab_F_2020-10-05_UTC11-52-00/201005_095215/0000/</name>
+                <era>F</era>
+                <mode>Bjets</mode>
+                <xa>0</xa>
+                <datatype>Data</datatype>
+                <output>BJets_data_era_F/</output>
+                <parameters>--none</parameters>
+                <enable>1</enable>
+	</dataset>
+
+</samples>

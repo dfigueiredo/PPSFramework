@@ -1,0 +1,36 @@
+DEBUG 2020-01-21 18:49:10.224 UTC: 	 Running on: Linux lxplus745.cern.ch 3.10.0-1062.9.1.el7.x86_64 #1 SMP Fri Dec 6 15:49:49 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2020-01-21 18:49:10.241 UTC: 	 OpenSSl version: OpenSSL 1.0.2k-fips  26 Jan 2017 (Library: OpenSSL 1.0.2d-fips 9 Jul 2015)
+DEBUG 2020-01-21 18:49:10.242 UTC: 	 Executing command: 'status'
+DEBUG 2020-01-21 18:49:10.242 UTC: 	 Found CRAB cache file /afs/cern.ch/user/l/lpagliai/.crab3
+ERROR 2020-01-21 18:49:10.243 UTC: 	 Error: crab_ProtonReco_MC-miniAOD2017_2020-01-21_UTC19-30-43/crab_MC-miniAOD2017 is not a valid CRAB project directory.
+ERROR 2020-01-21 18:49:10.243 UTC: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/bin/crab", line 145, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/lib/python2.7/site-packages/CRABClient/Commands/status.py", line 40, in __init__
+    SubCommand.__init__(self, logger, cmdargs)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 277, in __init__
+    SubCommand.validateOptions(self)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 595, in validateOptions
+    raise ConfigurationException(msg)
+ConfigurationException: [91mError[0m: crab_ProtonReco_MC-miniAOD2017_2020-01-21_UTC19-30-43/crab_MC-miniAOD2017 is not a valid CRAB project directory.
+DEBUG 2020-04-19 16:46:05.765 UTC: 	 Running on: Linux lxplus748.cern.ch 3.10.0-1062.18.1.el7.x86_64 #1 SMP Tue Mar 17 23:49:17 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2020-04-19 16:46:05.781 UTC: 	 OpenSSl version: OpenSSL 1.0.2k-fips  26 Jan 2017 (Library: OpenSSL 1.0.2d-fips 9 Jul 2015)
+DEBUG 2020-04-19 16:46:05.782 UTC: 	 Executing command: 'status'
+DEBUG 2020-04-19 16:46:05.795 UTC: 	 Found CRAB cache file /afs/cern.ch/user/l/lpagliai/.crab3
+ERROR 2020-04-19 16:46:05.845 UTC: 	 Error: crab_ProtonReco_SD-Muon-Minus-PreTS2-120-miniAOD2017_2020-04-19_UTC14-28-21/crab_SD-Muon-Minus-PreTS2-120-miniAOD2017/ is not a valid CRAB project directory.
+ERROR 2020-04-19 16:46:05.845 UTC: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/bin/crab", line 145, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/lib/python2.7/site-packages/CRABClient/Commands/status.py", line 40, in __init__
+    SubCommand.__init__(self, logger, cmdargs)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 277, in __init__
+    SubCommand.validateOptions(self)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.2001/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 595, in validateOptions
+    raise ConfigurationException(msg)
+ConfigurationException: [91mError[0m: crab_ProtonReco_SD-Muon-Minus-PreTS2-120-miniAOD2017_2020-04-19_UTC14-28-21/crab_SD-Muon-Minus-PreTS2-120-miniAOD2017/ is not a valid CRAB project directory.
