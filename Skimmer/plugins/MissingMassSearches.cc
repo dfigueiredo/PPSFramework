@@ -26,7 +26,7 @@ MissingMassSearches::MissingMassSearches(const edm::ParameterSet& iConfig):
   hltPrescaleProvider_ ( iConfig, consumesCollector(), *this),
   debug_               ( iConfig.getParameter<bool>( "debugging" ) ),
   tier_                ( iConfig.getParameter<std::string>( "tier" ) ),
-  mode_                ( iConfig.getParameter<std::string>( "mode" ) ),
+  physics_                ( iConfig.getParameter<std::string>( "physics" ) ),
   year_                ( iConfig.getParameter<std::string>( "year" ) ),
   ppslite_             ( iConfig.getParameter<bool>( "ppslite" ) ),
   includeMuons_        ( iConfig.getParameter<bool>( "includeMuons" ) ),
@@ -40,7 +40,8 @@ MissingMassSearches::MissingMassSearches(const edm::ParameterSet& iConfig):
   includePPSInfo_      ( iConfig.getParameter<bool>( "includePPSInfo" ) ),
   enableMC_            ( iConfig.getParameter<bool>( "enableMC" ) ),
   enableTrigger_            ( iConfig.getParameter<bool>( "enableTrigger" ) ),
-  matching_            ( iConfig.getParameter<bool>( "matching" ) ),
+  enablePrescales_            ( iConfig.getParameter<bool>( "enablePrescales" ) ),
+  unmatching_            ( iConfig.getParameter<bool>( "unmatching" ) ),
   triggersList_        ( iConfig.getParameter<std::vector<std::string>>              ( "triggersList" ) ),
   triggerResultsToken_ ( consumes<edm::TriggerResults>                               ( iConfig.getParameter<edm::InputTag>( "triggerResults" ) ) ),
   GenPartToken_        ( consumes<std::vector<reco::GenParticle>>                    ( iConfig.getParameter<edm::InputTag>( "GenPartTag" ) ) ),
@@ -75,53 +76,35 @@ MissingMassSearches::MissingMassSearches(const edm::ParameterSet& iConfig):
   //now do what ever initialization is needed
   usesResource("TFileService");
 
-  if(mode_ == "Muon" || mode_ == "MUON" || mode_ == "muon"){
+  if(physics_ == "Muon" || physics_ == "MUON" || physics_ == "muon"){
     includeElectrons_ = false;
     includeMuons_ = true;
-    enableMC_ = false;
   }
-  else if(mode_ == "MC_Muon" || mode_ == "Mc_Muon" || mode_ == "mc_muon"){
-    enableMC_ = true;
-    includeElectrons_ = false;
-    includeMuons_ = true;   
-  }
-  else if(mode_ == "Electron" || mode_ == "ELECTRON" || mode_ == "electron"){
-    includeElectrons_ = true;
-    includeMuons_ = false;
-    enableMC_ = false;
-  }
-  else if(mode_ == "MC_Electron" || mode_ == "Mc_Electron" || mode_ == "mc_electron"){
-    enableMC_ = true;
+  else if(physics_ == "Electron" || physics_ == "ELECTRON" || physics_ == "electron"){
     includeElectrons_ = true;
     includeMuons_ = false;
   }
-  else if(mode_.find("ZeroBias") != std::string::npos || mode_.find("ZEROBIAS") != std::string::npos || mode_.find("zerobias") != std::string::npos){
+  else if(physics_.find("ZeroBias") != std::string::npos || physics_.find("ZEROBIAS") != std::string::npos || physics_.find("zerobias") != std::string::npos){
     includeElectrons_ = false;
     includeMuons_ = true;
-    enableMC_ = false;
   }
-  else if(mode_ == "EMu" || mode_ == "emu" || mode_ == "EMU"){
+  else if(physics_ == "EMu" || physics_ == "emu" || physics_ == "EMU"){
     includeElectrons_ = true;
     includeMuons_ = true;
-    enableMC_ = false;
-  }
-  else if(mode_ == "MC_EMu" || mode_ == "Mc_Emu" || mode_ == "mc_emu"){
-    includeElectrons_ = true;
-    includeMuons_ = true;
-    enableMC_ = true;
   }
 
-  else throw cms::Exception( "MissingMassSearches" ) << "'mode' parameter should either be:\n"
-    << "   * 'Electron' or 'Muon' (for same-flavour leptons)";
+  else throw cms::Exception( "MissingMassSearches" ) << "'physics' parameter should either be:\n"
+    << "   * 'electron' or 'muon' or 'emu'";
 
   std::cout<<"\n<CMSSW Plugin> Missing Mass Skimmer..." << std::endl;
   std::cout<<"\t-->Enable MC: " << enableMC_ <<  std::endl;
   std::cout<<"\t-->Enable Trigger: " << enableTrigger_ <<  std::endl;
+  std::cout<<"\t-->Enable Prescale: " << enablePrescales_ <<  std::endl;
   std::cout<<"\t-->Debug: " << debug_ <<  std::endl;              
   std::cout<<"\t-->Forward Proton Reco: " << includeProtonsReco_ <<  std::endl;              
   std::cout<<"\t-->PPS Info: " << includePPSInfo_ <<  std::endl;              
   std::cout<<"\t-->PPS Lite: " << ppslite_ <<  std::endl;
-  std::cout<<"\t-->Mode: " << mode_ <<  std::endl;
+  std::cout<<"\t-->Physics Option: " << physics_ <<  std::endl;
   std::cout<<"\t-->Year: " << year_ <<  std::endl;
   std::cout<<"\t-->Electrons: " << includeElectrons_ <<  std::endl;
   std::cout<<"\t-->Muons: " << includeMuons_ << "\n" << std::endl;
@@ -1394,10 +1377,13 @@ bool MissingMassSearches::fetchTrigger(const edm::Event& iEvent, const edm::Even
   bool trigger_fired = false;
 
   TriggerEvent *trigger;
-  trigger = new TriggerEvent(iEvent, iSetup, hltPrescaleProvider_, triggerResultsToken_, triggersList_);
+  trigger = new TriggerEvent(iEvent, iSetup, hltPrescaleProvider_, triggerResultsToken_, triggersList_, enablePrescales_);
   triggerVec = trigger->GetTrigger();
-  prescalesL1Vec = trigger->GetPrescalesL1();
-  prescalesHLTVec = trigger->GetPrescalesHLT();
+
+  if(enablePrescales_){
+    prescalesL1Vec = trigger->GetPrescalesL1();
+    prescalesHLTVec = trigger->GetPrescalesHLT();
+  }
 
   for ( const auto& triggerEvt: triggerVec) {
     if(triggerEvt==1) trigger_fired = true;
@@ -1788,14 +1774,14 @@ void MissingMassSearches::fetchEventTagger(const edm::Event& iEvent){
     }
     try{
 
-      if(matching_){
-	if(debug_) std::cout << "Running matching..." << std::endl; 
+      if(unmatching_){
+	if(debug_) std::cout << "Running unmatching..." << std::endl; 
 	// storing jets AK4 candidates which are not matching each lepton candidate (highest and second highest pt)
-	jetsak4Cand = Matching(electronsVec, jetsVecA, 0.5);
+	jetsak4Cand = Unmatching(electronsVec, jetsVecA, 0.5);
 	// storing jets AK8 candidates which are not matching each lepton candidate (highest and second highest pt)
-	jetsak8Cand = Matching(electronsVec, jetsVecB, 0.9);
+	jetsak8Cand = Unmatching(electronsVec, jetsVecB, 0.9);
       }else{
-	if(debug_) std::cout << "_NOT_ running matching..." << std::endl; 
+	if(debug_) std::cout << "_NOT_ running unmatching..." << std::endl; 
 	jetsak4Cand = jetsVecA;
 	jetsak8Cand = jetsVecB;
       }
@@ -1833,14 +1819,14 @@ void MissingMassSearches::fetchEventTagger(const edm::Event& iEvent){
     }
     try{
 
-      if(matching_){
-	if(debug_) std::cout << "Running matching..." << std::endl; 
+      if(unmatching_){
+	if(debug_) std::cout << "Running unmatching..." << std::endl; 
 	// storing jets AK4 candidates which are not matching each lepton candidate (highest and second highest pt)
-	jetsak4Cand = Matching(muonsVec, jetsVecA, 0.5);
+	jetsak4Cand = Unmatching(muonsVec, jetsVecA, 0.5);
 	// storing jets AK8 candidates which are not matching each lepton candidate (highest and second highest pt)
-	jetsak8Cand = Matching(muonsVec, jetsVecB, 0.9);
+	jetsak8Cand = Unmatching(muonsVec, jetsVecB, 0.9);
       }else{
-	if(debug_) std::cout << "_NOT_ running matching..." << std::endl; 
+	if(debug_) std::cout << "_NOT_ running unmatching..." << std::endl; 
 	jetsak4Cand = jetsVecA;
 	jetsak8Cand = jetsVecB;
       }
@@ -1964,8 +1950,14 @@ MissingMassSearches::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     for (std::size_t i = 0; i != triggerVec.size(); ++i) {
       hltTriggerNamesHisto_->Fill( triggersList_[i].c_str(),triggerVec[i]);
       (*trigger_).push_back(triggerVec[i]);
-      (*prescalesL1_).push_back(prescalesL1Vec[i]);
-      (*prescalesHLT_).push_back(prescalesHLTVec[i]);
+      if(enablePrescales_){
+	(*prescalesL1_).push_back(prescalesL1Vec[i]);
+	(*prescalesHLT_).push_back(prescalesHLTVec[i]);
+      }else{
+	(*prescalesL1_).push_back(-1);
+	(*prescalesHLT_).push_back(-1);
+
+      }
     }
 
     *run_ = iEvent.id().run();
@@ -1979,7 +1971,6 @@ MissingMassSearches::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       fetchGenParticles(iEvent, iSetup);
       fetchGenMET(iEvent, iSetup);
       fetchGenJets(iEvent, iSetup);
-
       edm::Handle<std::vector<PileupSummaryInfo>> PupInfo;
       iEvent.getByToken(puToken_,PupInfo);
       std::vector<PileupSummaryInfo>::const_iterator ipu;
@@ -1988,6 +1979,7 @@ MissingMassSearches::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	*PUinter_ = ipu->getPU_NumInteractions();
 	*PUtrueinter_ =ipu->getTrueNumInteractions();
       }
+
     }
 
     fetchMuons(iEvent, iSetup);
@@ -2001,7 +1993,7 @@ MissingMassSearches::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     if(includePPSInfo_) fetchPPSInfo(iEvent, iSetup); 
 
     // Printout for Debugging
-    if(debug_) Debug();
+    //if(debug_) Debug();
 
     // Event Algorithm to tag two leading leptons and two highest pt jets unmatched in a cone of (eta,phi) with the leptons!
     fetchEventTagger(iEvent);
@@ -2028,25 +2020,27 @@ void MissingMassSearches::beginRun(const edm::Run& iRun, const edm::EventSetup& 
 
   bool changed(true);
 
-  if (hltPrescaleProvider_.init(iRun,iSetup,"HLT", changed)) {
-    hltPrescaleProvider_.hltConfigProvider();
-    if(debug){
-      HLTConfigProvider const&  hltConfig = hltPrescaleProvider_.hltConfigProvider();
-      if (changed) {
-	for(vector<string>::const_iterator triggerName_ = triggersList_.begin(); triggerName_ != triggersList_.end(); ++triggerName_) {
-	  const unsigned int n(hltConfig.size());
-	  const unsigned int triggerIndex(hltConfig.triggerIndex(*triggerName_));
-	  if (triggerIndex>=n) {
-	    hltConfig.dump("Triggers");
+  if(enableTrigger_ && enablePrescales_){
+    if (hltPrescaleProvider_.init(iRun,iSetup,"HLT", changed)) {
+      hltPrescaleProvider_.hltConfigProvider();
+      if(debug){
+	HLTConfigProvider const&  hltConfig = hltPrescaleProvider_.hltConfigProvider();
+	if (changed) {
+	  for(vector<string>::const_iterator triggerName_ = triggersList_.begin(); triggerName_ != triggersList_.end(); ++triggerName_) {
+	    const unsigned int n(hltConfig.size());
+	    const unsigned int triggerIndex(hltConfig.triggerIndex(*triggerName_));
+	    if (triggerIndex>=n) {
+	      hltConfig.dump("Triggers");
+	    }
 	  }
+	  hltConfig.dump("ProcessName");
+	  hltConfig.dump("GlobalTag");
+	  hltConfig.dump("TableName");
+	  hltConfig.dump("Streams");
+	  hltConfig.dump("Datasets");
+	  hltConfig.dump("PrescaleTable");
+	  hltConfig.dump("ProcessPSet");
 	}
-	hltConfig.dump("ProcessName");
-	hltConfig.dump("GlobalTag");
-	hltConfig.dump("TableName");
-	hltConfig.dump("Streams");
-	hltConfig.dump("Datasets");
-	hltConfig.dump("PrescaleTable");
-	hltConfig.dump("ProcessPSet");
       }
     }
   }
@@ -3028,7 +3022,7 @@ double MissingMassSearches::TransverseMass(T lepton_, W met_){
 
 // ------------ Disentangle jets/leptons
 template <class T, class W>
-W MissingMassSearches::Matching(T lepton_, W jet_, double radius){
+W MissingMassSearches::Unmatching(T lepton_, W jet_, double radius){
 
   W jetsCand_;
   jetsCand_.clear();

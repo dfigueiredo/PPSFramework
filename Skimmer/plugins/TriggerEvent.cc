@@ -34,7 +34,7 @@ std::vector<int> TriggerEvent::GetPrescalesHLT(){
 }
 
 // Class Definition, loop over all trigger events and fill vector.
-TriggerEvent::TriggerEvent(const edm::Event& iEvent, const edm::EventSetup& iSetup, HLTPrescaleProvider &hltPrescaleProvider, edm::EDGetTokenT<edm::TriggerResults>& triggerResultsToken_, std::vector<std::string>& triggersList_){
+TriggerEvent::TriggerEvent(const edm::Event& iEvent, const edm::EventSetup& iSetup, HLTPrescaleProvider &hltPrescaleProvider, edm::EDGetTokenT<edm::TriggerResults>& triggerResultsToken_, std::vector<std::string>& triggersList_, bool enablePrescales_){
 
   bool debug = false;
   triggerlist.clear();
@@ -70,25 +70,30 @@ TriggerEvent::TriggerEvent(const edm::Event& iEvent, const edm::EventSetup& iSet
 	unsigned int idx_HLT = triggerNames.triggerIndex(resolvedPathName);
 
 	if (idx_HLT < nSize){
-	  const std::pair<int,int> prescales(hltPrescaleProvider.prescaleValues(iEvent,iSetup,resolvedPathName));
 	  int accept_HLT = ( hltResults->wasrun(idx_HLT) && hltResults->accept(idx_HLT) ) ? 1 : 0;
 	  triggerlist.push_back(accept_HLT);
-	  prescalesL1.push_back(prescales.first);
-	  prescalesHLT.push_back(prescales.second);
-	  if(debug){
-	    std::cout << "--> Prescales L1T, HLT: " << prescales.first << ", " << prescales.second << std::endl;
-	    const std::pair<std::vector<std::pair<std::string,int> >,int> prescalesInDetail(hltPrescaleProvider.prescaleValuesInDetail(iEvent,iSetup,resolvedPathName));
-	    std::ostringstream message;
-	    for (unsigned int i=0; i<prescalesInDetail.first.size(); ++i) {
-	      message << " " << i << ":" << prescalesInDetail.first[i].first << "/" << prescalesInDetail.first[i].second;
+	  if(enablePrescales_){
+	    const std::pair<int,int> prescales(hltPrescaleProvider.prescaleValues(iEvent,iSetup,resolvedPathName));
+	    prescalesL1.push_back(prescales.first);
+	    prescalesHLT.push_back(prescales.second);
+	    if(debug){
+	      std::cout << "--> Prescales L1T, HLT: " << prescales.first << ", " << prescales.second << std::endl;
+	      const std::pair<std::vector<std::pair<std::string,int> >,int> prescalesInDetail(hltPrescaleProvider.prescaleValuesInDetail(iEvent,iSetup,resolvedPathName));
+	      std::ostringstream message;
+	      for (unsigned int i=0; i<prescalesInDetail.first.size(); ++i) {
+		message << " " << i << ":" << prescalesInDetail.first[i].first << "/" << prescalesInDetail.first[i].second;
+	      }
+	      std::cout << "--> Detailed Info: " << resolvedPathName << " [" << idx_HLT << "] "
+		<< std::endl
+		<< "Prescales L1T: " << prescalesInDetail.first.size() <<  message.str()
+		<< std::endl
+		<< ", Prescale HLT: " << prescalesInDetail.second
+		<< std::endl;
 	    }
-	    std::cout << "--> Detailed Info: " << resolvedPathName << " [" << idx_HLT << "] "
-	      << std::endl
-	      << "Prescales L1T: " << prescalesInDetail.first.size() <<  message.str()
-	      << std::endl
-	      << ", Prescale HLT: " << prescalesInDetail.second
-	      << std::endl;
-	  }
+	  }else{
+	    prescalesL1.push_back(-1);
+	    prescalesHLT.push_back(-1);
+	  }	  
 	}else{
 	  triggerlist.push_back(-1);
 	  prescalesL1.push_back(-1);

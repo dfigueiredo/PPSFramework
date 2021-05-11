@@ -45,7 +45,7 @@ Implementation:
 
 class TriggerEvent{
   public:
-    TriggerEvent(const edm::Event&, const edm::EventSetup&, HLTPrescaleProvider &hltPrescaleProvider_, edm::EDGetTokenT<edm::TriggerResults>&, std::vector<std::string>&);
+    TriggerEvent(const edm::Event&, const edm::EventSetup&, HLTPrescaleProvider &hltPrescaleProvider_, edm::EDGetTokenT<edm::TriggerResults>&, std::vector<std::string>&, bool);
     ~TriggerEvent();
     std::vector<int> GetTrigger();
     std::vector<int> GetPrescalesL1();

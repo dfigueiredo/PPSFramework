@@ -125,7 +125,7 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
       double TransverseMass(T lepton1, W lepton2);
 
     template <class T, class W>
-      W Matching(T lepton, W jet, double radius);
+      W Unmatching(T lepton, W jet, double radius);
 
     template <class T, class W>
       void fillingJets(T jet1, W jet2);
@@ -143,7 +143,7 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
     // Switches
     bool debug_;
     std::string tier_;
-    std::string mode_;
+    std::string physics_;
     std::string year_;
     bool ppslite_;
     bool includeMuons_, includeElectrons_;
@@ -156,7 +156,8 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
     bool includePPSInfo_;
     bool enableMC_;
     bool enableTrigger_;
-    bool matching_;
+    bool enablePrescales_;
+    bool unmatching_;
 
     // Trigger
     std::vector<std::string> triggersList_;
