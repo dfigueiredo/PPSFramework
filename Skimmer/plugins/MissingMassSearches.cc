@@ -192,6 +192,7 @@ void MissingMassSearches::eventClear(){
 
     if(includeElectrons_ || includeMuons_){
       (*genleptons_pdgid_).clear();
+      (*genleptons_status_).clear();
       (*genleptons_energy_).clear();
       (*genleptons_pt_).clear();
       (*genleptons_eta_).clear();
@@ -206,6 +207,7 @@ void MissingMassSearches::eventClear(){
     }
 
     if(includeProtonsReco_){
+      (*genprotons_status_).clear();
       (*genprotons_energy_).clear();
       (*genprotons_pt_).clear();
       (*genprotons_eta_).clear();
@@ -1209,7 +1211,7 @@ void MissingMassSearches::fetchPF(const edm::Event& iEvent, const edm::EventSetu
 // ------------ fetching over LHC info ----------------
 void MissingMassSearches::fetchLHCInfo(const edm::EventSetup& iSetup){
 
-  bool debug =false;
+  bool debug = false;
 
   edm::ESHandle<LHCInfo> hLHCInfo;
   iSetup.get<LHCInfoRcd>().get(lhcInfoLabel_, hLHCInfo);
@@ -1675,6 +1677,7 @@ void MissingMassSearches::fetchEventTagger(const edm::Event& iEvent){
       }
       if(fabs(genpartEvt->pdgId()) == 11 && includeElectrons_){
 	(*genleptons_pdgid_).push_back(11);
+	(*genleptons_status_).push_back(genpartEvt->status());
 	(*genleptons_energy_).push_back(genpartEvt->energy());
 	(*genleptons_pt_).push_back(genpartEvt->pt());
 	(*genleptons_eta_).push_back(genpartEvt->eta());
@@ -1689,6 +1692,7 @@ void MissingMassSearches::fetchEventTagger(const edm::Event& iEvent){
       }
       if(fabs(genpartEvt->pdgId()) == 13 && includeMuons_){
 	(*genleptons_pdgid_).push_back(13);
+	(*genleptons_status_).push_back(genpartEvt->status());
 	(*genleptons_energy_).push_back(genpartEvt->energy());
 	(*genleptons_pt_).push_back(genpartEvt->pt());
 	(*genleptons_eta_).push_back(genpartEvt->eta());
@@ -1702,6 +1706,7 @@ void MissingMassSearches::fetchEventTagger(const edm::Event& iEvent){
 	(*genleptons_vz_).push_back(genpartEvt->vertex().z());
       } 
       if(genpartEvt->pdgId() == 2212 && includeProtonsReco_){
+	(*genprotons_status_).push_back(genpartEvt->status());
 	(*genprotons_energy_).push_back(genpartEvt->energy());
 	(*genprotons_pt_).push_back(genpartEvt->pt());
 	(*genprotons_eta_).push_back(genpartEvt->eta());
@@ -1945,11 +1950,15 @@ MissingMassSearches::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   cleaning();
 
   // Trigger fired!
-  if(fetchTrigger(iEvent,iSetup)){;
+  if(fetchTrigger(iEvent,iSetup)){
 
     for (std::size_t i = 0; i != triggerVec.size(); ++i) {
-      hltTriggerNamesHisto_->Fill( triggersList_[i].c_str(),triggerVec[i]);
-      (*trigger_).push_back(triggerVec[i]);
+      if(enableTrigger_){
+	hltTriggerNamesHisto_->Fill( triggersList_[i].c_str(),triggerVec[i]);
+	(*trigger_).push_back(triggerVec[i]);
+      }else{
+	(*trigger_).push_back(-1);
+      }
       if(enablePrescales_){
 	(*prescalesL1_).push_back(prescalesL1Vec[i]);
 	(*prescalesHLT_).push_back(prescalesHLTVec[i]);
@@ -1993,7 +2002,7 @@ MissingMassSearches::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     if(includePPSInfo_) fetchPPSInfo(iEvent, iSetup); 
 
     // Printout for Debugging
-    //if(debug_) Debug();
+    if(debug_) Debug();
 
     // Event Algorithm to tag two leading leptons and two highest pt jets unmatched in a cone of (eta,phi) with the leptons!
     fetchEventTagger(iEvent);
@@ -2054,9 +2063,11 @@ void MissingMassSearches::beginJob(){
   tree_=fs->make<TTree>("analyzer","analyzer");
 
   // Control Histograms
-  TFileDirectory triggerDir = fs->mkdir("TriggerInfo");
-  hltTriggerNamesHisto_ = triggerDir.make<TH1F>("HLTTriggerNames","HLTTriggerNames",1,0,1);
-  hltTriggerNamesHisto_->SetCanExtend(TH1::kXaxis);
+  if(enableTrigger_){
+    TFileDirectory triggerDir = fs->mkdir("TriggerInfo");
+    hltTriggerNamesHisto_ = triggerDir.make<TH1F>("HLTTriggerNames","HLTTriggerNames",1,0,1);
+    hltTriggerNamesHisto_->SetCanExtend(TH1::kXaxis);
+  }
 
   run_ = new int;
   ev_ = new long int;
@@ -2094,6 +2105,7 @@ void MissingMassSearches::beginJob(){
       nGenMuons_ = new int;
       nGenElectrons_ = new int;  
       genleptons_pdgid_ = new std::vector<int>;
+      genleptons_status_ = new std::vector<int>;
       genleptons_energy_ = new std::vector<double>;
       genleptons_pt_ = new std::vector<double>;
       genleptons_eta_ = new std::vector<double>;
@@ -2114,6 +2126,7 @@ void MissingMassSearches::beginJob(){
     }
     if(includeProtonsReco_){
       nGenProtons_ = new int;
+      genprotons_status_ = new std::vector<int>;
       genprotons_energy_ = new std::vector<double>;
       genprotons_pt_ = new std::vector<double>;
       genprotons_eta_ = new std::vector<double>;
@@ -2397,6 +2410,7 @@ void MissingMassSearches::beginJob(){
       tree_->Branch("nGenMuons",nGenMuons_,"nGenMuons/I");
       tree_->Branch("nGenElectrons",nGenElectrons_,"nGenElectrons/I");
       tree_->Branch("genleptons_pdgid",&genleptons_pdgid_);
+      tree_->Branch("genleptons_status",&genleptons_status_);
       tree_->Branch("genleptons_energy",&genleptons_energy_);
       tree_->Branch("genleptons_pt",&genleptons_pt_);
       tree_->Branch("genleptons_eta",&genleptons_eta_);
@@ -2417,6 +2431,7 @@ void MissingMassSearches::beginJob(){
     }
     if(includeProtonsReco_){
       tree_->Branch("nGenProtons",nGenProtons_,"nGenProtons/I");
+      tree_->Branch("genprotons_status",&genprotons_status_);
       tree_->Branch("genprotons_energy",&genprotons_energy_);
       tree_->Branch("genprotons_pt",&genprotons_pt_);
       tree_->Branch("genprotons_eta",&genprotons_eta_);
@@ -2709,6 +2724,7 @@ MissingMassSearches::endJob()
     if(includeElectrons_ || includeMuons_){
       delete nGenMuons_;
       delete nGenElectrons_;
+      delete genleptons_status_;
       delete genleptons_pdgid_;
       delete genleptons_energy_;
       delete genleptons_pt_;
@@ -2730,6 +2746,7 @@ MissingMassSearches::endJob()
     }
     if(includeProtonsReco_){
       delete nGenProtons_;
+      delete genprotons_status_;
       delete genprotons_energy_;
       delete genprotons_pt_;
       delete genprotons_eta_;

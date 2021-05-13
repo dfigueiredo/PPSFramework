@@ -3,7 +3,7 @@
 #
 # Forcing DB changes for Proton. The new optics is not yet into the GT
 #
-forceDB = True
+forceDB = False
 
 import sys
 import FWCore.ParameterSet.Config as cms
@@ -185,6 +185,7 @@ else:
 '''
 
 process.GlobalTag = GlobalTag(process.GlobalTag, '106X_dataRun2_v22') # global tag which includes PPS alignment and optics. Default: auto:run2_data
+
 process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 

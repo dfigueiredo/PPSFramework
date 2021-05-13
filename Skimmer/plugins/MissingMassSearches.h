@@ -288,6 +288,7 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
     std::vector<double> *vertex_ndof_;
 
     std::vector<int> *genleptons_pdgid_;
+    std::vector<int> *genleptons_status_;
     std::vector<double> *genleptons_energy_;
     std::vector<double> *genleptons_pt_;
     std::vector<double> *genleptons_eta_;
@@ -308,6 +309,7 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
     std::vector<double> *genprotons_py_;
     std::vector<double> *genprotons_pz_;
     std::vector<double> *genprotons_xi_;
+    std::vector<int> *genprotons_status_;
   
     std::vector<double> *genphotons_pt_;
     std::vector<double> *genphotons_eta_;
