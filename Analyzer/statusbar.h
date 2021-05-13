@@ -23,11 +23,11 @@ static inline void loadBar(unsigned int x, unsigned int n, unsigned int w = 50)
   std::cout << std::setw(3) << (int)(ratio_ * 100) << "% [";
   for (int x = 0; x < c; x++)
   {
-    std::cout << "|";
+    std::cout << "\033[1;32m|";
   }
   for (unsigned int x = c; x < w; x++)
   {
     std::cout << " ";
   }
-  std::cout << "]\r" << std::flush;
+  std::cout << "\033[0m]\r" << std::flush;
 }

@@ -59,6 +59,17 @@ class MissingMassNtupleAnalyzer {
     Int_t 	        nGenParticles;
     Int_t           nGenElectrons;
     Int_t           nGenMuons;
+    Int_t nGenProtons;
+
+    std::vector<int> *genprotons_status;
+    std::vector<double> *genprotons_energy;
+    std::vector<double> *genprotons_pt;
+    std::vector<double> *genprotons_eta;
+    std::vector<double> *genprotons_phi;
+    std::vector<double> *genprotons_px;
+    std::vector<double> *genprotons_py;
+    std::vector<double> *genprotons_pz;
+    std::vector<double> *genprotons_xi;
 
     std::vector<int>    *genleptons_pdgid;
     std::vector<double> *genleptons_energy;
@@ -220,6 +231,17 @@ class MissingMassNtupleAnalyzer {
     TBranch        *b_nGenParticles;
     TBranch        *b_nGenElectrons;
     TBranch        *b_nGenMuons;
+    TBranch        *b_nGenProtons;
+
+    TBranch *b_genprotons_status;
+    TBranch *b_genprotons_energy;
+    TBranch *b_genprotons_pt;
+    TBranch *b_genprotons_eta;
+    TBranch *b_genprotons_phi;
+    TBranch *b_genprotons_px;
+    TBranch *b_genprotons_py;
+    TBranch *b_genprotons_pz;
+    TBranch *b_genprotons_xi;
 
     TBranch        *b_genleptons_pdgid;
     TBranch        *b_genleptons_energy;
@@ -365,7 +387,7 @@ class MissingMassNtupleAnalyzer {
     virtual Int_t    GetEntry(Long64_t entry);
     virtual Long64_t LoadTree(Long64_t entry);
     virtual void     Init(TTree *tree);
-    virtual void     Loop(char*, char*, char*, char*, char*, char*, bool, bool, bool, bool, bool, bool);
+    virtual void     Loop(char*, char*, char*, char*, bool, bool, bool, bool, bool, bool, bool);
     virtual Bool_t   Notify();
     virtual void     Show(Long64_t entry = -1);
 
@@ -441,6 +463,17 @@ void MissingMassNtupleAnalyzer::Init(TTree *tree)
   nGenParticles = 0;
   nGenElectrons = 0;
   nGenMuons = 0;
+  nGenProtons = 0;
+
+  genprotons_status = 0;
+  genprotons_energy = 0;
+  genprotons_pt = 0;
+  genprotons_eta = 0;
+  genprotons_phi = 0;
+  genprotons_px = 0;
+  genprotons_py = 0;
+  genprotons_pz = 0;
+  genprotons_xi = 0;
 
   genleptons_pdgid = 0;
   genleptons_energy = 0;
@@ -596,47 +629,68 @@ void MissingMassNtupleAnalyzer::Init(TTree *tree)
   fChain->SetBranchAddress("vertex_chi2", &vertex_chi2, &b_vertex_chi2);
   fChain->SetBranchAddress("vertex_ndof", &vertex_ndof, &b_vertex_ndof);
 
-  /*
-     fChain->SetBranchAddress("PUInterac", &PUInterac, &b_PUInterac);
-     fChain->SetBranchAddress("PUTrueInterac", &PUTrueInterac, &b_PUTrueInterac);
-     fChain->SetBranchAddress("nGenParticles", &nGenParticles, &b_nGenParticles);
-     fChain->SetBranchAddress("nGenMuons", &nGenMuons, &b_nGenMuons);
-     fChain->SetBranchAddress("nGenElectrons", &nGenElectrons, &b_nGenElectrons);
-     fChain->SetBranchAddress("genleptons_pdgid", &genleptons_pdgid, &b_genleptons_pdgid);
-     fChain->SetBranchAddress("genleptons_energy", &genleptons_energy, &b_genleptons_energy);
-     fChain->SetBranchAddress("genleptons_pt", &genleptons_pt, &b_genleptons_pt);
-     fChain->SetBranchAddress("genleptons_eta", &genleptons_eta, &b_genleptons_eta);
-     fChain->SetBranchAddress("genleptons_phi", &genleptons_phi, &b_genleptons_phi);
-     fChain->SetBranchAddress("genleptons_px", &genleptons_px, &b_genleptons_px);
-     fChain->SetBranchAddress("genleptons_py", &genleptons_py, &b_genleptons_py);
-     fChain->SetBranchAddress("genleptons_pz", &genleptons_pz, &b_genleptons_pz);
-     fChain->SetBranchAddress("genleptons_charge", &genleptons_charge, &b_genleptons_charge);
-     fChain->SetBranchAddress("genleptons_vx", &genleptons_vx, &b_genleptons_vx);
-     fChain->SetBranchAddress("genleptons_vy", &genleptons_vy, &b_genleptons_vy);
-     fChain->SetBranchAddress("genleptons_vz", &genleptons_vz, &b_genleptons_vz);
-     fChain->SetBranchAddress("genphotons_pt", &genphotons_pt, &b_genphotons_pt);
-     fChain->SetBranchAddress("genphotons_eta", &genphotons_eta, &b_genphotons_eta);
-     fChain->SetBranchAddress("genphotons_phi", &genphotons_phi, &b_genphotons_phi);
-     fChain->SetBranchAddress("genphotons_energy", &genphotons_energy, &b_genphotons_energy);
-     fChain->SetBranchAddress("genMissEt", &genmissEt, &b_genmissEt);
-     fChain->SetBranchAddress("genMissEt_phi", &genmissEt_phi, &b_genmissEt_phi);
-     fChain->SetBranchAddress("genjetsak4_px", &genjetsak4_px, &b_genjetsak4_px);
-     fChain->SetBranchAddress("genjetsak4_py", &genjetsak4_py, &b_genjetsak4_py);
-     fChain->SetBranchAddress("genjetsak4_pz", &genjetsak4_pz, &b_genjetsak4_pz);
-     fChain->SetBranchAddress("genjetsak4_pt", &genjetsak4_pt, &b_genjetsak4_pt);
-     fChain->SetBranchAddress("genjetsak4_energy", &genjetsak4_energy, &b_genjetsak4_energy);
-     fChain->SetBranchAddress("genjetsak4_phi", &genjetsak4_phi, &b_genjetsak4_phi);
-     fChain->SetBranchAddress("genjetsak4_eta", &genjetsak4_eta, &b_genjetsak4_eta);
-     fChain->SetBranchAddress("genjetsak4_vz", &genjetsak4_vz, &b_genjetsak4_vz);
-     fChain->SetBranchAddress("genjetsak8_px", &genjetsak8_px, &b_genjetsak8_px);
-     fChain->SetBranchAddress("genjetsak8_py", &genjetsak8_py, &b_genjetsak8_py);
-     fChain->SetBranchAddress("genjetsak8_pz", &genjetsak8_pz, &b_genjetsak8_pz);
-     fChain->SetBranchAddress("genjetsak8_pt", &genjetsak8_pt, &b_genjetsak8_pt);
-     fChain->SetBranchAddress("genjetsak8_energy", &genjetsak8_energy, &b_genjetsak8_energy);
-     fChain->SetBranchAddress("genjetsak8_phi", &genjetsak8_phi, &b_genjetsak8_phi);
-     fChain->SetBranchAddress("genjetsak8_eta", &genjetsak8_eta, &b_genjetsak8_eta);
-     fChain->SetBranchAddress("genjetsak8_vz", &genjetsak8_vz, &b_genjetsak8_vz);
-     */
+  TObjArray *list;
+  list = fChain->GetListOfBranches();
+  bool switchMC = false;
+  for(int i = 0; i < list->GetEntries(); ++i) {
+    std::string bSearch = list->At(i)->GetName();
+    if(bSearch.find("gen") != std::string::npos){
+      //std::cout << list->At(i)->GetName() << '\n';
+      switchMC = true;
+    }
+  }
+
+  if(switchMC){
+    fChain->SetBranchAddress("PUInterac", &PUInterac, &b_PUInterac);
+    fChain->SetBranchAddress("PUTrueInterac", &PUTrueInterac, &b_PUTrueInterac);
+    fChain->SetBranchAddress("nGenParticles", &nGenParticles, &b_nGenParticles);
+    fChain->SetBranchAddress("nGenMuons", &nGenMuons, &b_nGenMuons);
+    fChain->SetBranchAddress("nGenElectrons", &nGenElectrons, &b_nGenElectrons);
+    fChain->SetBranchAddress("nGenProtons", &nGenProtons, &b_nGenProtons);
+    fChain->SetBranchAddress("genprotons_status", &genprotons_status, &b_genprotons_status);
+    fChain->SetBranchAddress("genprotons_energy", &genprotons_energy, &b_genprotons_energy);
+    fChain->SetBranchAddress("genprotons_pt", &genprotons_pt, &b_genprotons_pt);
+    fChain->SetBranchAddress("genprotons_eta", &genprotons_eta, &b_genprotons_eta);
+    fChain->SetBranchAddress("genprotons_phi", &genprotons_phi, &b_genprotons_phi);
+    fChain->SetBranchAddress("genprotons_px", &genprotons_px, &b_genprotons_px);
+    fChain->SetBranchAddress("genprotons_py", &genprotons_py, &b_genprotons_py);
+    fChain->SetBranchAddress("genprotons_pz", &genprotons_pz, &b_genprotons_pz);
+    fChain->SetBranchAddress("genprotons_xi", &genprotons_xi, &b_genprotons_xi);
+    fChain->SetBranchAddress("genleptons_pdgid", &genleptons_pdgid, &b_genleptons_pdgid);
+    fChain->SetBranchAddress("genleptons_energy", &genleptons_energy, &b_genleptons_energy);
+    fChain->SetBranchAddress("genleptons_pt", &genleptons_pt, &b_genleptons_pt);
+    fChain->SetBranchAddress("genleptons_eta", &genleptons_eta, &b_genleptons_eta);
+    fChain->SetBranchAddress("genleptons_phi", &genleptons_phi, &b_genleptons_phi);
+    fChain->SetBranchAddress("genleptons_px", &genleptons_px, &b_genleptons_px);
+    fChain->SetBranchAddress("genleptons_py", &genleptons_py, &b_genleptons_py);
+    fChain->SetBranchAddress("genleptons_pz", &genleptons_pz, &b_genleptons_pz);
+    fChain->SetBranchAddress("genleptons_charge", &genleptons_charge, &b_genleptons_charge);
+    fChain->SetBranchAddress("genleptons_vx", &genleptons_vx, &b_genleptons_vx);
+    fChain->SetBranchAddress("genleptons_vy", &genleptons_vy, &b_genleptons_vy);
+    fChain->SetBranchAddress("genleptons_vz", &genleptons_vz, &b_genleptons_vz);
+    fChain->SetBranchAddress("genphotons_pt", &genphotons_pt, &b_genphotons_pt);
+    fChain->SetBranchAddress("genphotons_eta", &genphotons_eta, &b_genphotons_eta);
+    fChain->SetBranchAddress("genphotons_phi", &genphotons_phi, &b_genphotons_phi);
+    fChain->SetBranchAddress("genphotons_energy", &genphotons_energy, &b_genphotons_energy);
+    fChain->SetBranchAddress("genMissEt", &genmissEt, &b_genmissEt);
+    fChain->SetBranchAddress("genMissEt_phi", &genmissEt_phi, &b_genmissEt_phi);
+    fChain->SetBranchAddress("genjetsak4_px", &genjetsak4_px, &b_genjetsak4_px);
+    fChain->SetBranchAddress("genjetsak4_py", &genjetsak4_py, &b_genjetsak4_py);
+    fChain->SetBranchAddress("genjetsak4_pz", &genjetsak4_pz, &b_genjetsak4_pz);
+    fChain->SetBranchAddress("genjetsak4_pt", &genjetsak4_pt, &b_genjetsak4_pt);
+    fChain->SetBranchAddress("genjetsak4_energy", &genjetsak4_energy, &b_genjetsak4_energy);
+    fChain->SetBranchAddress("genjetsak4_phi", &genjetsak4_phi, &b_genjetsak4_phi);
+    fChain->SetBranchAddress("genjetsak4_eta", &genjetsak4_eta, &b_genjetsak4_eta);
+    fChain->SetBranchAddress("genjetsak4_vz", &genjetsak4_vz, &b_genjetsak4_vz);
+    fChain->SetBranchAddress("genjetsak8_px", &genjetsak8_px, &b_genjetsak8_px);
+    fChain->SetBranchAddress("genjetsak8_py", &genjetsak8_py, &b_genjetsak8_py);
+    fChain->SetBranchAddress("genjetsak8_pz", &genjetsak8_pz, &b_genjetsak8_pz);
+    fChain->SetBranchAddress("genjetsak8_pt", &genjetsak8_pt, &b_genjetsak8_pt);
+    fChain->SetBranchAddress("genjetsak8_energy", &genjetsak8_energy, &b_genjetsak8_energy);
+    fChain->SetBranchAddress("genjetsak8_phi", &genjetsak8_phi, &b_genjetsak8_phi);
+    fChain->SetBranchAddress("genjetsak8_eta", &genjetsak8_eta, &b_genjetsak8_eta);
+    fChain->SetBranchAddress("genjetsak8_vz", &genjetsak8_vz, &b_genjetsak8_vz);
+  }
 
   fChain->SetBranchAddress("jetsak4_px", &jetsak4_px, &b_jetsak4_px);
   fChain->SetBranchAddress("jetsak4_py", &jetsak4_py, &b_jetsak4_py);

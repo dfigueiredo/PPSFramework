@@ -4,6 +4,8 @@
 #include <TFile.h>
 #include <TString.h>
 #include <TObjArray.h>
+#include <TParameter.h>
+#include <TNamed.h>
 
 class TTreeMissingMass {
 
@@ -13,13 +15,13 @@ class TTreeMissingMass {
 
   public:
     virtual ~TTreeMissingMass() {}
-    void CreateTTree();
+    void CreateTTree(TString);
     void Fill();
     void Storing();
     void Clearing();
 
     bool switchZeroBias = false;
-    bool switchMC = false;
+    bool switchMC = true;
     bool switchMuon = false;
     bool switchElectron = false;
     bool switchBjets = false;
@@ -107,6 +109,27 @@ class TTreeMissingMass {
     int nGenParticles = 0;
     int nGenElectrons = 0;
     int nGenMuons = 0;
+    int nGenProtons = 0;
+    int genleadingProtonStatus = 0;
+    double genleadingProtonEnergy = 0.;
+    double genleadingProtonPt = 0.;
+    double genleadingProtonEta = 0.;
+    double genleadingProtonPhi = 0.;
+    double genleadingProtonPx = 0.;
+    double genleadingProtonPy = 0.;
+    double genleadingProtonPz = 0.;
+    double genleadingProtonXi = 0.;
+    int gensecondProtonStatus = 0;
+    double gensecondProtonEnergy = 0.;
+    double gensecondProtonPt = 0.;
+    double gensecondProtonEta = 0.;
+    double gensecondProtonPhi = 0.;
+    double gensecondProtonPx = 0.;
+    double gensecondProtonPy = 0.;
+    double gensecondProtonPz = 0.;
+    double gensecondProtonXi = 0.;
+
+
     int genleadingLeptonPDGId = 0;
     double genleadingLeptonEnergy = 0.;
     double genleadingLeptonPx = 0.;
@@ -545,6 +568,27 @@ void TTreeMissingMass::Clearing(){
   nGenParticles = 0;
   nGenElectrons = 0;
   nGenMuons = 0;
+  nGenProtons = 0;
+  genleadingProtonStatus = 0;
+  genleadingProtonEnergy = 0.;
+  genleadingProtonPt = 0.;
+  genleadingProtonEta = 0.;
+  genleadingProtonPhi = 0.;
+  genleadingProtonPx = 0.;
+  genleadingProtonPy = 0.;
+  genleadingProtonPz = 0.;
+  genleadingProtonXi = 0.;
+
+  gensecondProtonStatus = 0;
+  gensecondProtonEnergy = 0.;
+  gensecondProtonPt = 0.;
+  gensecondProtonEta = 0.;
+  gensecondProtonPhi = 0.;
+  gensecondProtonPx = 0.;
+  gensecondProtonPy = 0.;
+  gensecondProtonPz = 0.;
+  gensecondProtonXi = 0.;
+
   genleadingLeptonPDGId = 0;
   genleadingLeptonEnergy = 0.;
   genleadingLeptonPx = 0.;
@@ -890,10 +934,21 @@ void TTreeMissingMass::Clearing(){
 
 }
 
-void TTreeMissingMass::CreateTTree(){
+void TTreeMissingMass::CreateTTree(TString inputfile){
 
-  fileout = new TFile("testfile.root", "RECREATE");
+  fileout = new TFile(inputfile, "RECREATE");
   out = new TTree("Events", "Events");
+
+  /*
+     TList *list = new TList();
+     TObjArray *ar = new TObjArray();
+     ar->SetName("MetaData");
+     list->Add(ar);
+     TNamed *metadata = new TNamed("","");
+     ar->Add(metadata);
+     out->Branch(list,16000,2);
+     */
+
   out->Branch("era",&era,"era/I");
   out->Branch("run",&run,"run/I");
   out->Branch("event",&event,"event/I");
@@ -994,6 +1049,25 @@ void TTreeMissingMass::CreateTTree(){
     out->Branch("nGenParticles",&nGenParticles,"nGenParticles/I");
     out->Branch("nGenElectrons",&nGenElectrons,"nGenElectrons/I");
     out->Branch("nGenMuons",&nGenMuons,"nGenMuons/I");
+    out->Branch("nGenProtons",&nGenProtons,"nGenProtons/I");
+    out->Branch("genleadingProtonStatus",&genleadingProtonStatus,"genleadingProtonStatus/I");
+    out->Branch("genleadingProtonEnergy",&genleadingProtonEnergy,"genleadingProtonEnergy/D");
+    out->Branch("genleadingProtonPt",&genleadingProtonPt,"genleadingProtonPt/D");
+    out->Branch("genleadingProtonEta",&genleadingProtonEta,"genleadingProtonEta/D");
+    out->Branch("genleadingProtonPhi",&genleadingProtonPhi,"genleadingProtonPhi/D");
+    out->Branch("genleadingProtonPx",&genleadingProtonPx,"genleadingProtonPx/D");
+    out->Branch("genleadingProtonPy",&genleadingProtonPy,"genleadingProtonPy/D");
+    out->Branch("genleadingProtonPz",&genleadingProtonPz,"genleadingProtonPz/D");
+    out->Branch("genleadingProtonXi",&genleadingProtonXi,"genleadingProtonXi/D");
+    out->Branch("gensecondProtonStatus",&gensecondProtonStatus,"gensecondProtonStatus/I");
+    out->Branch("gensecondProtonEnergy",&gensecondProtonEnergy,"gensecondProtonEnergy/D");
+    out->Branch("gensecondProtonPt",&gensecondProtonPt,"gensecondProtonPt/D");
+    out->Branch("gensecondProtonEta",&gensecondProtonEta,"gensecondProtonEta/D");
+    out->Branch("gensecondProtonPhi",&gensecondProtonPhi,"gensecondProtonPhi/D");
+    out->Branch("gensecondProtonPx",&gensecondProtonPx,"gensecondProtonPx/D");
+    out->Branch("gensecondProtonPy",&gensecondProtonPy,"gensecondProtonPy/D");
+    out->Branch("gensecondProtonPz",&gensecondProtonPz,"gensecondProtonPz/D");
+    out->Branch("gensecondProtonXi",&gensecondProtonXi,"gensecondProtonXi/D");
     out->Branch("genleadingLeptonPDGId",&genleadingLeptonPDGId,"genleadingLeptonPDGId/I");
     out->Branch("genleadingLeptonEnergy",&genleadingLeptonEnergy,"genleadingLeptonEnergy/D");
     out->Branch("genleadingLeptonPx",&genleadingLeptonPx,"genleadingLeptonPx/D");

@@ -31,7 +31,6 @@ fileinput = '/store/user/dmf/crab_dmf_2021-05-07_UTC14-15-29/PYTHIA8-SD-TOP-GEN/
 #fileinput = '/store/data/Run2017E/MuonEG/MINIAOD/09Aug2019_UL2017-v1/30000/D68314AC-E5B8-BB43-A0F9-86F599A8DA82.root'
 #fileinput = '/store/data/Run2018A/MuonEG/MINIAOD/12Nov2019_UL2018-v1/00000/51E69F77-C0F4-B942-B704-3826C9BA0F26.root'
 
-
 process = cms.Process("analysis")
 
 if options.year != "2017" and options.year !="2018":

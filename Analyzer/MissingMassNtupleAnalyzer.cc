@@ -7,6 +7,9 @@
 #include <TCanvas.h>
 #include <TLorentzVector.h>
 #include "TRandom3.h"
+#include "TFileInfo.h"
+#include "TObject.h"
+#include "TObjString.h"
 
 // Header file for the classes stored in the TTree if any.
 #include <iostream>
@@ -21,248 +24,61 @@
 #include "ProtonsRandom.h"
 #include "FilesInput.h"
 #include "TTreeMissingMass.h"
+#include "RangeEvents.h"
+#include "Constants.h"
 
-// Code Constants
-#define c_light 2.99792458e+8 // m/s
-#define MASS_B 4.2 // GeV
-#define MASS_MU 0.1057 // GeV
-#define MASS_E 0.000511 // GeV
-#define MASS_P 0.938272029 // GeV
-#define pi 3.14159265359
-#define ECM 13000.0 // GeV
-#define ns_to_s_ 1e-9
-#define m_to_cm_ 1e2
-
-void MissingMassNtupleAnalyzer::Loop(char * era, char * mode, char * xa, char * jobid, char * outdir, char * datatype, bool createProtonFile, bool randomFlag, bool single, bool zerobias, bool protonsfilter, bool createEventFile)
+void MissingMassNtupleAnalyzer::Loop(char * mode, char * jobid, char * outdir, char * physics, bool createProtonFile, bool randomFlag, bool single, bool zerobias, bool protonsfilter, bool createEventFile, bool debug)
 {
 
-  //ProtonsRandom protonsR;
-  //protonsR.createHistogram();
-
-  FilesInput FileInput;
-  std::list<TString> filestr1, filestr2, filestr3;
-
-  filestr1 = {TString(outdir), TString(mode), TString(era)};
-  filestr2 = {TString(outdir), TString(mode), TString(jobid)};
-  filestr3 = {TString(outdir), TString(mode), TString(xa)};
-
-  TString filenameout1 = FileInput.GetFileName(filestr1); 
-  TString filenameout2 = FileInput.GetFileName(filestr2); 
-  TString filenameout3 = FileInput.GetFileName(filestr3); 
-
-  std::cout << "filenameout1: " << filenameout1 << std::endl;
-  std::cout << "filenameout2: " << filenameout2 << std::endl;
-  std::cout << "filenameout3: " << filenameout3 << std::endl;
-
-  // debugging variables (printout values)
-  bool debug = false;
-
-  TString filenameout;
-  TString filenameout_random_reco;
-  TString filenameout_eventlist;
-  TString filenameout_eventlist_kinematics;
+  std::list<TString> filestr;
 
   if (outdir!=NULL) {
     gSystem->MakeDirectory(outdir);
     if(jobid!=NULL){
-      filenameout = std::string(outdir)+"/Ntuple_data_mode_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+"_"+std::string(jobid)+".root";
-      filenameout_random_reco = std::string(outdir)+"/proton_reco_rphorizontal_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+"_"+std::string(jobid)+".txt";
-      filenameout_eventlist = std::string(outdir)+"/event_list_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+"_"+std::string(jobid)+".txt";
-      filenameout_eventlist_kinematics = std::string(outdir)+"/event_list_kinematics_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+"_"+std::string(jobid)+".txt";
+      filestr = {TString(outdir), "NTuple_", TString(mode),"_",TString(physics),"_",TString(jobid),".root"};
     }else{
-      filenameout = std::string(outdir)+"/Ntuple_data_mode_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+".root";
-      filenameout_random_reco = std::string(outdir)+"/proton_reco_rphorizontal_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+".txt";
-      filenameout_eventlist = std::string(outdir)+"/event_list_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+".txt";
-      filenameout_eventlist_kinematics = std::string(outdir)+"/event_list_kinematics_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+".txt";
+      filestr = {TString(outdir), "NTuple_", TString(mode),"_",TString(physics),".root"};
     }
   }else{
     if(jobid!=NULL){
-      filenameout = "Ntuple_data_mode_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+"_"+std::string(jobid)+".root";
-      filenameout_random_reco = "proton_reco_rphorizontal_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+"_"+std::string(jobid)+".txt";
-      filenameout_eventlist = "event_list_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+"_"+std::string(jobid)+".txt";
-      filenameout_eventlist_kinematics = "event_list_kinematics_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+"_"+std::string(jobid)+".txt";
+      filestr = {"NTuple_", TString(mode),"_",TString(physics),"_",TString(jobid),".root"};
     }else{
-      filenameout = "Ntuple_data_mode_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+".root";
-      filenameout_random_reco = "proton_reco_rphorizontal_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+".txt";
-      filenameout_eventlist = "event_list_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+".txt";
-      filenameout_eventlist_kinematics = "event_list_kinematics_"+std::string(mode)+"_era_"+std::string(era)+"_xa_"+std::string(xa)+".txt";
+      filestr = {"NTuple_", TString(mode),"_",TString(physics), ".root"};
     }
   }
 
+  FilesInput FileInput;
+  TString filenameout = FileInput.GetFileName(filestr); 
+
   TTreeMissingMass ttreeAnalysis;
   ttreeAnalysis.switchZeroBias = false;
-  ttreeAnalysis.CreateTTree();
+  ttreeAnalysis.CreateTTree(filenameout);
 
-  std::cout << "\t = Options =" << std::endl;
+  filestr = {"eventlist_", TString(mode),"_",TString(physics), ".txt"};
+  std::ofstream eventfile;
+  if(createEventFile){
+    eventfile.open(FileInput.GetFileName(filestr));
+  }
+
+  std::cout << "\t\033[;34m = Options =" << std::endl;
   std::cout << "\t\t Create Proton File: " << createProtonFile << std::endl;
   std::cout << "\t\t Create Event List File: " << createEventFile << std::endl;
   std::cout << "\t\t Random Protons: " << randomFlag << std::endl;
   std::cout << "\t\t Random Proton in a single arm: " << single << std::endl;
   std::cout << "\t\t Mode: " << mode << std::endl;
-  std::cout << "\t\t Type: " << datatype << std::endl;
+  std::cout << "\t\t Type: " << physics << std::endl;
   std::cout << "\t\t ZeroBias: " << zerobias << std::endl;
   std::cout << "\t\t Protons Filter: " << protonsfilter << std::endl;
-  std::cout << "\t\t Era: " << era << std::endl;
-  std::cout << "\t\t X-Angle: " << xa << std::endl;
   if(jobid!=0) std::cout << "\t\t jobid: " << jobid << std::endl;
-  std::cout << "\t\t output: " << filenameout << "\n" << std::endl;
-
-  std::ofstream file_protons_reco;
-  if(createProtonFile){
-    file_protons_reco.open (filenameout_random_reco);
-  }
-
-  std::ofstream file_eventlist;
-  std::ofstream file_eventlist_kinematics;
-  if(createEventFile){
-    file_eventlist.open (filenameout_eventlist);
-    file_eventlist_kinematics.open (filenameout_eventlist_kinematics);
-  }
+  std::cout << "\t\t output: " << filenameout << "\033[0m\n" << std::endl;
 
   if (fChain == 0) return;
 
-  TRandom3 rand(0); 
   Long64_t nentries = fChain->GetEntriesFast();
   Long64_t nbytes = 0, nb = 0;
 
   Long64_t rangemin = 0;
   Long64_t rangemax = nentries;
-
-  if(strcmp(mode, "MC_Muon")==0 || strcmp(mode, "MC_Electron")==0){
-
-    Double_t frac[20];
-    if(strcmp(mode, "MC_Muon")==0){ //Fractions for 1 Multi-RP and 1 pixels
-      frac[0]  = 0.009941;   //0.0135092;       
-      frac[1]  = 0.011229;   //0.0150113;
-      frac[2]  = 0.016891;   //0.0222738;
-      frac[3]  = 0.018763;   //0.0244954;
-      frac[4]  = 0.065784;   //0.0847967;
-      frac[5]  = 0.097749;   //0.119802;
-      frac[6]  = 0.064967;   //0.0747702;
-      frac[7]  = 0.093342;   //0.103186;
-      frac[8]  = 0.019649;   //0.021513;
-      frac[9]  = 0.041326;   //0.0417492;
-      frac[10] = 0.041221;   //0.0389873;
-      frac[11] = 0.042031;   //0.0375865;
-      frac[12] = 0.023791;   //0.0297421;
-      frac[13] = 0.019781;   //0.023547;
-      frac[14] = 0.000317;   //0.000372487;
-      frac[15] = 0.008085;   //0.00945544;
-      frac[16] = 0.185997;   //0.174744;
-      frac[17] = 0.098481;   //0.0764684;
-      frac[18] = 0.013582;   //0.0125681;
-      frac[19] = 0.104090;   //0.0754216;   
-    }
-    else if (strcmp(mode, "MC_Electron")==0){
-      frac[0]  = 0.015610;   //0.0204228;     
-      frac[1]  = 0.022636;   //0.0292415;
-      frac[2]  = 0.031372;   //0.0399177;
-      frac[3]  = 0.039083;   //0.0491031;
-      frac[4]  = 0.072814;   //0.090098;
-      frac[5]  = 0.119773;   //0.140086;
-      frac[6]  = 0.090694;   //0.0986203;
-      frac[7]  = 0.144755;   //0.151347;
-      frac[8]  = 0.013952;   //0.014786;
-      frac[9]  = 0.031176;   //0.0300992;
-      frac[10] = 0.032689;   //0.0298066;
-      frac[11] = 0.038521;   //0.0299309;
-      frac[12] = 0.017496;   //0.0211467;
-      frac[13] = 0.015451;   //0.0176158;
-      frac[14] = 0.000225;   //0.000250771;
-      frac[15] = 0.005792;   //0.00657242;
-      frac[16] = 0.131171;   //0.117324;
-      frac[17] = 0.072942;   //0.0537374;
-      frac[18] = 0.009866;   //0.00885834;
-      frac[19] = 0.074057;   //0.0510357;   
-    }
-    if(randomFlag && strcmp(datatype, "DY")==0){
-      if(strcmp(era, "B")==0 && strcmp(xa, "120")==0){
-	rangemin=0;
-	rangemax=floor(nentries*frac[0]);  
-      }
-      else if(strcmp(era, "B")==0 && strcmp(xa, "130")==0){
-	rangemin=floor(nentries*frac[0]);
-	rangemax=rangemin + floor(nentries*frac[1]);
-      }
-      else if(strcmp(era, "B")==0 && strcmp(xa, "140")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1]));
-	rangemax=rangemin + floor(nentries*frac[2]);
-      }
-      else if(strcmp(era, "B")==0 && strcmp(xa, "150")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2]));
-	rangemax=rangemin + floor(nentries*frac[3]);
-      }
-      else if(strcmp(era, "C")==0 && strcmp(xa, "120")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3]));
-	rangemax=rangemin + floor(nentries*frac[4]);
-      }
-      else if(strcmp(era, "C")==0 && strcmp(xa, "130")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4]));
-	rangemax=rangemin + floor(nentries*frac[5]);
-      }
-      else if(strcmp(era, "C")==0 && strcmp(xa, "140")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5]));
-	rangemax=rangemin + floor(nentries*frac[6]);
-      }
-      else if(strcmp(era, "C")==0 && strcmp(xa, "150")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6]));
-	rangemax=rangemin + floor(nentries*frac[7]);
-      }
-      else if(strcmp(era, "D")==0 && strcmp(xa, "120")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7]));
-	rangemax=rangemin + floor(nentries*frac[8]);    
-      }
-      else if(strcmp(era, "D")==0 && strcmp(xa, "130")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8]));
-	rangemax=rangemin + floor(nentries*frac[9]);
-      }
-      else if(strcmp(era, "D")==0 && strcmp(xa, "140")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9]));
-	rangemax=rangemin + floor(nentries*frac[10]);
-      }
-      else if(strcmp(era, "D")==0 && strcmp(xa, "150")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9] + frac[10]));
-	rangemax=rangemin + floor(nentries*frac[11]);
-      }
-      else if(strcmp(era, "E")==0 && strcmp(xa, "120")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9] + frac[10] + frac[11]));
-	rangemax=rangemin + floor(nentries*frac[12]);
-      }
-      else if(strcmp(era, "E")==0 && strcmp(xa, "130")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9] + frac[10] + frac[11] + frac[12]));
-	rangemax=rangemin + floor(nentries*frac[13]);
-      }
-      else if(strcmp(era, "E")==0 && strcmp(xa, "140")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9] + frac[10] + frac[11] + frac[12] + frac[13]));
-	rangemax=rangemin + floor(nentries*frac[14]);
-	std::cout << rangemin << std::endl;
-	std::cout << rangemax << std::endl;
-      }
-      else if(strcmp(era, "E")==0 && strcmp(xa, "150")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9] + frac[10] + frac[11] + frac[12] + frac[13] + frac[14]));
-	rangemax=rangemin + floor(nentries*frac[15]);
-      }
-      else if(strcmp(era, "F")==0 && strcmp(xa, "120")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9] + frac[10] + frac[11] + frac[12] + frac[13] + frac[14] + frac[15]));
-	rangemax=rangemin + floor(nentries*frac[16]);
-      }
-      else if(strcmp(era, "F")==0 && strcmp(xa, "130")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9] + frac[10] + frac[11] + frac[12] + frac[13] + frac[14] + frac[15] + frac[16]));
-	rangemax=rangemin + floor(nentries*frac[17]);
-      }
-      else if(strcmp(era, "F")==0 && strcmp(xa, "140")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9] + frac[10] + frac[11] + frac[12] + frac[13] + frac[14] + frac[15] + frac[16] + frac[17]));
-	rangemax=rangemin + floor(nentries*frac[18]);
-      }
-      else if(strcmp(era, "F")==0 && strcmp(xa, "150")==0){
-	rangemin=floor(nentries*(frac[0] + frac[1] + frac[2] + frac[3] + frac[4] + frac[5] + frac[6] + frac[7] + frac[8] + frac[9] + frac[10] + frac[11] + frac[12] + frac[13] + frac[14] + frac[15] + frac[16] + frac[17] + frac[18]));
-	rangemax=rangemin + floor(nentries*frac[19]);
-      }
-      else{
-	std::cout << "Era or X-angle not present in 2017 dataset! " << std::endl;
-      }
-    }
-  }
 
   for (Long64_t jentry=rangemin; jentry<rangemax;jentry++) {
 
@@ -273,38 +89,6 @@ void MissingMassNtupleAnalyzer::Loop(char * era, char * mode, char * xa, char * 
 
     if(!debug) loadBar(jentry, nentries);
     nb = fChain->GetEntry(jentry);   nbytes += nb;
-    //std::cout << "nbytes: \t" << nbytes << std::endl;
-
-    int random_idx;
-    if(randomFlag){
-      random_idx = rand.Integer(rndXi_RP210_sec45.size()); // rndTrack45, rndTrack56 or rndMulti have the same size.
-      //std::cout << "random idx: \t" << random_idx << std::endl;
-    }
-
-    if((strcmp(mode, "MC_Muon")==0 || strcmp(mode, "MC_Electron")==0)){
-      // Era flag
-      int random_era;
-      if(std::string(era)=="A"||std::string(era)=="a") ttreeAnalysis.era = 0;
-      else if(std::string(era)=="B"||std::string(era)=="b") ttreeAnalysis.era=1;
-      else if(std::string(era)=="C"||std::string(era)=="c") ttreeAnalysis.era=2;
-      else if(std::string(era)=="D"||std::string(era)=="d") ttreeAnalysis.era=3;
-      else if(std::string(era)=="E"||std::string(era)=="e") ttreeAnalysis.era=4;
-      else if(std::string(era)=="F"||std::string(era)=="f") ttreeAnalysis.era=5;
-      else if(std::string(era)=="preTS2"||std::string(era)=="pre TS2"){
-	random_era = rand.Integer(3) + 1; //preTS2 refers to era B, C and era D
-	ttreeAnalysis.era = random_era;
-      }
-      else if(std::string(era)=="postTS2"||std::string(era)=="post TS2"){
-	random_era = rand.Integer(2) + 4; //post TS2 refers to era E and F
-	ttreeAnalysis.era = random_era;
-      }
-      else ttreeAnalysis.era=-1;
-
-      if(std::string(xa) == "120") ttreeAnalysis.xangle = 120;
-      else if(std::string(xa) == "130") ttreeAnalysis.xangle = 130;
-      else if(std::string(xa) == "140") ttreeAnalysis.xangle = 140;
-      else if(std::string(xa) == "150") ttreeAnalysis.xangle = 150;
-    }
 
     // Loop over protons with single RP
     for(std::vector<int>::size_type i = 0; i != singleProtonArm->size(); i++){
@@ -359,6 +143,7 @@ void MissingMassNtupleAnalyzer::Loop(char * era, char * mode, char * xa, char * 
     if(ttreeAnalysis.nprotonRP210_sec45_Reduced==1 && ttreeAnalysis.nprotonRP210_sec56_Reduced==1) ttreeAnalysis.isprotonRP210_Reduced = true;
     if(ttreeAnalysis.nprotonRP220_sec45_Reduced==1 && ttreeAnalysis.nprotonRP220_sec56_Reduced==1) ttreeAnalysis.isprotonRP220_Reduced = true;
     if(ttreeAnalysis.nprotonMulti_sec45==1 && ttreeAnalysis.nprotonMulti_sec56==1) ttreeAnalysis.isprotonMulti = true;
+
     if(!protonsfilter){
       ttreeAnalysis.isprotonRP210 = true;
       ttreeAnalysis.isprotonRP220 = true;
@@ -367,387 +152,27 @@ void MissingMassNtupleAnalyzer::Loop(char * era, char * mode, char * xa, char * 
       ttreeAnalysis.isprotonRP220_Reduced = true;
     }
 
-    if((strcmp(mode, "MC_Muon")==0 || strcmp(mode, "MC_Electron")==0) || (strcmp(mode, "Muon")==0 || strcmp(mode, "Electron")==0 || strcmp(mode, "Bjets")==0)){
-      if(randomFlag){
-	if(strcmp(datatype, "DY")==0){
-	  ttreeAnalysis.xi_rp210_Arm45 = rndXi_RP210_sec45[random_idx];
-	  ttreeAnalysis.xi_rp220_Arm45 = rndXi_RP220_sec45[random_idx];
-	  ttreeAnalysis.xi_multiArm45 = rndXi_Multi_sec45[random_idx];
-	  ttreeAnalysis.xi_rp210_Arm56 = rndXi_RP210_sec56[random_idx];
-	  ttreeAnalysis.xi_rp220_Arm56 = rndXi_RP220_sec56[random_idx];
-	  ttreeAnalysis.xi_multiArm56 = rndXi_Multi_sec56[random_idx];
-	  ttreeAnalysis.is2PUproton = true;
-	  ttreeAnalysis.isprotonRP210 = true;
-	  ttreeAnalysis.isprotonMulti = true;	  
-	}
-	else if(strcmp(datatype, "Signal")==0 || strcmp(datatype, "SD")==0){
-	  //Correcting for the efficiency
-	  //Reading Efficiency File
-	  TFile *f_eff = TFile::Open("PreliminaryEfficiencies_October92019_1D2DMultiTrack.root");
+    if(strcmp(mode, "mc")==0 || strcmp(mode, "data")==0){
 
-	  Double_t rad_eff_45[60];
-	  Double_t rad_eff_56[60];
-	  TH1D *h_rad_45;
-	  TH1D *h_rad_56;
+      TLorentzVector p1RP210, p2RP210, p1RP220, p2RP220,
+		     p1Multi, p2Multi;
 
-	  if (ttreeAnalysis.era == 1){
-	    if (ttreeAnalysis.xangle == 120){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017B/h45_2017B_120_1D");     
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017B/h56_2017B_120_1D");    
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 130){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017B/h45_2017B_130_1D");  
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017B/h56_2017B_130_1D"); 
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }   
-	    }
-	    else if (ttreeAnalysis.xangle == 140){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017B/h45_2017B_140_1D");  
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017B/h56_2017B_140_1D"); 
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 150){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017B/h45_2017B_150_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017B/h56_2017B_150_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	  }
-	  else if (ttreeAnalysis.era == 2){
-	    if (ttreeAnalysis.xangle == 120){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017C/h45_2017C_120_1D");  
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017C/h56_2017C_120_1D"); 
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 130){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017C/h45_2017C_130_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017C/h56_2017C_130_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 140){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017C/h45_2017C_140_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017C/h56_2017C_140_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 150){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017C/h45_2017C_150_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017C/h56_2017C_150_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	  }
-	  else if (ttreeAnalysis.era == 3){
-	    if (ttreeAnalysis.xangle == 120){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017D/h45_2017D_120_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017D/h56_2017D_120_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 130){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017D/h45_2017D_130_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017D/h56_2017D_130_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 140){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017D/h45_2017D_140_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017D/h56_2017D_140_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 150){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017D/h45_2017D_150_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017D/h56_2017D_150_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	  }
-	  else if (ttreeAnalysis.era == 4){
-	    if (ttreeAnalysis.xangle == 120){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017E/h45_2017E_120_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017E/h56_2017E_120_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 130){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017E/h45_2017E_130_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017E/h56_2017E_130_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 140){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017E/h45_2017E_140_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017E/h56_2017E_140_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 150){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017E/h45_2017E_150_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017E/h56_2017E_150_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	  }
-	  else if (ttreeAnalysis.era == 5){
-	    if (ttreeAnalysis.xangle == 120){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017F/h45_2017F_120_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017F/h56_2017F_120_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 130){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017F/h45_2017F_130_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017F/h56_2017F_130_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 140){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017F/h45_2017F_140_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017F/h56_2017F_140_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	    else if (ttreeAnalysis.xangle == 150){
-	      h_rad_45 = (TH1D*)f_eff->Get("Strips/2017/2017F/h45_2017F_150_1D");
-	      h_rad_56 = (TH1D*)f_eff->Get("Strips/2017/2017F/h56_2017F_150_1D");
-	      for(int i=0; i < 60; i++){
-		rad_eff_45[i] = h_rad_45->GetBinContent(i+1);
-		rad_eff_56[i] = h_rad_56->GetBinContent(i+1);
-	      }
-	    }
-	  }
+      TLorentzVector genlepton1, genlepton2,
+		     gendilepton, genmet;
 
-	  f_eff->Close();
-	  delete f_eff;
+      TLorentzVector gendijet, genjet1, genjet2;
 
-	  double random_eff_45;
-	  double random_eff_56;
-	  if (ttreeAnalysis.nprotonRP210_sec45>1 || ttreeAnalysis.nprotonRP220_sec56>1){
-	    std::cout << "More than 1 strip hit" << std::endl;
-	  }
-	  if (ttreeAnalysis.nprotonRP210_sec45 > 0){
-	    random_eff_45 = rand.Rndm();	  
-	    for (int j = 0; j < 60; j++){         
-	      if(ttreeAnalysis.xi_rp210_Arm45 > (j * 0.005) && ttreeAnalysis.xi_rp210_Arm45 < ((j * 0.005)+0.005)){
-		if(debug){
-		  std::cout << "####### 45 #######"<< std::endl;
-		  std::cout << "era\t" << ttreeAnalysis.era << std::endl;
-		  std::cout << "xi_45\t" << ttreeAnalysis.xi_rp210_Arm45 << std::endl;
-		  std::cout << "random_45\t" << random_eff_45 << std::endl;
-		  std::cout << "rad_eff_45\t" << rad_eff_45[j] << std::endl;
-		  std::cout << "##################"<< std::endl;
-		}
-		if (random_eff_45 > rad_eff_45[j]){   
-		  ttreeAnalysis.nprotonRP210_sec45 = 0;
-		  ttreeAnalysis.nprotonMulti_sec45 = 0;
-		  ttreeAnalysis.xi_rp210_Arm45 = 0;
-		  ttreeAnalysis.xi_multiArm45 = 0;
-		  ttreeAnalysis.isprotonRP210 = false;
-		  ttreeAnalysis.isprotonMulti = false;
-		  goto end45;
-		}  
-		else {goto end45;}
-	      }
-	    }
-	  }
-end45:;
+      TLorentzVector lepton1, lepton2, leptonmet,
+		     met, dilepton, lepton, leptonsystem;
 
-      if (ttreeAnalysis.nprotonRP210_sec56 > 0){
-	random_eff_56 = rand.Rndm();
-	for (int j = 0; j < 60; j++){
-	  if(ttreeAnalysis.xi_rp210_Arm56 > (j * 0.005) && ttreeAnalysis.xi_rp210_Arm56 < ((j * 0.005)+0.005)){
-	    if(debug){
-	      std::cout << "####### 56 #######"<< std::endl;
-	      std::cout << "era\t" << ttreeAnalysis.era << std::endl;
-	      std::cout << "xi_56\t" << ttreeAnalysis.xi_rp210_Arm56 << std::endl;
-	      std::cout << "random_56\t" << random_eff_56 << std::endl;
-	      std::cout << "rad_eff_56\t" << rad_eff_56[j] << std::endl;
-	      std::cout << "##################"<< std::endl;
-	    }
-	    if (random_eff_56 > rad_eff_56[j]){
-	      ttreeAnalysis.nprotonRP210_sec56 = 0;
-	      ttreeAnalysis.nprotonMulti_sec56 = 0;
-	      ttreeAnalysis.isprotonRP210 = false;
-	      ttreeAnalysis.isprotonMulti = false;
-	      ttreeAnalysis.xi_rp210_Arm56 = 0;
-	      ttreeAnalysis.xi_multiArm56 = 0;
-	      goto end56;
-	    }
-	    else {goto end56;}
-	  }
-	}
-      }
-end56:;
+      TLorentzVector jet, jetsystem, jetcandidate, jetcandidatesystem,
+		     dijet, jet1, jet2;
 
-      //Out of acceptance background
-      if(ttreeAnalysis.nprotonRP210_sec45 == 0 && ttreeAnalysis.nprotonRP210_sec56 > 0){
-	ttreeAnalysis.xi_rp210_Arm45 = rndXi_RP210_sec45[random_idx];
-	ttreeAnalysis.xi_rp220_Arm45 = rndXi_RP220_sec45[random_idx];
-	ttreeAnalysis.xi_multiArm45  = rndXi_Multi_sec45[random_idx];
-	ttreeAnalysis.nprotonRP210_sec45 = 1;
-	ttreeAnalysis.nprotonRP220_sec45++;
-	ttreeAnalysis.nprotonMulti_sec45 = 1;
-	ttreeAnalysis.is45PUproton = true;
-	ttreeAnalysis.isprotonRP210 = true;
-      }
-      else if(ttreeAnalysis.nprotonRP210_sec56 == 0 && ttreeAnalysis.nprotonRP210_sec45 > 0){
-	ttreeAnalysis.xi_rp210_Arm56 = rndXi_RP210_sec56[random_idx];
-	ttreeAnalysis.xi_rp220_Arm56 = rndXi_RP220_sec56[random_idx];
-	ttreeAnalysis.xi_multiArm56  = rndXi_Multi_sec56[random_idx];
-	ttreeAnalysis.nprotonRP210_sec56 = 1;
-	ttreeAnalysis.nprotonRP220_sec56++;
-	ttreeAnalysis.nprotonMulti_sec56 = 1;
-	ttreeAnalysis.is56PUproton = true;
-	ttreeAnalysis.isprotonRP210 = true;
-      }
-      else if(ttreeAnalysis.nprotonRP210_sec56 == 0 && ttreeAnalysis.nprotonRP210_sec45 == 0){
-	ttreeAnalysis.xi_rp210_Arm56 = rndXi_RP210_sec56[random_idx];
-	ttreeAnalysis.xi_rp220_Arm56 = rndXi_RP220_sec56[random_idx];
-	ttreeAnalysis.xi_multiArm56 = rndXi_Multi_sec56[random_idx];
-	ttreeAnalysis.xi_rp210_Arm45 = rndXi_RP210_sec45[random_idx];
-	ttreeAnalysis.xi_rp220_Arm45 = rndXi_RP220_sec45[random_idx];
-	ttreeAnalysis.xi_multiArm45 = rndXi_Multi_sec45[random_idx];
-	ttreeAnalysis.nprotonRP210_sec45 = 1;
-	ttreeAnalysis.nprotonRP220_sec45++;
-	ttreeAnalysis.nprotonMulti_sec45 = 1;
-	ttreeAnalysis.nprotonRP210_sec56 = 1;
-	ttreeAnalysis.nprotonRP220_sec56++;
-	ttreeAnalysis.nprotonMulti_sec56 = 1;
-	ttreeAnalysis.is2PUproton = true;
-	ttreeAnalysis.isprotonRP210 = true;
-      }
-      else if(ttreeAnalysis.nprotonRP210_sec56 == 1 && ttreeAnalysis.nprotonRP210_sec45 == 1){
-	ttreeAnalysis.is2PUproton = false;
-	ttreeAnalysis.is45PUproton = false;
-	ttreeAnalysis.is56PUproton = false;
-	ttreeAnalysis.isprotonRP210 = true;	    
-      }
-	}
-	if(ttreeAnalysis.nprotonRP210_sec45==1 && ttreeAnalysis.nprotonRP210_sec56==1) ttreeAnalysis.isprotonRP210 = true;
-	if(ttreeAnalysis.nprotonRP220_sec45==1 && ttreeAnalysis.nprotonRP220_sec56==1) ttreeAnalysis.isprotonRP220 = true;
-	if(ttreeAnalysis.nprotonMulti_sec45==1 && ttreeAnalysis.nprotonMulti_sec56==1) ttreeAnalysis.isprotonMulti = true;
-	if(single){
-	  ttreeAnalysis.xi_rp210_Arm45 = rndXi_RP210_sec45[random_idx]; 
-	  ttreeAnalysis.xi_rp220_Arm45 = rndXi_RP220_sec45[random_idx];
-	  ttreeAnalysis.xi_multiArm45 = rndXi_Multi_sec45[random_idx];
-	  ttreeAnalysis.isprotonRP210 = true;
-	  ttreeAnalysis.isprotonRP220 = true;
-	  ttreeAnalysis.isprotonMulti = true;
-	}
-	else{
-	  ttreeAnalysis.xi_rp210_Arm45 = rndXi_RP210_sec45[random_idx];
-	  ttreeAnalysis.xi_rp220_Arm45 = rndXi_RP220_sec45[random_idx];
-	  ttreeAnalysis.xi_multiArm45 = rndXi_Multi_sec45[random_idx];
-	  ttreeAnalysis.xi_rp210_Arm56 = rndXi_RP210_sec56[random_idx];
-	  ttreeAnalysis.xi_rp220_Arm56 = rndXi_RP220_sec56[random_idx];
-	  ttreeAnalysis.xi_multiArm56 = rndXi_Multi_sec56[random_idx];
-	  ttreeAnalysis.isprotonRP210 = true;
-	  ttreeAnalysis.isprotonRP220 = true;
-	  ttreeAnalysis.isprotonMulti = true;
-	}
-	if(debug){
-	  std::cout << "proton pixels Xi, 210, arm 45: " << ttreeAnalysis.xi_rp210_Arm45 << std::endl;
-	  std::cout << "proton pixels Xi, 210, arm 56: " << ttreeAnalysis.xi_rp210_Arm56 << std::endl;
-	  std::cout << "proton pixels Xi, 220, arm 45: " << ttreeAnalysis.xi_rp220_Arm45 << std::endl;
-	  std::cout << "proton pixels Xi, 220, arm 56: " << ttreeAnalysis.xi_rp220_Arm56 << std::endl;
-	  std::cout << "proton multi Xi, arm 45: " << ttreeAnalysis.xi_multiArm45 << std::endl;
-	  std::cout << "proton multi Xi, arm 56: " << ttreeAnalysis.xi_multiArm56 << std::endl;
-	}
-      }
+      TLorentzVector X_dijetRP210, X_dijetRP220, X_dijetMulti,
+		     X_dileptonRP210, X_dileptonRP220, X_dileptonMulti;
 
-      TLorentzVector p1RP210;
-      TLorentzVector p2RP210;
-      TLorentzVector p1RP220;
-      TLorentzVector p2RP220;
-      TLorentzVector p1Multi;
-      TLorentzVector p2Multi;
-
-      TLorentzVector genlepton1;
-      TLorentzVector genlepton2;
-      TLorentzVector gendilepton;
-      TLorentzVector genmet;
-
-      TLorentzVector gendijet;
-      TLorentzVector genjet1;
-      TLorentzVector genjet2;
-
-      TLorentzVector lepton1;
-      TLorentzVector lepton2;
-      TLorentzVector leptonmet;
-      TLorentzVector met;
-      TLorentzVector dilepton;
-
-      TLorentzVector lepton;
-      TLorentzVector leptonsystem;
-      TLorentzVector jet;
-      TLorentzVector jetsystem;
-
-      TLorentzVector jetcandidate;
-      TLorentzVector jetcandidatesystem;
-
-      TLorentzVector dijet;
-      TLorentzVector jet1;
-      TLorentzVector jet2;
-
-      TLorentzVector X_dijetRP210;
-      TLorentzVector X_dijetRP220;
-      TLorentzVector X_dijetMulti;
-
-      TLorentzVector X_dileptonRP210;
-      TLorentzVector X_dileptonRP220;
-      TLorentzVector X_dileptonMulti;
-
-      TLorentzVector X_dileptonjet1RP210;
-      TLorentzVector X_dileptonjet1RP220;
-      TLorentzVector X_dileptonjet1Multi;
-
-      TLorentzVector X_dileptondijetRP210;
-      TLorentzVector X_dileptondijetRP220;
-      TLorentzVector X_dileptondijetMulti;
+      TLorentzVector X_dileptonjet1RP210, X_dileptonjet1RP220, X_dileptonjet1Multi,
+		     X_dileptondijetRP210, X_dileptondijetRP220, X_dileptondijetMulti;
 
       p1RP210.SetPxPyPzE(0.,0., ECM*ttreeAnalysis.xi_rp210_Arm45/2., ECM*ttreeAnalysis.xi_rp210_Arm45/2.);
       p2RP210.SetPxPyPzE(0.,0., -ECM*ttreeAnalysis.xi_rp210_Arm56/2., ECM*ttreeAnalysis.xi_rp210_Arm56/2.);
@@ -774,11 +199,9 @@ end56:;
       ttreeAnalysis.run = run;
       ttreeAnalysis.event = event;
       ttreeAnalysis.lumiblock = lumiblock;
-      ttreeAnalysis.xangle = xangle;
 
-      //TTreeTest.test1_ = 10;
-      //TTreeTest.test2_ = 20;
-      //TTreeTest.test2_ = 20;
+      //ttreeAnalysis.xangle = xangle;
+      //ttreeAnalysis.era = era;
 
       std::vector<int> index_leptons;
       index_leptons.clear();
@@ -787,13 +210,12 @@ end56:;
       }
 
       // Filling TTree                                                           
-      if(strcmp(mode, "MC_Muon")==0 || strcmp(mode, "MC_Electron")==0){
+      if(strcmp(mode, "mc")==0){
 	ttreeAnalysis.PUInterac = PUInterac;
 	ttreeAnalysis.PUTrueInterac = PUTrueInterac;
 	genmet.SetPtEtaPhiM(genmissEt, 0, genmissEt_phi, 0);
 	genmet.SetPz(0);
 	genmet.SetE(genmissEt);
-
 	if(genleptons_pt->size()>0){
 	  genlepton1.SetPtEtaPhiE(genleptons_pt->at(0), genleptons_eta->at(0), genleptons_phi->at(0), genleptons_energy->at(0));
 	}
@@ -801,7 +223,6 @@ end56:;
 	  genlepton2.SetPtEtaPhiE(genleptons_pt->at(1), genleptons_eta->at(1), genleptons_phi->at(1), genleptons_energy->at(1));
 	}
 	gendilepton = genlepton1+genlepton2;
-
 	if(genjetsak4_pt->size()>1 && jetsak4_pt->size()>1){
 	  if(MCMatch(genjetsak4_phi->at(0), genjetsak4_eta->at(0), genjetsak4_pt->at(0), jetsak4_phi->at(0), jetsak4_eta->at(0), jetsak4_pt->at(0)) && MCMatch(genjetsak4_phi->at(1), genjetsak4_eta->at(1), genjetsak4_pt->at(1), jetsak4_phi->at(1), jetsak4_eta->at(1), jetsak4_pt->at(1))){
 	    genjet1.SetPtEtaPhiE(genjetsak4_pt->at(0), genjetsak4_eta->at(0), genjetsak4_phi->at(0), genjetsak4_energy->at(0));
@@ -811,10 +232,12 @@ end56:;
 	}
       }
 
-      // HLT Muons: 'HLT_IsoMu27_v*', 'HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v*', 'HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v*', 'HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*', 'HLT_DoubleMu43NoFiltersNoVtx_v*', 'HLT_DoubleMu48NoFiltersNoVtx_v*'
-      // HLT Electrons: 'HLT_Ele27_WPTight_Gsf_v*', 'HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v*', 'HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v*', 'HLT_DoubleEle33_CaloIdL_MW_v*'
-      // HLT_ZeroBias: 'HLT_ZeroBias_v*', 'HLT_ZeroBias_FirstBXAfterTrain_v*','HLT_ZeroBias_IsolatedBunches_v*','HLT_ZeroBias_Alignment_v*','HLT_ZeroBias_Beamspot_v*','HLT_L1UnpairedBunchBptxMinus_v*','HLT_L1UnpairedBunchBptxPlus_v*','HLT_Physics_v*','HLT_L1SingleMu_v*'
-      // If -1: not present in the path, 0: not triggered and 1 triggered.
+
+      //******************
+      // 
+      //   HLT Triggers
+      //
+      //******************
 
       if(zerobias){
 	if(trigger->at(0)==1){
@@ -854,14 +277,14 @@ end56:;
 	  ttreeAnalysis.prescalesL1SingleMu = prescalesL1->at(8);
 	}
       }else{
-	if((strcmp(mode, "Muon")==0 || strcmp(mode, "MC_Muon")==0) && strcmp(datatype, "SD")!=0 && strcmp(datatype, "Signal")!=0){
+	if((strcmp(physics, "muon")==0)){
 	  if(trigger->at(0)==1) ttreeAnalysis.triggerIsoMu27 = true;
 	  if(trigger->at(1)==1) ttreeAnalysis.triggerMu17TrkIsoMu8TrkIso = true;
 	  if(trigger->at(2)==1) ttreeAnalysis.triggerMu17TrkIsoMu8TrkIsoMass8 = true;
 	  if(trigger->at(3)==1) ttreeAnalysis.triggerMu17TrkIsoMu8TrkIsoMass3 = true;
 	  if(trigger->at(4)==1) ttreeAnalysis.triggerDoubleMu43 = true;
 	  if(trigger->at(5)==1) ttreeAnalysis.triggerDoubleMu48 = true;
-	}else if(strcmp(mode, "Electron")==0 || strcmp(mode, "MC_Electron")==0 && strcmp(datatype, "SD")!=0 && strcmp(datatype, "Signal")!=0){
+	}else if(strcmp(physics, "electron")==0){
 	  if(trigger->at(0)==1) ttreeAnalysis.triggerEle27 = true;
 	  if(trigger->at(1)==1) ttreeAnalysis.triggerEle23Ele12 = true;
 	  if(trigger->at(2)==1) ttreeAnalysis.triggerEle23Ele12Dz = true;
@@ -883,7 +306,7 @@ end56:;
 	  if(trigger->at(18)==1) ttreeAnalysis.triggerPFMET140BTag = true;
 	  if(trigger->at(19)==1) ttreeAnalysis.triggerEle15PFHT450BTag = true;
 	  if(trigger->at(20)==1) ttreeAnalysis.triggerHT250BTagScouting = true;
-	}else if(strcmp(mode, "Bjets")==0 || (strcmp(datatype, "SD")!=0 && strcmp(datatype, "Signal")!=0)){
+	}else if(strcmp(physics, "bjet")==0){
 	  if(trigger->at(0)==1) ttreeAnalysis.triggerIsoMu27 = true;
 	  if(trigger->at(1)==1) ttreeAnalysis.triggerMu17TrkIsoMu8TrkIso = true;
 	  if(trigger->at(2)==1) ttreeAnalysis.triggerMu17TrkIsoMu8TrkIsoMass8 = true;
@@ -900,7 +323,7 @@ end56:;
 	  if(trigger->at(13)==1) ttreeAnalysis.triggerBTagMu5Ak8dijet300 = true;
 	  if(trigger->at(14)==1) ttreeAnalysis.triggerPFHT380DoubleBTag = true;
 	  if(trigger->at(15)==1) ttreeAnalysis.triggerPFHT430DoubleBTag = true;
-	}else if(strcmp(mode, "EMu")==0){
+	}else if(strcmp(physics, "emu")==0){
 	  if(trigger->at(0)==1) ttreeAnalysis.triggerMu23TrkIsoEle12 = true;        
 	  if(trigger->at(1)==1) ttreeAnalysis.triggerMu23TrkIsoEle12DZ = true;
 	  if(trigger->at(2)==1) ttreeAnalysis.triggerMu8TrkIsoEle23DZ = true;
@@ -909,14 +332,6 @@ end56:;
 	  exit(EXIT_FAILURE);
 	}
       }
-
-      /*
-	 if(zerobias){
-	 if(!(vertex_z->size()>0)) continue;
-	 }else{
-	 if(!(leptons_pt->size()>1&&jetsak4_pt->size()>1)) continue;
-	 }
-	 */
 
       if(!(ttreeAnalysis.isprotonRP210 || ttreeAnalysis.isprotonRP220 || ttreeAnalysis.isprotonMulti)) continue;
       if(!(vertex_z->size()>0)) continue;
@@ -982,7 +397,6 @@ end56:;
       }
 
       // Invisible particle associated with leptonsystem
-
       X_dijetRP210 = p1RP210 + p2RP210 - dijet;
       X_dijetRP220 = p1RP220 + p2RP220 - dijet;
       X_dijetMulti = p1Multi + p2Multi - dijet;
@@ -1024,11 +438,36 @@ end56:;
 	ttreeAnalysis.allVertexZ.push_back(evtVz);
       }
 
-      if(strcmp(mode, "MC_Muon")==0 || strcmp(mode, "MC_Electron")==0){
+      if(strcmp(mode, "mc")==0){
 	ttreeAnalysis.nGenLeptons = genleptons_pt->size();
 	ttreeAnalysis.nGenParticles = nGenParticles;
 	ttreeAnalysis.nGenElectrons = nGenElectrons;
 	ttreeAnalysis.nGenMuons = nGenMuons;
+	ttreeAnalysis.nGenProtons = nGenProtons;
+
+	if(genprotons_pt->size()>0){
+	  ttreeAnalysis.gensecondProtonStatus = genprotons_status->at(0);
+	  ttreeAnalysis.genleadingProtonEnergy = genprotons_energy->at(0);
+	  ttreeAnalysis.genleadingProtonPt = genprotons_pt->at(0);
+	  ttreeAnalysis.genleadingProtonEta = genprotons_eta->at(0);
+	  ttreeAnalysis.genleadingProtonPhi = genprotons_phi->at(0);
+	  ttreeAnalysis.genleadingProtonPx = genprotons_px->at(0);
+	  ttreeAnalysis.genleadingProtonPy = genprotons_py->at(0);
+	  ttreeAnalysis.genleadingProtonPz = genprotons_pz->at(0);
+	  ttreeAnalysis.genleadingProtonXi = genprotons_xi->at(0);
+	}
+	if(genprotons_pt->size()>1){
+	  ttreeAnalysis.gensecondProtonStatus = genprotons_status->at(1);
+	  ttreeAnalysis.gensecondProtonEnergy = genprotons_energy->at(1);
+	  ttreeAnalysis.gensecondProtonPt = genprotons_pt->at(1);
+	  ttreeAnalysis.gensecondProtonEta = genprotons_eta->at(1);
+	  ttreeAnalysis.gensecondProtonPhi = genprotons_phi->at(1);
+	  ttreeAnalysis.gensecondProtonPx = genprotons_px->at(1);
+	  ttreeAnalysis.gensecondProtonPy = genprotons_py->at(1);
+	  ttreeAnalysis.gensecondProtonPz = genprotons_pz->at(1);
+	  ttreeAnalysis.gensecondProtonXi = genprotons_xi->at(1);
+	}
+
 	if(genleptons_pt->size()>0){
 	  ttreeAnalysis.genleadingLeptonPDGId = genleptons_pdgid->at(0);
 	  ttreeAnalysis.genleadingLeptonEnergy = genleptons_energy->at(0);
@@ -1100,7 +539,6 @@ end56:;
 	    ttreeAnalysis.gensecondJetVz = genjetsak4_vz->at(1);
 	  }
 	}
-
 	ttreeAnalysis.gendijetMass = gendijet.M();
 	ttreeAnalysis.gendijetEta = gendijet.Eta();
 	ttreeAnalysis.gendijetPhi = gendijet.Phi();
@@ -1109,7 +547,6 @@ end56:;
       }
 
       ttreeAnalysis.nLeptons = leptons_pt->size();
-
       if(leptons_pt->size()>0){
 	ttreeAnalysis.leadingLeptonPDGId = leptons_pdgid->at(index_leptons.at(0));
 	ttreeAnalysis.leadingLeptonEnergy = leptons_energy->at(index_leptons.at(0));
@@ -1133,6 +570,12 @@ end56:;
 	ttreeAnalysis.leadingLeptonPfIsoMedium = leptons_pfIsoMedium_->at(index_leptons.at(0));
 	ttreeAnalysis.leadingLeptonMiniIsoTight = leptons_miniIsoTight_->at(index_leptons.at(0));
 	ttreeAnalysis.leadingLeptonPfIsoVeryTight = leptons_pfIsoVeryTight_->at(index_leptons.at(0));
+	ttreeAnalysis.leptonmetCharge = leptons_charge->at(index_leptons.at(0));
+	ttreeAnalysis.leptonmetMassT = leptonmet.M();
+	ttreeAnalysis.leptonmetEta = leptonmet.Eta();
+	ttreeAnalysis.leptonmetPhi = leptonmet.Phi();
+	ttreeAnalysis.leptonmetPt = leptonmet.Pt();
+	ttreeAnalysis.leptonmetRapidity = leptonmet.Rapidity();
       }
 
       if(leptons_pt->size()>1){
@@ -1158,6 +601,12 @@ end56:;
 	ttreeAnalysis.secondLeptonPfIsoMedium = leptons_pfIsoMedium_->at(index_leptons.at(1));
 	ttreeAnalysis.secondLeptonMiniIsoTight = leptons_miniIsoTight_->at(index_leptons.at(1));
 	ttreeAnalysis.secondLeptonPfIsoVeryTight = leptons_pfIsoVeryTight_->at(index_leptons.at(1));
+	ttreeAnalysis.dileptonCharge = leptons_charge->at(index_leptons.at(0)) + leptons_charge->at(index_leptons.at(1));
+	ttreeAnalysis.dileptonMass = dilepton.M();
+	ttreeAnalysis.dileptonEta = dilepton.Eta();
+	ttreeAnalysis.dileptonPhi = dilepton.Phi();
+	ttreeAnalysis.dileptonPt = dilepton.Pt();
+	ttreeAnalysis.dileptonRapidity = dilepton.Rapidity();
       }     
 
       ttreeAnalysis.nJets = jetsak4_pt->size();
@@ -1238,24 +687,6 @@ end56:;
       ttreeAnalysis.jetcandidatesystemPt = jetcandidatesystem.Pt();
       ttreeAnalysis.jetcandidatesystemRapidity = jetcandidatesystem.Rapidity();
 
-      if(leptons_pt->size()>0){
-	ttreeAnalysis.leptonmetCharge = leptons_charge->at(index_leptons.at(0));
-	ttreeAnalysis.leptonmetMassT = leptonmet.M();
-	ttreeAnalysis.leptonmetEta = leptonmet.Eta();
-	ttreeAnalysis.leptonmetPhi = leptonmet.Phi();
-	ttreeAnalysis.leptonmetPt = leptonmet.Pt();
-	ttreeAnalysis.leptonmetRapidity = leptonmet.Rapidity();
-      }
-
-      if(leptons_pt->size()>1){
-	ttreeAnalysis.dileptonCharge = leptons_charge->at(index_leptons.at(0)) + leptons_charge->at(index_leptons.at(1));
-	ttreeAnalysis.dileptonMass = dilepton.M();
-	ttreeAnalysis.dileptonEta = dilepton.Eta();
-	ttreeAnalysis.dileptonPhi = dilepton.Phi();
-	ttreeAnalysis.dileptonPt = dilepton.Pt();
-	ttreeAnalysis.dileptonRapidity = dilepton.Rapidity();
-      }
-
       ttreeAnalysis.leptonsystemMass = leptonsystem.M();
       ttreeAnalysis.leptonsystemEta = leptonsystem.Eta();
       ttreeAnalysis.leptonsystemPhi = leptonsystem.Phi();
@@ -1332,10 +763,10 @@ end56:;
       ttreeAnalysis.missEt_phi = missEt_phi;
 
       ttreeAnalysis.nElectrons = nElectrons;
-      ttreeAnalysis.nMuons = nMuons;
       ttreeAnalysis.nElectrons_looseId = nElectrons_looseId;
       ttreeAnalysis.nElectrons_mediumId = nElectrons_mediumId;
       ttreeAnalysis.nElectrons_tightId = nElectrons_tightId;
+      ttreeAnalysis.nMuons = nMuons;
       ttreeAnalysis.nMuons_looseId = nMuons_looseId;
       ttreeAnalysis.nMuons_mediumId = nMuons_mediumId;
       ttreeAnalysis.nMuons_tightId = nMuons_tightId; 
@@ -1377,43 +808,21 @@ end56:;
 
       ttreeAnalysis.Fill();
 
-      /*
-	 if(createProtonFile) {
-	 if(isprotonMulti && xangle == atoi(xa)){
-	 if((strcmp(mode, "Muon")==0 || strcmp(mode, "Electron")==0  || strcmp(mode, "Bjets")==0) && dileptonPt<10){ 
-	 file_protons_reco << xi_rp210_Arm45 << "\t" << xi_rp210_Arm56 << "\t" << xi_rp220_Arm45 << "\t"<< xi_rp220_Arm56 << "\t" << xi_multiArm45 << "\t" << xi_multiArm56 << "\n"; //write to file
-	 }
-	 }
-	 }
-
       // Format file suggested by https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookPickEvents#Run_edm_PickEvents_py_with_CRAB
       if(createEventFile){
-      file_eventlist << run_ <<":"<< lumiblock_ << ":" << event_ << "\n"; //write to file
-      if(isprotonRP210 && isprotonRP220 && dileptonMass>88 && dileptonMass<94 &&run_==297101) file_eventlist_kinematics << run_ <<"\t"<< lumiblock_ << "\t" << event_ << "\t" << leadingLeptonPt << "\t"<< leadingLeptonEta << "\t" << leadingLeptonPhi << "\t" << leadingLeptonVz <<"\t" << secondLeptonPt << "\t" << secondLeptonEta << "\t" << secondLeptonPhi << "\t" << secondLeptonVz << "\t" << dileptonPt << "\t" << dileptonEta << "\t"<< dileptonPhi << "\t" << dileptonMass << "\t" << nMuons_looseId << "\t" << xi_rp210_Arm45 << "\t" << xi_rp210_Arm56 << "\t" << xi_rp220_Arm45 << "\t"<< xi_rp220_Arm56 << "\t" << xi_multiArm45 << "\t" << xi_multiArm56 << "\n"; // write to file
+	eventfile << ttreeAnalysis.run <<":"<< ttreeAnalysis.lumiblock << ":" << ttreeAnalysis.event << "\n"; //write to file
       }
-      */
+
 
     } // proton bracket
-
   } // end of the event loop
 
   std::cout << "\n\n<END> good luck!\n" << std::endl;
 
   ttreeAnalysis.Storing();
-  //fileout->cd();
-  //test->Write();
-  //tout->Write();
-  //fileout->Close();
-
-  /*
-     if(createProtonFile) {
-     file_protons_reco.close();
-     }
-     if(createEventFile){
-     file_eventlist.close();
-     file_eventlist_kinematics.close();
-     }
-     */
+  if(createEventFile){
+    eventfile.close();
+  }
 
 }
 
@@ -1467,7 +876,7 @@ void randomProtons(TString file_random){
 
     nlines++;
   }
-  printf(" found %d points\n",nlines);
+  printf("\t\tFound %d points\n",nlines);
 
   in.close();
 
@@ -1480,15 +889,7 @@ bool MissingMassNtupleAnalyzer::MCMatch(double phi1, double eta1, double pt1, do
   double deta = std::fabs(eta1 - eta2);
   double dpt = std::fabs(pt1 - pt2);
 
-  std::cout << "dp: " << dp << ", deta: " << deta << ", dpt: " << dpt << std::endl;
-  //std::cout << "phi1: " << phi1 << ", eta1: " << eta1 << ", pt1: " << pt1 << ", phi2: " << phi2 << ", eta2: " << eta2 << ", pt2: " << pt2 << std::endl;
-
   if(dpt<0.2*pt1) selected = true;
-
-  if(selected){
-    std::cout << "phi1: " << phi1 << ", eta1: " << eta1 << ", pt1: " << pt1 << ", phi2: " << phi2 << ", eta2: " << eta2 << ", pt2: " << pt2 << std::endl;
-    std::cout << "\n\nSelected? " << selected << std::endl;
-  }
 
   return selected;
 
@@ -1497,40 +898,39 @@ bool MissingMassNtupleAnalyzer::MCMatch(double phi1, double eta1, double pt1, do
 int main(int argc, char * argv[])
 {
 
-  std::cout << "\n===================" << std::endl;
+  std::cout << "\n\033[1;34m===================" << std::endl;
   std::cout << "Missing Mass Search" << std::endl;
-  std::cout << "===================" << std::endl;
+  std::cout << "===================\033[0m\n" << std::endl;
 
   TTree* tree = NULL;
   if(cmdOptionExists(argv, argv+argc, "--h")||cmdOptionExists(argv, argv+argc, "--help"))
   {
-    std::cout << "\n== Help ==\n" << std::endl;
-    std::cout << "\t --f filename.root (input file)" << std::endl;
-    std::cout << "\t --mode Muon, Electron or Bjets" << std::endl;
-    std::cout << "\t --datatype Signal (or DY or SD or Data)" << std::endl;
-    std::cout << "\t --xa 120, 130, 140 or 150 (2017 conditions only), needed when running on MC" << std::endl;
+    std::cout << "\n\033[1;30m== Help ==\033[0m\n" << std::endl;
+    std::cout << "\t\033[;33m --f filename.root (input file)" << std::endl;
+    std::cout << "\t --mode mc or data" << std::endl;
+    std::cout << "\t --physics electron, muon, bjet or emu" << std::endl;
     std::cout << "\t --jobid job1 (tag to be added in the outputfile, _option_)" << std::endl;
     std::cout << "\t --outdir Output (Output dir for jobs, _option_)" << std::endl;
-    std::cout << "\t --protonfile (it generates a text file with info from protons)" << std::endl;
+    std::cout << "\t --protonfile (it generates a root file with info from protons)" << std::endl;
     std::cout << "\t --eventfile (it generates a text file with run:ls:event_number format)" << std::endl;
     std::cout << "\t --random (performing analysis using random protons)" << std::endl;
     std::cout << "\t --single (fixing arm 45 with random protons.)" << std::endl;
-    std::cout << "\t --zerobias (option to run with zerobias triggers. It includes the option --noprotonsfilter)" << std::endl;
-    std::cout << "\t --noprotonsfilter (option to run without proton selection)\n" << std::endl;
-    std::cout << ">> Important: options \"--protonfile\" and \"--random\" _can not_ be used together! In case you do not have the text file with the proton x[mm] hit, first run --protonfile to create the files and after, run --random.\n\n" << std::endl;
+    std::cout << "\t --zerobias (option to run with zerobias triggers. It includes the option --noppstagging)" << std::endl;
+    std::cout << "\t --noppstagging (option to run without proton selection)" << std::endl;
+    std::cout << "\t --debugging (option for debugging)\n" << std::endl;
+    std::cout << ">> Important: options \"--protonfile\" and \"--random\" _can not_ be used together! In case you do not have the random file with the proton x[mm] hit, first run --protonfile to create the files and after, run --random.\033[0m\n\n" << std::endl;
     return 0;
   }
 
   char * filename = getCmdOption(argv, argv + argc, "--f");
-  char * era = getCmdOption(argv, argv + argc, "--era");
-  char * xa = getCmdOption(argv, argv + argc, "--xa");
   char * mode = getCmdOption(argv, argv + argc, "--mode");
-  char * datatype = getCmdOption(argv, argv + argc, "--datatype");
+  char * physics = getCmdOption(argv, argv + argc, "--physics");
   char * jobid = getCmdOption(argv, argv + argc, "--jobid");
   char * outdir = getCmdOption(argv, argv + argc, "--outdir");
+  char * debugging = getCmdOption(argv, argv + argc, "--debugging");
 
-  if((cmdOptionExists(argv, argv+argc, "--protonfile") || cmdOptionExists(argv, argv+argc, "--random") || cmdOptionExists(argv, argv+argc, "--single"))&&(cmdOptionExists(argv, argv+argc, "--zerobias")||cmdOptionExists(argv, argv+argc, "--noprotonsfilter"))){
-    std::cout << "\n\t ---> Options (--protonfile or --random or --single) can not be used together with (--noprotonsfilter and --zerobias) parameter! Please try again!\n" << std::endl;
+  if((cmdOptionExists(argv, argv+argc, "--protonfile") || cmdOptionExists(argv, argv+argc, "--random") || cmdOptionExists(argv, argv+argc, "--single"))&&(cmdOptionExists(argv, argv+argc, "--zerobias")||cmdOptionExists(argv, argv+argc, "--noppstagging"))){
+    std::cout << "\n\t ---> Options (--protonfile or --random or --single) can not be used together with (--noppstagging and --zerobias) parameter! Please try again!\n" << std::endl;
     return 0;
   }
 
@@ -1549,23 +949,13 @@ int main(int argc, char * argv[])
     return 0;
   }
 
-  if (era && strstr(era,"--")!=0) {
-    std::cout << "\n\t ---> Missing --era parameter! Please try again!\n" << std::endl;
-    return 0;
-  } 
-
   if (mode && strstr(mode,"--")!=0) {
     std::cout << "\n\t ---> Missing --mode parameter! Please try again!\n" << std::endl;
     return 0;
   }
 
-  if (datatype && strstr(datatype,"--")!=0) {
-    std::cout << "\n\t ---> Missing --datatype parameter! Please try again!\n" << std::endl;
-    return 0;
-  }
-
-  if (xa && strstr(xa,"--")!=0) {
-    std::cout << "\n\t ---> Missing --xa parameter! Please try again!\n" << std::endl;
+  if (physics && strstr(physics,"--")!=0) {
+    std::cout << "\n\t ---> Missing --physics parameter! Please try again!\n" << std::endl;
     return 0;
   }
 
@@ -1574,7 +964,12 @@ int main(int argc, char * argv[])
     return 0;
   }
 
-  if (filename && era && mode)
+  if(strcmp(mode, "mc")==0 && cmdOptionExists(argv, argv+argc, "--eventfile")){
+    std::cout << "\n\t --> Please, --mode mc can not be used combined with --eventfile option.\n" << std::endl;
+    return 0;
+  }
+
+  if (filename && mode && physics)
   {
     TTree* tree = NULL;
     TFile filecheck(filename);
@@ -1591,7 +986,7 @@ int main(int argc, char * argv[])
       return 0;
     }
 
-    std::cout << "Reading file " << filename << std::endl;
+    std::cout << "Reading file " << filename << "\n" << std::endl;
 
     TFile* file = TFile::Open(filename,"READ");
     tree = (TTree*) file->Get( "missing_mass/analyzer" );
@@ -1602,12 +997,7 @@ int main(int argc, char * argv[])
     bool single = false;
     bool zerobias = false;
     bool protonsfilter = true;
-
-    if(strcmp(era, "A")==0 || strcmp(era, "B")==0 || strcmp(era, "C")==0 || strcmp(era, "D")==0 || strcmp(era, "E")==0 || strcmp(era,"F")==0 || strcmp(era, "preTS2")==0 || strcmp(era, "postTS2")==0 || strcmp(era, "a")==0 || strcmp(era, "b")==0 || strcmp(era, "c")==0 || strcmp(era, "d")==0 || strcmp(era, "e")==0 || strcmp(era,"f")==0 || strcmp(era, "pre TS2")==0 || strcmp(era, "post TS2")==0){}
-    else{
-      std::cout << "\nNo --era option! It should be A, B, C, D, E, F, preTS2 or postTS2.\n" << std::endl;
-      return 0;
-    }
+    bool debug = false;
 
     if(cmdOptionExists(argv, argv+argc, "--protonfile")){
       createProtonFile = true;
@@ -1621,278 +1011,23 @@ int main(int argc, char * argv[])
     if(cmdOptionExists(argv, argv+argc, "--zerobias")){
       zerobias = true;
     }
-    if(cmdOptionExists(argv, argv+argc, "--noprotonsfilter")) protonsfilter = false;
+    if(cmdOptionExists(argv, argv+argc, "--noppstagging")) protonsfilter = false;
 
     if(cmdOptionExists(argv, argv+argc, "--random")){
       randomFlag = true;
-      if(strcmp(mode, "MC_Muon")==0){
-	if(strcmp(era, "B")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_B_xa_120.txt");
-	}
-	else if(strcmp(era, "B")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_B_xa_130.txt");
-	}
-	else if(strcmp(era, "B")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_B_xa_140.txt"); 
-	}
-	else if(strcmp(era, "B")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_B_xa_150.txt"); 
-	}
-	else if(strcmp(era, "C")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_C_xa_120.txt");
-	}
-	else if(strcmp(era, "C")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_C_xa_130.txt");
-	}
-	else if(strcmp(era, "C")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_C_xa_140.txt");
-	}
-	else if(strcmp(era, "C")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_C_xa_150.txt");
-	}
-	else if(strcmp(era, "D")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_D_xa_120.txt");
-	}
-	else if(strcmp(era, "D")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_D_xa_130.txt");
-	}
-	else if(strcmp(era, "D")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_D_xa_140.txt");
-	}
-	else if(strcmp(era, "D")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_D_xa_150.txt");
-	}
-	else if(strcmp(era, "preTS2")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_preTS2_xa_120.txt");
-	}
-	else if(strcmp(era, "preTS2")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_preTS2_xa_130.txt");
-	}
-	else if(strcmp(era, "preTS2")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_preTS2_xa_140.txt");
-	}
-	else if(strcmp(era, "preTS2")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_preTS2_xa_150.txt");
-	}
-	else if(strcmp(era, "E")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_E_xa_120.txt");
-	}
-	else if(strcmp(era, "E")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_E_xa_130.txt");      
-	}
-	else if(strcmp(era, "E")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_E_xa_140.txt");   
-	}
-	else if(strcmp(era, "E")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_E_xa_150.txt"); 
-	}
-	else if(strcmp(era, "F")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_F_xa_120.txt"); 
-	}
-	else if(strcmp(era, "F")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_F_xa_130.txt");
-	}
-	else if(strcmp(era, "F")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_F_xa_140.txt");      
-	}
-	else if(strcmp(era, "F")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_F_xa_150.txt"); 
-	}
-	else if(strcmp(era, "postTS2")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_postTS2_xa_120.txt");
-	}
-	else if(strcmp(era, "postTS2")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_postTS2_xa_130.txt");
-	}
-	else if(strcmp(era, "postTS2")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_postTS2_xa_140.txt");
-	}
-	else if(strcmp(era, "postTS2")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Muon_era_postTS2_xa_150.txt");
-	}
-	else{
-	  std::cout << "Era or X-angle not present in 2017 dataset!" << std::endl;
-	}
-      }
+      // Including histograms to merge with the MC protons!
+      // randomProtons("file.root"); 
+    }
 
-      else if(strcmp(mode, "MC_Electron")==0){ 
-	if(strcmp(era, "B")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_B_xa_120.txt"); 
-	}
-	else if(strcmp(era, "B")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_B_xa_130.txt");
-	}
-	else if(strcmp(era, "B")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_B_xa_140.txt"); 
-	}
-	else if(strcmp(era, "B")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_B_xa_150.txt"); 
-	}
-	else if(strcmp(era, "C")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_C_xa_120.txt");
-	}
-	else if(strcmp(era, "C")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_C_xa_130.txt");
-	}
-	else if(strcmp(era, "C")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_C_xa_140.txt");
-	}
-	else if(strcmp(era, "C")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_C_xa_150.txt");
-	}
-	else if(strcmp(era, "D")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_D_xa_120.txt");
-	}
-	else if(strcmp(era, "D")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_D_xa_130.txt");
-	}
-	else if(strcmp(era, "D")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_D_xa_140.txt");
-	}
-	else if(strcmp(era, "D")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_D_xa_150.txt");
-	}
-	else if(strcmp(era, "preTS2")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_preTS2_xa_120.txt");
-	}
-	else if(strcmp(era, "preTS2")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_preTS2_xa_130.txt");
-	}
-	else if(strcmp(era, "preTS2")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_preTS2_xa_140.txt");
-	}
-	else if(strcmp(era, "preTS2")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_preTS2_xa_150.txt");
-	}
-	else if(strcmp(era, "E")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_E_xa_120.txt");
-	}
-	else if(strcmp(era, "E")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_E_xa_130.txt");      
-	}
-	else if(strcmp(era, "E")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_E_xa_140.txt");   
-	}
-	else if(strcmp(era, "E")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_E_xa_150.txt"); 
-	}
-	else if(strcmp(era, "F")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_F_xa_120.txt"); 
-	}
-	else if(strcmp(era, "F")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_F_xa_130.txt");
-	}
-	else if(strcmp(era, "F")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_F_xa_140.txt");      
-	}
-	else if(strcmp(era, "F")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_F_xa_150.txt"); 
-	}
-	else if(strcmp(era, "postTS2")==0 && strcmp(xa, "120")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_postTS2_xa_120.txt");
-	}
-	else if(strcmp(era, "postTS2")==0 && strcmp(xa, "130")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_postTS2_xa_130.txt");
-	}
-	else if(strcmp(era, "postTS2")==0 && strcmp(xa, "140")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_postTS2_xa_140.txt");
-	}
-	else if(strcmp(era, "postTS2")==0 && strcmp(xa, "150")==0){
-	  randomProtons("proton_reco_rphorizontal_Electron_era_postTS2_xa_150.txt");
-	}
-	else{
-	  std::cout << "Era or X-angle not present in 2017 dataset!" << std::endl;
-	}
-      }
-
-      //Not correlated events, for muons the list of protons in electrons samples have been taken.
-      else if(strcmp(mode, "Muon")==0||strcmp(mode, "muon")==0){
-	if(strcmp(era, "A")==0 || strcmp(era, "a")==0){
-	  randomProtons("proton_reco_muona.txt");
-	}
-	else if(strcmp(era, "B")==0 || strcmp(era, "b")==0){
-	  randomProtons("proton_reco_muonb.txt");
-	}
-	else if(strcmp(era, "C")==0 || strcmp(era, "c")==0){
-	  randomProtons("proton_reco_muonc.txt");
-	}
-	else if(strcmp(era, "D")==0 || strcmp(era, "d")==0){
-	  randomProtons("proton_reco_muond.txt");
-	}
-	else if(strcmp(era, "E")==0 || strcmp(era, "e")==0){
-	  randomProtons("proton_reco_muone.txt");
-	}
-	else if(strcmp(era, "F")==0 || strcmp(era, "f")==0){
-	  randomProtons("proton_reco_muonf.txt");
-	}
-	else{
-	  std::cout << "\n\t --> Please, insert --era B, C, D, E or F\n" << std::endl;
-	  return 0;
-	} 
-      }
-
-      //Not correlated events, for muons the list of protons in electrons samples have been taken.
-      else if(strcmp(mode, "Bjets")==0||strcmp(mode, "bjets")==0){
-	if(strcmp(era, "A")==0 || strcmp(era, "a")==0){
-	  randomProtons("proton_reco_bjetsa.txt");
-	}
-	else if(strcmp(era, "B")==0 || strcmp(era, "b")==0){
-	  randomProtons("proton_reco_bjetsb.txt");
-	}
-	else if(strcmp(era, "C")==0 || strcmp(era, "c")==0){
-	  randomProtons("proton_reco_bjetsc.txt");
-	}
-	else if(strcmp(era, "D")==0 || strcmp(era, "d")==0){
-	  randomProtons("proton_reco_bjetsd.txt");
-	}
-	else if(strcmp(era, "E")==0 || strcmp(era, "e")==0){
-	  randomProtons("proton_reco_bjetse.txt");
-	}
-	else if(strcmp(era, "F")==0 || strcmp(era, "f")==0){
-	  randomProtons("proton_reco_bjetsf.txt");
-	}
-	else{
-	  std::cout << "\n\t --> Please, insert --era B, C, D, E or F\n" << std::endl;
-	  return 0;
-	}
-      }
-
-      //Not correlated events, for electrons the list of protons in the muons samples have been taken.
-      else if(strcmp(mode, "Electron")==0||strcmp(mode, "electron")==0){
-	if(strcmp(era, "A")==0 || strcmp(era, "a")==0){
-	  randomProtons("proton_reco_electrona.txt");
-	}
-	else if(strcmp(era, "B")==0 || strcmp(era, "b")==0){
-	  randomProtons("proton_reco_electronb.txt");
-	}
-	else if(strcmp(era, "C")==0 || strcmp(era, "c")==0){
-	  randomProtons("proton_reco_electronc.txt");
-	}
-	else if(strcmp(era, "D")==0 || strcmp(era, "d")==0){
-	  randomProtons("proton_reco_electrond.txt");
-	}
-	else if(strcmp(era, "E")==0 || strcmp(era, "e")==0){
-	  randomProtons("proton_reco_electrone.txt");
-	}
-	else if(strcmp(era, "F")==0 || strcmp(era, "f")==0){
-	  randomProtons("proton_reco_electronf.txt");
-	}
-	else{
-	  std::cout << "\n\t --> Please, insert --era C or D\n" << std::endl;
-	  return 0;
-	} 
-      }
-      else{
-	std::cout << "\n\t --> Please, insert --mode Muon, Electron, BJets, MC_Muon, MC_Electron\n" << std::endl;
-	return 0;
-      }
+    if(cmdOptionExists(argv, argv+argc, "--debugging")){
+      debug = true;
     }
 
     // Accessing Missing Mass Object
     MissingMassNtupleAnalyzer m(tree); 
-    m.Loop(era, mode, xa, jobid, outdir, datatype, createProtonFile, randomFlag, single, zerobias, protonsfilter, createEventFile);
+    m.Loop(mode, jobid, outdir, physics, createProtonFile, randomFlag, single, zerobias, protonsfilter, createEventFile, debug);
   }else{
-    std::cout << "\n\t --> Please, insert --f filename.root and --era A, B, C, D, E and F --mode Muon (or Electron)\n" << std::endl;
+    std::cout << "\n\t --> Please, insert --f filename.root, --mode mc (or data) and --physics muon (or electron or bjet or emu)\n" << std::endl;
     return 0;
   }
 

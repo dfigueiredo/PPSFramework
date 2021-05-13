@@ -18,7 +18,6 @@ TString FilesInput::GetFileName(std::list<TString>& ids){
     filename += x;
   }
 
-  std::cout << "Filename is: " << filename << std::endl;
   return filename;
 
 }
