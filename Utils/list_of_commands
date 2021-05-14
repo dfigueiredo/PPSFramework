@@ -1,0 +1,6 @@
+# GENERAL GRID
+xrdcp root://cmsxrootd.fnal.gov//store/user/dmf/crab_dmf_2021-04-28_UTC11-16-01/PYTHIA8-SD-TOP-GEN/PYTHIA8-SD-TOP-MINIAOD-13TEV/210428_091727/0000/RunIISummer20UL17MiniAOD_141.root test_pythia_miniaod.root
+
+# PACKAGE
+cmsRun RunMissingMassSearches.py ppstagging=False physics=muon mode=mc debugging=True
+./MissingMassNtupleAnalyzer --f ../working/pythia8_skimmer_notrigger_noppstagging.root --mode mc --debugging --physics muon --noppstagging
