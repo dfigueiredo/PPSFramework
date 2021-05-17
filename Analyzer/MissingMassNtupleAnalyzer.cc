@@ -928,6 +928,12 @@ int main(int argc, char * argv[])
   char * jobid = getCmdOption(argv, argv + argc, "--jobid");
   char * outdir = getCmdOption(argv, argv + argc, "--outdir");
   char * debugging = getCmdOption(argv, argv + argc, "--debugging");
+  char * protection = getCmdOption(argv, argv + argc, "---");
+
+  if(mode==NULL || filename==NULL || physics==NULL){
+    std::cout << "\t --> Please, check if the parameters --mode, --f or --physics are correct.\n" << std::endl;
+    return 0;
+  }
 
   if((cmdOptionExists(argv, argv+argc, "--protonfile") || cmdOptionExists(argv, argv+argc, "--random") || cmdOptionExists(argv, argv+argc, "--single"))&&(cmdOptionExists(argv, argv+argc, "--zerobias")||cmdOptionExists(argv, argv+argc, "--noppstagging"))){
     std::cout << "\n\t ---> Options (--protonfile or --random or --single) can not be used together with (--noppstagging and --zerobias) parameter! Please try again!\n" << std::endl;

@@ -24,7 +24,8 @@ options.parseArguments()
 #fileinput = '/store/data/Run2017B/DoubleMuon/MINIAOD/09Aug2019_UL2017-v1/260000/F1B17EC1-36AF-6340-B359-774C7D88948D.root'
 #fileinput = '/store/data/Run2017D/BTagCSV/MINIAOD/09Aug2019_UL2017-v1/60000/CAEC3BF9-E990-AD41-A55B-B28269E242C1.root'
 #fileinput = '/store/data/Run2018C/DoubleMuon/MINIAOD/ForValUL2018-v1/230000/1A9817AE-B1F4-A746-9460-34B48037B519.root'
-fileinput = '/store/user/dmf/crab_dmf_2021-05-07_UTC14-15-29/PYTHIA8-SD-TOP-GEN/PYTHIA8-SD-TOP-MINIAOD-withpps-13TEV/210507_121551/0000/output_10.root'
+#fileinput = '/store/user/dmf/crab_dmf_2021-05-07_UTC14-15-29/PYTHIA8-SD-TOP-GEN/PYTHIA8-SD-TOP-MINIAOD-withpps-13TEV/210507_121551/0000/output_10.root'
+fileinput = '/store/user/dmf/PYTHIA8-SD-top-13TeV-miniAOD-xangle140-PostTS2-miniAOD_PostTS2_140_2020-05-08_UTC15-08-15/PYTHIA8-SD-top-13TeV/PYTHIA8-SD-top-13TeV-miniAOD-xangle140-PostTS2-miniAOD_PostTS2_140_2020-05-08_UTC15-08-15/200508_130830/0000/output_123.root' #testing old pythia8
 #fileinput = 'root://xrootd-cms.infn.it//store/mc/RunIIFall17MiniAODv2/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/FEB3954C-4942-E811-8A09-008CFAC91A38.root'
 #fileinput = '/store/data/Run2017C/DoubleEG/MINIAOD/09Aug2019_UL2017-v1/50000/F696E155-EF11-CB48-82CA-96EA48359D54.root'
 #fileinput = '/store/data/Run2018C/EGamma/MINIAOD/ForValUL2018-v2/230000/5C5DBBE7-A5E1-E746-835A-D33E0C37071F.root'
