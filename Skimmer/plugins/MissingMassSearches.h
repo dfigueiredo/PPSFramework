@@ -64,6 +64,7 @@ Implementation:
 #include "ParticleFlowEvent.h"
 #include "VerticesEvent.h"
 #include "ProtonsEvent.h"
+#include "GenProtonsEvent.h"
 #include "GenParticlesEvent.h"
 #include "GenMETEvent.h"
 #include "GenJetsEvent.h"
@@ -165,10 +166,10 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
 
     //GenParticles
     edm::EDGetTokenT<std::vector<reco::GenParticle>> GenPartToken_;
-    
+
     //GenMET
     edm::EDGetTokenT<edm::View<reco::GenMET>> GenMETToken_;
-    
+
     //GenJets
     edm::EDGetTokenT<edm::View<reco::GenJet>> GenJetTokenA_;
     edm::EDGetTokenT<edm::View<reco::GenJet>> GenJetTokenB_;
@@ -211,7 +212,7 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
 
     // Calo Towers
     edm::EDGetTokenT<CaloTowerCollection> calotowersToken_;
-  
+
     //PileUpSummaryInfo 
     edm::EDGetTokenT<std::vector<PileupSummaryInfo>> puToken_;
 
@@ -224,13 +225,14 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
 
     // LHC Info Label
     std::string lhcInfoLabel_;
-    
+
     // Vectors with Collections
     std::vector<int> triggerVec;
     std::vector<int> prescalesL1Vec;
     std::vector<int> prescalesHLTVec;
 
     std::vector<const reco::GenParticle*> genpartVec;
+    std::vector<const reco::GenParticle*> genprotonsVec;
     edm::View<reco::GenMET>::const_iterator genmet;
     std::vector<const reco::GenJet*> genjetsVecA;
     std::vector<const reco::GenJet*> genjetsVecB;
@@ -300,7 +302,7 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
     std::vector<double> *genleptons_vx_;
     std::vector<double> *genleptons_vy_;
     std::vector<double> *genleptons_vz_;
- 
+
     std::vector<double> *genprotons_energy_;
     std::vector<double> *genprotons_pt_;
     std::vector<double> *genprotons_eta_;
@@ -310,7 +312,7 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
     std::vector<double> *genprotons_pz_;
     std::vector<double> *genprotons_xi_;
     std::vector<int> *genprotons_status_;
-  
+
     std::vector<double> *genphotons_pt_;
     std::vector<double> *genphotons_eta_;
     std::vector<double> *genphotons_phi_;

@@ -130,6 +130,7 @@ void MissingMassSearches::cleaning(){
 
   triggerVec.clear();
   genpartVec.clear();
+  genprotonsVec.clear();
   genjetsVecA.clear();
   genjetsVecB.clear();
   jetsVecA.clear(); // AK4
@@ -374,21 +375,23 @@ void MissingMassSearches::fetchGenParticles(const edm::Event& iEvent, const edm:
   GenParticlesEvent *genpart;
   genpart = new GenParticlesEvent(iEvent, iSetup, GenPartToken_);
   genpartVec = genpart->GetGenParticles();
-  *nGenParticles_=genpartVec.size();
+
+  GenProtonsEvent *genproton;
+  genproton = new GenProtonsEvent(iEvent, iSetup, GenPartToken_);
+  genprotonsVec = genproton->GetGenProtons();
 
   int nGenMuons_cnt=0; 
   int nGenElectrons_cnt=0;
-  int nGenProtons_cnt=0;
 
   for ( const auto& genpartEvt: genpartVec) {
     if(fabs(genpartEvt->pdgId()) == 11) ++nGenElectrons_cnt;
     if(fabs(genpartEvt->pdgId()) == 13) ++nGenMuons_cnt;
-    if(genpartEvt->pdgId() == 2212) ++nGenProtons_cnt;
   }
 
   *nGenMuons_ = nGenMuons_cnt;
   *nGenElectrons_ = nGenElectrons_cnt;
-  *nGenProtons_ = nGenProtons_cnt;  
+  *nGenParticles_=genpartVec.size();
+  *nGenProtons_=genprotonsVec.size();
 
 }
 
@@ -1211,7 +1214,7 @@ void MissingMassSearches::fetchPF(const edm::Event& iEvent, const edm::EventSetu
 // ------------ fetching over LHC info ----------------
 void MissingMassSearches::fetchLHCInfo(const edm::EventSetup& iSetup){
 
-  bool debug = false;
+  bool debug = true;
 
   edm::ESHandle<LHCInfo> hLHCInfo;
   iSetup.get<LHCInfoRcd>().get(lhcInfoLabel_, hLHCInfo);
@@ -1664,6 +1667,7 @@ void MissingMassSearches::fetchEventTagger(const edm::Event& iEvent){
 
   if(enableMC_){
 
+    std::sort(genprotonsVec.begin(), genprotonsVec.end(), orderAbsolutPz());
     std::sort(genpartVec.begin(), genpartVec.end(), orderPt());
     std::sort(genjetsVecA.begin(), genjetsVecA.end(), orderPt());
     std::sort(genjetsVecB.begin(), genjetsVecB.end(), orderPt());
@@ -1705,18 +1709,22 @@ void MissingMassSearches::fetchEventTagger(const edm::Event& iEvent){
 	(*genleptons_vy_).push_back(genpartEvt->vertex().y());
 	(*genleptons_vz_).push_back(genpartEvt->vertex().z());
       } 
-      if(genpartEvt->pdgId() == 2212 && includeProtonsReco_){
-	(*genprotons_status_).push_back(genpartEvt->status());
-	(*genprotons_energy_).push_back(genpartEvt->energy());
-	(*genprotons_pt_).push_back(genpartEvt->pt());
-	(*genprotons_eta_).push_back(genpartEvt->eta());
-	(*genprotons_phi_).push_back(genpartEvt->phi());
-	(*genprotons_px_).push_back(genpartEvt->px());
-	(*genprotons_py_).push_back(genpartEvt->py());
-	(*genprotons_pz_).push_back(genpartEvt->pz());
-	(*genprotons_xi_).push_back(1 - abs(genpartEvt->pz()) / 6500.); 
+    }
+
+    if(includeProtonsReco_){
+      for (const auto& genprotonsEvt: genprotonsVec){
+	(*genprotons_status_).push_back(genprotonsEvt->status());
+	(*genprotons_energy_).push_back(genprotonsEvt->energy());
+	(*genprotons_pt_).push_back(genprotonsEvt->pt());
+	(*genprotons_eta_).push_back(genprotonsEvt->eta());
+	(*genprotons_phi_).push_back(genprotonsEvt->phi());
+	(*genprotons_px_).push_back(genprotonsEvt->px());
+	(*genprotons_py_).push_back(genprotonsEvt->py());
+	(*genprotons_pz_).push_back(genprotonsEvt->pz());
+	(*genprotons_xi_).push_back(1 - abs(genprotonsEvt->pz()) / 6500.);
       }
     }
+
     if (includeJets_){
       for ( const auto& genjetsak4Evt: genjetsVecA) {
 	(*genjetsak4_px_).push_back(genjetsak4Evt->px());
@@ -1858,18 +1866,25 @@ void MissingMassSearches::Debug(){
     std::cout << "Trigger: " << triggerEvt << std::endl;
   }
 
-  for ( const auto& genpartEvt: genpartVec) {
-    std::cout << "GenParticle pT: " << genpartEvt->pt() << " [GeV], eta: " << genpartEvt->eta() << ", phi: "<< genpartEvt->phi() << ", ID: " << genpartEvt->pdgId() << ", Status: "<< genpartEvt->status() <<std::endl;
-  }
+  if(enableMC_){
 
-  if(enableMC_) std::cout << "GenMET eT: " << genmet->et() << " [GeV], phi: " << genmet->phi() << ", significance: " << genmet->significance() << std::endl;
+    for ( const auto& genpartEvt: genpartVec) {
+      std::cout << "GenParticle pT: " << genpartEvt->pt() << " [GeV], eta: " << genpartEvt->eta() << ", phi: "<< genpartEvt->phi() << ", ID: " << genpartEvt->pdgId() << ", Status: "<< genpartEvt->status() <<std::endl;
+    }
 
-  for ( const auto& genjetsak4Evt: genjetsVecA) {
-    std::cout << "GenJets (AK4) pT: " << genjetsak4Evt->pt() << " [GeV], eta: " << genjetsak4Evt->eta() << ", phi: "<< genjetsak4Evt->phi() << std::endl;
-  }
+    for ( const auto& genprotonEvt: genprotonsVec) {
+      std::cout << "GenProtons pZ: " << genprotonEvt->pz() << "[GeV], pT: "<< genprotonEvt->pt() << " [GeV], eta: " << genprotonEvt->eta() << ", phi: "<< genprotonEvt->phi() << ", ID: " << genprotonEvt->pdgId() << ", Status: "<< genprotonEvt->status() <<std::endl;
+    }
 
-  for ( const auto& genjetsak8Evt: genjetsVecB) {
-    std::cout << "GenJets (AK8) pT: " << genjetsak8Evt->pt() << " [GeV], eta: " << genjetsak8Evt->eta() << ", phi: "<< genjetsak8Evt->phi() << std::endl;
+    std::cout << "GenMET eT: " << genmet->et() << " [GeV], phi: " << genmet->phi() << ", significance: " << genmet->significance() << std::endl;
+
+    for ( const auto& genjetsak4Evt: genjetsVecA) {
+      std::cout << "GenJets (AK4) pT: " << genjetsak4Evt->pt() << " [GeV], eta: " << genjetsak4Evt->eta() << ", phi: "<< genjetsak4Evt->phi() << std::endl;
+    }
+
+    for ( const auto& genjetsak8Evt: genjetsVecB) {
+      std::cout << "GenJets (AK8) pT: " << genjetsak8Evt->pt() << " [GeV], eta: " << genjetsak8Evt->eta() << ", phi: "<< genjetsak8Evt->phi() << std::endl;
+    }
   }
 
   for ( const auto& jetsak4Evt: jetsVecA) {
@@ -2000,14 +2015,11 @@ MissingMassSearches::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     if(includePF_) fetchPF(iEvent, iSetup);
     if(includeProtonsReco_) fetchProtonsReco(iEvent, iSetup); 
     if(includePPSInfo_) fetchPPSInfo(iEvent, iSetup); 
+    fetchEventTagger(iEvent);
+    tree_->Fill();
 
     // Printout for Debugging
     if(debug_) Debug();
-
-    // Event Algorithm to tag two leading leptons and two highest pt jets unmatched in a cone of (eta,phi) with the leptons!
-    fetchEventTagger(iEvent);
-
-    tree_->Fill();
 
   } //end trigger
 

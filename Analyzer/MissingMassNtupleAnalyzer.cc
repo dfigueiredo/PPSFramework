@@ -446,7 +446,7 @@ void MissingMassNtupleAnalyzer::Loop(char * mode, char * jobid, char * outdir, c
 	ttreeAnalysis.nGenProtons = nGenProtons;
 
 	if(genprotons_pt->size()>0){
-	  ttreeAnalysis.gensecondProtonStatus = genprotons_status->at(0);
+	  ttreeAnalysis.genleadingProtonStatus = genprotons_status->at(0);
 	  ttreeAnalysis.genleadingProtonEnergy = genprotons_energy->at(0);
 	  ttreeAnalysis.genleadingProtonPt = genprotons_pt->at(0);
 	  ttreeAnalysis.genleadingProtonEta = genprotons_eta->at(0);
