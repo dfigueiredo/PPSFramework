@@ -14,18 +14,23 @@ class TTreeMissingMass {
     TFile* fileout;
 
   public:
+    TH1* hCounters;
     virtual ~TTreeMissingMass() {}
     void CreateTTree(TString);
     void Fill();
+    void FillHisto(const vector<std::pair<std::string, int>>&);
     void Storing();
     void Clearing();
 
     bool switchZeroBias = false;
-    bool switchMC = true;
+    bool switchMC = false;
     bool switchMuon = false;
     bool switchElectron = false;
     bool switchBjets = false;
-    bool switchElectronMuon = false;
+    bool switchDisplacedJet = false;
+    bool switchYear2017 = false;
+    bool switchYear2018 = false;
+    bool notrigger = false;
 
     int xangle = 0;
     int run = 0;
@@ -39,60 +44,110 @@ class TTreeMissingMass {
     bool is56PUproton = false;
     bool is2PUproton = false;
 
+    bool HLT_Any = false;
+
+    // ZeroBias
     int prescalesL1ZeroBias = 0;
-    int prescalesL1ZeroBiasAfterTrain = 0;
-    int prescalesL1ZeroBiasIsolatedBx = 0;
-    int prescalesL1ZeroBiasAlignment = 0;
-    int prescalesL1ZeroBiasBeamSpot = 0;
-    int prescalesL1ZeroBiasUnpairedBptxMinus = 0;
-    int prescalesL1ZeroBiasUnpairedBptxPlus = 0;
+    int prescalesL1ZeroBias_FirstBXAfterTrain = 0;
+    int prescalesL1ZeroBias_IsolatedBunches = 0;
+    int prescalesL1ZeroBias_Alignment = 0;
+    int prescalesL1ZeroBias_Beamspot = 0;
+    int prescalesL1_L1UnpairedBunchBptxMinus = 0;
+    int prescalesL1L1UnpairedBunchBptxPlus = 0;
     int prescalesL1Physics = 0;
     int prescalesL1SingleMu = 0;
+    bool HLT_ZeroBias = false;
+    bool HLT_ZeroBias_FirstBXAfterTrain = false;
+    bool HLT_ZeroBias_IsolatedBunches = false;
+    bool HLT_ZeroBias_Alignment = false;
+    bool HLT_ZeroBias_Beamspot = false;
+    bool HLT_L1UnpairedBunchBptxMinus = false;
+    bool HLT_L1UnpairedBunchBptxPlus = false;
+    bool HLT_Physics = false;
+    bool HLT_L1SingleMu = false;
 
-    bool triggerZeroBias = false;
-    bool triggerZeroBiasAfterTrain = false;
-    bool triggerZeroBiasIsolatedBx = false;
-    bool triggerZeroBiasAlignment = false;
-    bool triggerZeroBiasBeamSpot = false;
-    bool triggerZeroBiasUnpairedBptxMinus = false;
-    bool triggerZeroBiasUnpairedBptxPlus = false;
-    bool triggerPhysics = false;
-    bool triggerL1SingleMu = false;
+    // Muons
+    bool HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ = false;
+    bool HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8 = false;
+    bool HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8 = false;
+    bool HLT_DoubleMu43NoFiltersNoVtx = false;
+    bool HLT_TkMu100 = false;
+    bool HLT_Mu50 = false;
+    bool HLT_IsoMu24_eta2p1 = false;
+    bool HLT_IsoMu24 = false;
+    bool HLT_IsoMu27 = false;
+    bool HLT_IsoMu30 = false;
+    bool HLT_IsoMu20_eta2p1_TightChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1 = false;
+    bool HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1 = false;
+    bool HLT_TrkMu17_DoubleTrkMu8NoFiltersNoVtx = false;
+    bool HLT_TrkMu16_DoubleTrkMu6NoFiltersNoVtx = false;
+    bool HLT_TrkMu12_DoubleTrkMu5NoFiltersNoVtx = false;
+    bool HLT_Mu37_TkMu27 = false;
+    bool HLT_DoubleL2Mu50 = false;
+    bool HLT_DoubleMu3_DZ_PFMET90_PFMHT90 = false;
+    bool HLT_DoubleMu48NoFiltersNoVtx = false;
+    bool HLT_DoubleMu40NoFiltersNoVtxDisplaced = false;
+    bool HLT_Mu18_Mu9 = false;
+    bool HLT_TripleMu_12_10_5 = false;
 
-    bool triggerIsoMu27 = false;
-    bool triggerMu17TrkIsoMu8TrkIso = false;
-    bool triggerMu17TrkIsoMu8TrkIsoMass8 = false;
-    bool triggerMu17TrkIsoMu8TrkIsoMass3 = false;
-    bool triggerDoubleMu43 = false;
-    bool triggerDoubleMu48 = false;
+    // Electrons and Photons
+    bool HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL = false;
+    bool HLT_PFMET100_PFMHT100_IDTight_CaloBTagCSV_3p1 = false;
+    bool HLT_PFMET110_PFMHT110_IDTight_CaloBTagCSV_3p1 = false;
+    bool HLT_PFMET120_PFMHT120_IDTight_CaloBTagCSV_3p1 = false;
+    bool HLT_PFMET130_PFMHT130_IDTight_CaloBTagCSV_3p1 = false;
+    bool HLT_PFMET140_PFMHT140_IDTight_CaloBTagCSV_3p1 = false;
+    bool HLT_Ele15_IsoVVVL_PFHT450_CaloBTagCSV_4p5 = false;
+    bool DST_HT250_CaloBTagScouting = false;
+    bool HLT_Mu12_DoublePFJets40MaxDeta1p6_DoubleCaloBTagDeepCSV_p71 = false;
+    bool HLT_DiEle27_WPTightCaloOnly_L1DoubleEG = false;
+    bool HLT_Diphoton30PV_18PV_R9Id_AND_IsoCaloId_AND_HE_R9Id_PixelVeto_Mass55 = false;
+    bool HLT_Diphoton30_18_R9IdL_AND_HE_AND_IsoCaloId_NoPixelVeto_Mass55 = false;
+    bool HLT_DoubleEle25_CaloIdL_MW = false;
+    bool HLT_DoubleEle27_CaloIdL_MW = false;
+    bool HLT_DoubleEle33_CaloIdL_MW = false;
+    bool HLT_DoublePhoton70 = false;
+    bool HLT_DoublePhoton85 = false;
+    bool HLT_Ele135_CaloIdVT_GsfTrkIdT = false;
+    bool HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = false;
+    bool HLT_Ele24_eta2p1_WPTight_Gsf_TightChargedIsoPFTauHPS30_eta2p1_TightID_CrossL1 = false;
+    bool HLT_Ele27_Ele37_CaloIdL_MW = false;
+    bool HLT_Ele27_WPTight_Gsf = false;
+    bool HLT_Photon110EB_TightID_TightIso = false;
+    bool HLT_Photon200 = false;
+    bool HLT_TriplePhoton_20_20_20_CaloIdLV2_R9IdVL = false;
+    bool HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_PFHT350 = false;
 
-    bool triggerEle27 = false;
-    bool triggerEle23Ele12 = false;
-    bool triggerEle23Ele12Dz = false;
-    bool triggerDoubleEle33 = false;
-
-    bool triggerMu23TrkIsoEle12 = false;
-    bool triggerMu23TrkIsoEle12DZ = false;
-    bool triggerMu8TrkIsoEle23DZ = false;
-
-    bool triggerBTagMu5Ak4dijet20 = false;
-    bool triggerBTagMu5Ak4dijet40 = false; 
-    bool triggerBTagMu5Ak4dijet70 = false; 
-    bool triggerBTagMu5Ak4dijet110 = false; 
-    bool triggerBTagMu5Ak4dijet170 = false; 
-    bool triggerBTagMu5Ak4dijet300 = false; 
-    bool triggerBTagMu5Ak8dijet170 = false;
-    bool triggerBTagMu5Ak8dijet300 = false;
-    bool triggerPFHT380DoubleBTag = false;
-    bool triggerPFHT430DoubleBTag = false;
-
-    bool triggerPFMET100BTag = false;
-    bool triggerPFMET110BTag = false;
-    bool triggerPFMET120BTag = false;
-    bool triggerPFMET130BTag = false;
-    bool triggerPFMET140BTag = false;
-    bool triggerEle15PFHT450BTag = false;
-    bool triggerHT250BTagScouting = false;
+    // BJets
+    bool HLT_PFHT380_SixJet32_DoubleBTagCSV_p075 = false;
+    bool HLT_PFHT430_SixJet40_DoubleBTagCSV_p080 = false;
+    bool HLT_BTagMu_AK4DiJet300_Mu5;
+    bool HLT_BTagMu_AK8DiJet300_Mu5 = false;
+    bool HLT_BTagMu_AK8Jet300_Mu5 = false;
+    bool HLT_BTagMu_AK8Jet300_Mu5_noalgo = false;
+    bool HLT_BTagMu_AK8Jet170_DoubleMu5 = false;
+    bool HLT_BTagMu_AK8Jet170_DoubleMu5_noalgo = false;
+    bool HLT_BTagMu_AK8DiJet170_Mu5 = false;
+    bool HLT_BTagMu_AK8DiJet170_Mu5_noalgo = false;
+    bool HLT_BTagMu_AK4Jet300_Mu5 = false;
+    bool HLT_BTagMu_AK4Jet300_Mu5_noalgo = false;
+    bool HLT_BTagMu_AK4DiJet70_Mu5 = false;
+    bool HLT_BTagMu_AK4DiJet70_Mu5_noalgo = false;
+    bool HLT_BTagMu_AK4DiJet40_Mu5 = false;
+    bool HLT_BTagMu_AK4DiJet40_Mu5_noalgo = false;
+    bool HLT_BTagMu_AK4DiJet20_Mu5 = false;
+    bool HLT_BTagMu_AK4DiJet20_Mu5_noalgo = false;
+    bool HLT_BTagMu_AK4DiJet170_Mu5 = false;
+    bool HLT_BTagMu_AK4DiJet170_Mu5_noalgo = false;
+    bool HLT_BTagMu_AK4DiJet110_Mu5 = false;
+    bool HLT_BTagMu_AK4DiJet110_Mu5_noalgo = false;
+    bool HLT_HT400_DisplacedDijet40_DisplacedTrack = false;
+    bool HLT_HT425 = false;
+    bool HLT_HT430_DisplacedDijet40_DisplacedTrack = false;
+    bool HLT_HT430_DisplacedDijet60_DisplacedTrack = false;
+    bool HLT_HT500_DisplacedDijet40_DisplacedTrack = false;
+    bool HLT_HT550_DisplacedDijet60_Inclusive = false;
+    bool HLT_HT650_DisplacedDijet60_Inclusive = false;
 
     int nVertex = 0;
     int nTracksPerVertex = 0;
@@ -494,59 +549,115 @@ void TTreeMissingMass::Clearing(){
   era = -1;
 
   prescalesL1ZeroBias = 1;
-  prescalesL1ZeroBiasAfterTrain = 1;
-  prescalesL1ZeroBiasIsolatedBx = 1;
-  prescalesL1ZeroBiasAlignment = 1;
-  prescalesL1ZeroBiasBeamSpot = 1;
-  prescalesL1ZeroBiasUnpairedBptxMinus = 1;
-  prescalesL1ZeroBiasUnpairedBptxPlus = 1;
+  prescalesL1ZeroBias_FirstBXAfterTrain = 1;
+  prescalesL1ZeroBias_IsolatedBunches = 1;
+  prescalesL1ZeroBias_Alignment = 1;
+  prescalesL1ZeroBias_Beamspot = 1;
+  prescalesL1_L1UnpairedBunchBptxMinus = 1;
+  prescalesL1L1UnpairedBunchBptxPlus = 1;
   prescalesL1Physics = 1;
   prescalesL1SingleMu = 1;
 
-  triggerZeroBias = false;
-  triggerZeroBiasAfterTrain = false;
-  triggerZeroBiasIsolatedBx = false;
-  triggerZeroBiasAlignment = false;
-  triggerZeroBiasBeamSpot = false;
-  triggerZeroBiasUnpairedBptxMinus = false;
-  triggerZeroBiasUnpairedBptxPlus = false;
-  triggerPhysics = false;
-  triggerL1SingleMu = false;
+  HLT_ZeroBias = false;
+  HLT_ZeroBias_FirstBXAfterTrain = false;
+  HLT_ZeroBias_IsolatedBunches = false;
+  HLT_ZeroBias_Alignment = false;
+  HLT_ZeroBias_Beamspot = false;
+  HLT_L1UnpairedBunchBptxMinus = false;
+  HLT_L1UnpairedBunchBptxPlus = false;
+  HLT_Physics = false;
+  HLT_L1SingleMu = false;
 
-  triggerIsoMu27 = false;
-  triggerMu17TrkIsoMu8TrkIso = false;
-  triggerMu17TrkIsoMu8TrkIsoMass8 = false;
-  triggerMu17TrkIsoMu8TrkIsoMass3 = false;
-  triggerDoubleMu43 = false;
-  triggerDoubleMu48 = false;
+  HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ = false;
+  HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8 = false;
+  HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8 = false;
+  HLT_DoubleMu43NoFiltersNoVtx = false;
 
-  triggerEle27 = false;
-  triggerEle23Ele12 = false;
-  triggerEle23Ele12Dz = false;
-  triggerDoubleEle33 = false;
+  HLT_TkMu100 = false;
+  HLT_Mu50 = false;
+  HLT_IsoMu24_eta2p1 = false;
+  HLT_IsoMu24 = false;
+  HLT_IsoMu27 = false;
+  HLT_IsoMu30 = false;
+  HLT_IsoMu20_eta2p1_TightChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1 = false;
+  HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1 = false;
+  HLT_TrkMu17_DoubleTrkMu8NoFiltersNoVtx = false;
+  HLT_TrkMu16_DoubleTrkMu6NoFiltersNoVtx = false;
+  HLT_TrkMu12_DoubleTrkMu5NoFiltersNoVtx = false;
+  HLT_Mu37_TkMu27 = false;
+  HLT_DoubleL2Mu50 = false;
+  HLT_DoubleMu3_DZ_PFMET90_PFMHT90 = false;
+  HLT_DoubleMu48NoFiltersNoVtx = false;
+  HLT_DoubleMu40NoFiltersNoVtxDisplaced = false;
+  HLT_Mu18_Mu9 = false;
+  HLT_TripleMu_12_10_5 = false;
 
-  triggerBTagMu5Ak4dijet20 = false;
-  triggerBTagMu5Ak4dijet40 = false;
-  triggerBTagMu5Ak4dijet70 = false;
-  triggerBTagMu5Ak4dijet110 = false;
-  triggerBTagMu5Ak4dijet170 = false;
-  triggerBTagMu5Ak4dijet300 = false;
-  triggerBTagMu5Ak8dijet170 = false;
-  triggerBTagMu5Ak8dijet300 = false;
-  triggerPFHT380DoubleBTag = false;
-  triggerPFHT430DoubleBTag = false;
+  HLT_BTagMu_AK4DiJet20_Mu5 = false;
+  HLT_BTagMu_AK4DiJet40_Mu5 = false;
+  HLT_BTagMu_AK4DiJet70_Mu5 = false;
+  HLT_BTagMu_AK4DiJet110_Mu5 = false;
+  HLT_BTagMu_AK4DiJet170_Mu5 = false;
+  HLT_BTagMu_AK4DiJet300_Mu5 = false;
+  HLT_BTagMu_AK8DiJet170_Mu5 = false;
+  HLT_BTagMu_AK8DiJet300_Mu5 = false;
+  HLT_PFHT380_SixJet32_DoubleBTagCSV_p075 = false;
+  HLT_PFHT430_SixJet40_DoubleBTagCSV_p080 = false;
 
-  triggerPFMET100BTag = false;
-  triggerPFMET110BTag = false;
-  triggerPFMET120BTag = false;
-  triggerPFMET130BTag = false;
-  triggerPFMET140BTag = false;
-  triggerEle15PFHT450BTag = false;
-  triggerHT250BTagScouting = false;
+  HLT_PFMET100_PFMHT100_IDTight_CaloBTagCSV_3p1 = false;
+  HLT_PFMET110_PFMHT110_IDTight_CaloBTagCSV_3p1 = false;
+  HLT_PFMET120_PFMHT120_IDTight_CaloBTagCSV_3p1 = false;
+  HLT_PFMET130_PFMHT130_IDTight_CaloBTagCSV_3p1 = false;
+  HLT_PFMET140_PFMHT140_IDTight_CaloBTagCSV_3p1 = false;
+  HLT_Ele15_IsoVVVL_PFHT450_CaloBTagCSV_4p5 = false;
+  DST_HT250_CaloBTagScouting = false;
+  HLT_Mu12_DoublePFJets40MaxDeta1p6_DoubleCaloBTagDeepCSV_p71 = false;
 
-  triggerMu23TrkIsoEle12 = false;
-  triggerMu23TrkIsoEle12DZ = false;
-  triggerMu8TrkIsoEle23DZ = false;
+  HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL = false;
+  HLT_DiEle27_WPTightCaloOnly_L1DoubleEG = false;
+  HLT_Diphoton30PV_18PV_R9Id_AND_IsoCaloId_AND_HE_R9Id_PixelVeto_Mass55 = false;
+  HLT_Diphoton30_18_R9IdL_AND_HE_AND_IsoCaloId_NoPixelVeto_Mass55 = false;
+  HLT_DoubleEle25_CaloIdL_MW = false;
+  HLT_DoubleEle27_CaloIdL_MW = false;
+  HLT_DoubleEle33_CaloIdL_MW = false;
+  HLT_DoublePhoton70 = false;
+  HLT_DoublePhoton85 = false;
+  HLT_Ele135_CaloIdVT_GsfTrkIdT = false;
+  HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = false;
+  HLT_Ele24_eta2p1_WPTight_Gsf_TightChargedIsoPFTauHPS30_eta2p1_TightID_CrossL1 = false;
+  HLT_Ele27_Ele37_CaloIdL_MW = false;
+  HLT_Ele27_WPTight_Gsf = false;
+  HLT_Photon110EB_TightID_TightIso = false;
+  HLT_Photon200 = false;
+  HLT_TriplePhoton_20_20_20_CaloIdLV2_R9IdVL = false;
+  HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_PFHT350 = false;
+
+  HLT_BTagMu_AK8Jet300_Mu5 = false;
+  HLT_BTagMu_AK8Jet300_Mu5_noalgo = false;
+  HLT_BTagMu_AK8Jet170_DoubleMu5 = false;
+  HLT_BTagMu_AK8Jet170_DoubleMu5_noalgo = false;
+  HLT_BTagMu_AK8DiJet170_Mu5 = false;
+  HLT_BTagMu_AK8DiJet170_Mu5_noalgo = false;
+  HLT_BTagMu_AK4Jet300_Mu5 = false;
+  HLT_BTagMu_AK4Jet300_Mu5_noalgo = false;
+  HLT_BTagMu_AK4DiJet70_Mu5 = false;
+  HLT_BTagMu_AK4DiJet70_Mu5_noalgo = false;
+  HLT_BTagMu_AK4DiJet40_Mu5 = false;
+  HLT_BTagMu_AK4DiJet40_Mu5_noalgo = false;
+  HLT_BTagMu_AK4DiJet20_Mu5 = false;
+  HLT_BTagMu_AK4DiJet20_Mu5_noalgo = false;
+  HLT_BTagMu_AK4DiJet170_Mu5 = false;
+  HLT_BTagMu_AK4DiJet170_Mu5_noalgo = false;
+  HLT_BTagMu_AK4DiJet110_Mu5 = false;
+  HLT_BTagMu_AK4DiJet110_Mu5_noalgo = false;
+  HLT_HT400_DisplacedDijet40_DisplacedTrack = false;
+  HLT_HT425 = false;
+  HLT_HT430_DisplacedDijet40_DisplacedTrack = false;
+  HLT_HT430_DisplacedDijet60_DisplacedTrack = false;
+  HLT_HT500_DisplacedDijet40_DisplacedTrack = false;
+  HLT_HT550_DisplacedDijet60_Inclusive = false;
+  HLT_HT650_DisplacedDijet60_Inclusive = false;
+
+  HLT_Any = false;
 
   nVertex = 0;
   nTracksPerVertex = 0;
@@ -949,85 +1060,163 @@ void TTreeMissingMass::CreateTTree(TString inputfile){
      out->Branch(list,16000,2);
      */
 
+  hCounters = new TH1I("NumberEventsSelection","Number of Events per Selection;Selection;NEvt",1,0,1);
+  hCounters->SetCanExtend(TH1::kXaxis);
+
   out->Branch("era",&era,"era/I");
   out->Branch("run",&run,"run/I");
   out->Branch("event",&event,"event/I");
   out->Branch("lumiblock",&lumiblock,"lumiblock/I");
   out->Branch("xangle",&xangle,"xangle/I");
+  out->Branch("HLT_Any",&HLT_Any,"HLT_Any/B");
 
-  if(switchZeroBias){
-    out->Branch("triggerZeroBias",&triggerZeroBias,"triggerZeroBias/B");
-    out->Branch("triggerZeroBiasAfterTrain",&triggerZeroBiasAfterTrain,"triggerZeroBiasAfterTrain/B");
-    out->Branch("triggerZeroBiasIsolatedBx",&triggerZeroBiasIsolatedBx,"triggerZeroBiasIsolatedBx/B");
-    out->Branch("triggerZeroBiasAlignment",&triggerZeroBiasAlignment,"triggerZeroBiasAlignment/B");
-    out->Branch("triggerZeroBiasBeamSpot",&triggerZeroBiasBeamSpot,"triggerZeroBiasBeamSpot/B");
-    out->Branch("triggerZeroBiasUnpairedBptxMinus",&triggerZeroBiasUnpairedBptxMinus,"triggerZeroBiasUnpairedBptxMinus/B");
-    out->Branch("triggerZeroBiasUnpairedBptxPlus",&triggerZeroBiasUnpairedBptxPlus,"triggerZeroBiasUnpairedBptxPlus/B");
-    out->Branch("triggerPhysics",&triggerPhysics,"triggerPhysics/B");
-    out->Branch("triggerL1SingleMu",&triggerL1SingleMu,"triggerL1SingleMu/B");
-    out->Branch("prescalesL1ZeroBias",&prescalesL1ZeroBias,"prescalesL1ZeroBias/I");
-    out->Branch("prescalesL1ZeroBiasAfterTrain",&prescalesL1ZeroBiasAfterTrain,"prescalesL1ZeroBiasAfterTrain/I");
-    out->Branch("prescalesL1ZeroBiasIsolatedBx",&prescalesL1ZeroBiasIsolatedBx,"prescalesL1ZeroBiasIsolatedBx/I");
-    out->Branch("prescalesL1ZeroBiasAlignment",&prescalesL1ZeroBiasAlignment,"prescalesL1ZeroBiasAlignment/I");
-    out->Branch("prescalesL1ZeroBiasBeamSpot",&prescalesL1ZeroBiasBeamSpot,"prescalesL1ZeroBeamSpot/I");
-    out->Branch("prescalesL1ZeroBiasUnpairedBptxMinus",&prescalesL1ZeroBiasUnpairedBptxMinus,"prescalesL1ZeroBeamUnpairedBptxMinus/I");
-    out->Branch("prescalesL1ZeroBiasUnpairedBptxPlus",&prescalesL1ZeroBiasUnpairedBptxPlus,"prescalesL1ZeroBeamUnpairedBptxPlus/I");
-    out->Branch("prescalesL1Physics",&prescalesL1Physics,"prescalesL1Physics/I");
-    out->Branch("prescalesL1SingleMu",&prescalesL1SingleMu,"prescalesL1SingleMu/I");
-  }
-  if(switchMuon){
-    out->Branch("triggerIsoMu27",&triggerIsoMu27,"triggerIsoMu27/B");
-    out->Branch("triggerMu17TrkIsoMu8TrkIso",&triggerMu17TrkIsoMu8TrkIso,"triggerMu17TrkIsoMu8TrkIso/B");
-    out->Branch("triggerMu17TrkIsoMu8TrkIsoMass3",&triggerMu17TrkIsoMu8TrkIsoMass3,"triggerMu17TrkIsoMu8TrkIsoMass3/B");
-    out->Branch("triggerMu17TrkIsoMu8TrkIsoMass8",&triggerMu17TrkIsoMu8TrkIsoMass8,"triggerMu17TrkIsoMu8TrkIsoMass8/B");
-    out->Branch("triggerDoubleMu43",&triggerDoubleMu43,"triggerDoubleMu43/B");
-    out->Branch("triggerDoubleMu48",&triggerDoubleMu48,"triggerDoubleMu48/B");
-  }
-  if(switchElectron){
-    out->Branch("triggerEle27",&triggerEle27,"triggerEle27/B");
-    out->Branch("triggerEle23Ele12",&triggerEle23Ele12,"triggerEle23Ele12/B");
-    out->Branch("triggerEle23Ele12Dz",&triggerEle23Ele12Dz,"triggerEle23Ele12Dz/B");
-    out->Branch("triggerDoubleEle33",&triggerDoubleEle33,"triggerDoubleEle33/B");
-    out->Branch("triggerBTagMu5Ak4dijet20",&triggerBTagMu5Ak4dijet20,"triggerBTagMu5Ak4dijet20/B");
-    out->Branch("triggerBTagMu5Ak4dijet40",&triggerBTagMu5Ak4dijet40,"triggerBTagMu5Ak4dijet40/B");
-    out->Branch("triggerBTagMu5Ak4dijet70",&triggerBTagMu5Ak4dijet70,"triggerBTagMu5Ak4dijet70/B");
-    out->Branch("triggerBTagMu5Ak4dijet110",&triggerBTagMu5Ak4dijet110,"triggerBTagMu5Ak4dijet110/B");
-    out->Branch("triggerBTagMu5Ak4dijet170",&triggerBTagMu5Ak4dijet170,"triggerBTagMu5Ak4dijet170/B");
-    out->Branch("triggerBTagMu5Ak4dijet300",&triggerBTagMu5Ak4dijet300,"triggerBTagMu5Ak4dijet300/B");
-    out->Branch("triggerBTagMu5Ak8dijet170",&triggerBTagMu5Ak8dijet170,"triggerBTagMu5Ak8dijet170/B");
-    out->Branch("triggerBTagMu5Ak8dijet300",&triggerBTagMu5Ak8dijet300,"triggerBTagMu5Ak8dijet300/B");
-    out->Branch("triggerPFHT380DoubleBTag",&triggerPFHT380DoubleBTag,"triggerPFHT380DoubleBTag/B");
-    out->Branch("triggerPFHT430DoubleBTag",&triggerPFHT430DoubleBTag,"triggerPFHT430DoubleBTag/B");
-    out->Branch("triggerPFMET100BTag",&triggerPFMET100BTag,"triggerPFMET100BTag/B");
-    out->Branch("triggerPFMET110BTag",&triggerPFMET110BTag,"triggerPFMET110BTag/B");
-    out->Branch("triggerPFMET120BTag",&triggerPFMET120BTag,"triggerPFMET120BTag/B");
-    out->Branch("triggerPFMET130BTag",&triggerPFMET130BTag,"triggerPFMET130BTag/B");
-    out->Branch("triggerPFMET140BTag",&triggerPFMET140BTag,"triggerPFMET140BTag/B");
-    out->Branch("triggerEle15PFHT450BTag",&triggerEle15PFHT450BTag,"triggerEle15PFHT450BTag/B");
-    out->Branch("triggerHT250BTagScouting",&triggerHT250BTagScouting,"triggerHT250BTagScouting/B");
-  }
-  if(switchBjets){
-    out->Branch("triggerIsoMu27",&triggerIsoMu27,"triggerIsoMu27/B");
-    out->Branch("triggerMu17TrkIsoMu8TrkIso",&triggerMu17TrkIsoMu8TrkIso,"triggerMu17TrkIsoMu8TrkIso/B");
-    out->Branch("triggerMu17TrkIsoMu8TrkIsoMass3",&triggerMu17TrkIsoMu8TrkIsoMass3,"triggerMu17TrkIsoMu8TrkIsoMass3/B");
-    out->Branch("triggerMu17TrkIsoMu8TrkIsoMass8",&triggerMu17TrkIsoMu8TrkIsoMass8,"triggerMu17TrkIsoMu8TrkIsoMass8/B");
-    out->Branch("triggerDoubleMu43",&triggerDoubleMu43,"triggerDoubleMu43/B");
-    out->Branch("triggerDoubleMu48",&triggerDoubleMu48,"triggerDoubleMu48/B");
-    out->Branch("triggerBTagMu5Ak4dijet20",&triggerBTagMu5Ak4dijet20,"triggerBTagMu5Ak4dijet20/B");
-    out->Branch("triggerBTagMu5Ak4dijet40",&triggerBTagMu5Ak4dijet40,"triggerBTagMu5Ak4dijet40/B");
-    out->Branch("triggerBTagMu5Ak4dijet70",&triggerBTagMu5Ak4dijet70,"triggerBTagMu5Ak4dijet70/B");
-    out->Branch("triggerBTagMu5Ak4dijet110",&triggerBTagMu5Ak4dijet110,"triggerBTagMu5Ak4dijet110/B");
-    out->Branch("triggerBTagMu5Ak4dijet170",&triggerBTagMu5Ak4dijet170,"triggerBTagMu5Ak4dijet170/B");
-    out->Branch("triggerBTagMu5Ak4dijet300",&triggerBTagMu5Ak4dijet300,"triggerBTagMu5Ak4dijet300/B");
-    out->Branch("triggerBTagMu5Ak8dijet170",&triggerBTagMu5Ak8dijet170,"triggerBTagMu5Ak8dijet170/B");
-    out->Branch("triggerBTagMu5Ak8dijet300",&triggerBTagMu5Ak8dijet300,"triggerBTagMu5Ak8dijet300/B");
-    out->Branch("triggerPFHT380DoubleBTag",&triggerPFHT380DoubleBTag,"triggerPFHT380DoubleBTag/B");
-    out->Branch("triggerPFHT430DoubleBTag",&triggerPFHT430DoubleBTag,"triggerPFHT430DoubleBTag/B");
-  }
-  if(switchElectronMuon){
-    out->Branch("triggerMu23TrkIsoEle12",&triggerMu23TrkIsoEle12,"triggerMu23TrkIsoEle12/B");
-    out->Branch("triggerMu23TrkIsoEle12DZ",&triggerMu23TrkIsoEle12DZ,"triggerMu23TrkIsoEle12DZ/B");
-    out->Branch("triggerMu8TrkIsoEle23DZ",&triggerMu8TrkIsoEle23DZ,"triggerMu8TrkIsoEle23DZ/B");
+  if(!notrigger){
+    if(switchZeroBias){
+      out->Branch("HLT_ZeroBias",&HLT_ZeroBias,"HLT_ZeroBias/B");
+      out->Branch("HLT_ZeroBias_FirstBXAfterTrain",&HLT_ZeroBias_FirstBXAfterTrain,"HLT_ZeroBias_FirstBXAfterTrain/B");
+      out->Branch("HLT_ZeroBias_IsolatedBunches",&HLT_ZeroBias_IsolatedBunches,"HLT_ZeroBias_IsolatedBunches/B");
+      out->Branch("HLT_ZeroBias_Alignment",&HLT_ZeroBias_Alignment,"HLT_ZeroBias_Alignment/B");
+      out->Branch("HLT_ZeroBias_Beamspot",&HLT_ZeroBias_Beamspot,"HLT_ZeroBias_Beamspot/B");
+      out->Branch("HLT_L1UnpairedBunchBptxMinus",&HLT_L1UnpairedBunchBptxMinus,"HLT_L1UnpairedBunchBptxMinus/B");
+      out->Branch("HLT_L1UnpairedBunchBptxPlus",&HLT_L1UnpairedBunchBptxPlus,"HLT_L1UnpairedBunchBptxPlus/B");
+      out->Branch("HLT_Physics",&HLT_Physics,"HLT_Physics/B");
+      out->Branch("HLT_L1SingleMu",&HLT_L1SingleMu,"HLT_L1SingleMu/B");
+      out->Branch("prescalesL1ZeroBias",&prescalesL1ZeroBias,"prescalesL1ZeroBias/I");
+      out->Branch("prescalesL1ZeroBias_FirstBXAfterTrain",&prescalesL1ZeroBias_FirstBXAfterTrain,"prescalesL1ZeroBias_FirstBXAfterTrain/I");
+      out->Branch("prescalesL1ZeroBias_IsolatedBunches",&prescalesL1ZeroBias_IsolatedBunches,"prescalesL1ZeroBias_IsolatedBunches/I");
+      out->Branch("prescalesL1ZeroBias_Alignment",&prescalesL1ZeroBias_Alignment,"prescalesL1ZeroBias_Alignment/I");
+      out->Branch("prescalesL1ZeroBias_Beamspot",&prescalesL1ZeroBias_Beamspot,"prescalesL1ZeroBeamSpot/I");
+      out->Branch("prescalesL1_L1UnpairedBunchBptxMinus",&prescalesL1_L1UnpairedBunchBptxMinus,"prescalesL1ZeroBeamUnpairedBptxMinus/I");
+      out->Branch("prescalesL1L1UnpairedBunchBptxPlus",&prescalesL1L1UnpairedBunchBptxPlus,"prescalesL1ZeroBeamUnpairedBptxPlus/I");
+      out->Branch("prescalesL1Physics",&prescalesL1Physics,"prescalesL1Physics/I");
+      out->Branch("prescalesL1SingleMu",&prescalesL1SingleMu,"prescalesL1SingleMu/I");
+    }
+    if(switchMuon){
+      if(switchYear2017){
+	out->Branch("HLT_IsoMu27",&HLT_IsoMu27,"HLT_IsoMu27/B");
+	out->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ,"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ/B");
+	out->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8,"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8/B");
+	out->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8,"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8/B");
+	out->Branch("HLT_DoubleMu43NoFiltersNoVtx",&HLT_DoubleMu43NoFiltersNoVtx,"HLT_DoubleMu43NoFiltersNoVtx/B");
+	out->Branch("HLT_DoubleMu48NoFiltersNoVtx",&HLT_DoubleMu48NoFiltersNoVtx,"HLT_DoubleMu48NoFiltersNoVtx/B");
+      }
+      if(switchYear2018){
+	out->Branch("HLT_TkMu100",&HLT_TkMu100,"HLT_TkMu100/B");
+	out->Branch("HLT_Mu50",&HLT_Mu50,"HLT_Mu50/B");
+	out->Branch("HLT_IsoMu24_eta2p1",&HLT_IsoMu24_eta2p1,"HLT_IsoMu24_eta2p1/B");
+	out->Branch("HLT_IsoMu24",&HLT_IsoMu24,"HLT_IsoMu24/B");
+	out->Branch("HLT_IsoMu27",&HLT_IsoMu27,"HLT_IsoMu27/B");
+	out->Branch("HLT_IsoMu30",&HLT_IsoMu30,"HLT_IsoMu30/B");
+	out->Branch("HLT_IsoMu20_eta2p1_TightChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1",&HLT_IsoMu20_eta2p1_TightChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1,"HLT_IsoMu20_eta2p1_TightChargedIsoPFTauHPS27_eta2p1_TightID_CrossL1/B");
+	out->Branch("HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1",&HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1,"HLT_IsoMu20_eta2p1_LooseChargedIsoPFTauHPS27_eta2p1_CrossL1/B");
+	out->Branch("HLT_TrkMu17_DoubleTrkMu8NoFiltersNoVtx",&HLT_TrkMu17_DoubleTrkMu8NoFiltersNoVtx,"HLT_TrkMu17_DoubleTrkMu8NoFiltersNoVtx/B");
+	out->Branch("HLT_TrkMu16_DoubleTrkMu6NoFiltersNoVtx",&HLT_TrkMu16_DoubleTrkMu6NoFiltersNoVtx,"HLT_TrkMu16_DoubleTrkMu6NoFiltersNoVtx/B");
+	out->Branch("HLT_TrkMu12_DoubleTrkMu5NoFiltersNoVtx",&HLT_TrkMu12_DoubleTrkMu5NoFiltersNoVtx,"HLT_TrkMu12_DoubleTrkMu5NoFiltersNoVtx/B");
+	out->Branch("HLT_Mu37_TkMu27",&HLT_Mu37_TkMu27,"HLT_Mu37_TkMu27/B");
+	out->Branch("HLT_DoubleL2Mu50",&HLT_DoubleL2Mu50,"HLT_DoubleL2Mu50/B");
+	out->Branch("HLT_DoubleMu3_DZ_PFMET90_PFMHT90",&HLT_DoubleMu3_DZ_PFMET90_PFMHT90,"HLT_DoubleMu3_DZ_PFMET90_PFMHT90/B");
+	out->Branch("HLT_DoubleMu48NoFiltersNoVtx",&HLT_DoubleMu48NoFiltersNoVtx,"HLT_DoubleMu48NoFiltersNoVtx/B");
+	out->Branch("HLT_DoubleMu40NoFiltersNoVtxDisplaced",&HLT_DoubleMu40NoFiltersNoVtxDisplaced,"HLT_DoubleMu40NoFiltersNoVtxDisplaced/B");
+	out->Branch("HLT_Mu18_Mu9",&HLT_Mu18_Mu9,"HLT_Mu18_Mu9/B");
+	out->Branch("HLT_TripleMu_12_10_5",&HLT_TripleMu_12_10_5,"HLT_TripleMu_12_10_5/B");
+      }
+    }
+    if(switchElectron){
+      if(switchYear2017){
+	out->Branch("HLT_Ele27_WPTight_Gsf",&HLT_Ele27_WPTight_Gsf,"HLT_Ele27_WPTight_Gsf/B");
+	out->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL",&HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL,"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL/B");
+	out->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",&HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ,"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ/B");
+	out->Branch("HLT_DoubleEle33_CaloIdL_MW",&HLT_DoubleEle33_CaloIdL_MW,"HLT_DoubleEle33_CaloIdL_MW/B");
+	out->Branch("HLT_BTagMu_AK4DiJet20_Mu5",&HLT_BTagMu_AK4DiJet20_Mu5,"HLT_BTagMu_AK4DiJet20_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet40_Mu5",&HLT_BTagMu_AK4DiJet40_Mu5,"HLT_BTagMu_AK4DiJet40_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet70_Mu5",&HLT_BTagMu_AK4DiJet70_Mu5,"HLT_BTagMu_AK4DiJet70_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet110_Mu5",&HLT_BTagMu_AK4DiJet110_Mu5,"HLT_BTagMu_AK4DiJet110_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet170_Mu5",&HLT_BTagMu_AK4DiJet170_Mu5,"HLT_BTagMu_AK4DiJet170_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet300_Mu5",&HLT_BTagMu_AK4DiJet300_Mu5,"HLT_BTagMu_AK4DiJet300_Mu5/B");
+	out->Branch("HLT_BTagMu_AK8DiJet170_Mu5",&HLT_BTagMu_AK8DiJet170_Mu5,"HLT_BTagMu_AK8DiJet170_Mu5/B");
+	out->Branch("HLT_BTagMu_AK8DiJet300_Mu5",&HLT_BTagMu_AK8DiJet300_Mu5,"HLT_BTagMu_AK8DiJet300_Mu5/B");
+	out->Branch("HLT_PFHT380_SixJet32_DoubleBTagCSV_p075",&HLT_PFHT380_SixJet32_DoubleBTagCSV_p075,"HLT_PFHT380_SixJet32_DoubleBTagCSV_p075/B");
+	out->Branch("HLT_PFHT430_SixJet40_DoubleBTagCSV_p080",&HLT_PFHT430_SixJet40_DoubleBTagCSV_p080,"HLT_PFHT430_SixJet40_DoubleBTagCSV_p080/B");
+	out->Branch("HLT_PFMET100_PFMHT100_IDTight_CaloBTagCSV_3p1",&HLT_PFMET100_PFMHT100_IDTight_CaloBTagCSV_3p1,"HLT_PFMET100_PFMHT100_IDTight_CaloBTagCSV_3p1/B");
+	out->Branch("HLT_PFMET110_PFMHT110_IDTight_CaloBTagCSV_3p1",&HLT_PFMET110_PFMHT110_IDTight_CaloBTagCSV_3p1,"HLT_PFMET110_PFMHT110_IDTight_CaloBTagCSV_3p1/B");
+	out->Branch("HLT_PFMET120_PFMHT120_IDTight_CaloBTagCSV_3p1",&HLT_PFMET120_PFMHT120_IDTight_CaloBTagCSV_3p1,"HLT_PFMET120_PFMHT120_IDTight_CaloBTagCSV_3p1/B");
+	out->Branch("HLT_PFMET130_PFMHT130_IDTight_CaloBTagCSV_3p1",&HLT_PFMET130_PFMHT130_IDTight_CaloBTagCSV_3p1,"HLT_PFMET130_PFMHT130_IDTight_CaloBTagCSV_3p1/B");
+	out->Branch("HLT_PFMET140_PFMHT140_IDTight_CaloBTagCSV_3p1",&HLT_PFMET140_PFMHT140_IDTight_CaloBTagCSV_3p1,"HLT_PFMET140_PFMHT140_IDTight_CaloBTagCSV_3p1/B");
+	out->Branch("HLT_Ele15_IsoVVVL_PFHT450_CaloBTagCSV_4p5",&HLT_Ele15_IsoVVVL_PFHT450_CaloBTagCSV_4p5,"HLT_Ele15_IsoVVVL_PFHT450_CaloBTagCSV_4p5/B");
+	out->Branch("DST_HT250_CaloBTagScouting",&DST_HT250_CaloBTagScouting,"DST_HT250_CaloBTagScouting/B");
+	out->Branch("HLT_Mu12_DoublePFJets40MaxDeta1p6_DoubleCaloBTagDeepCSV_p71",&HLT_Mu12_DoublePFJets40MaxDeta1p6_DoubleCaloBTagDeepCSV_p71,"HLT_Mu12_DoublePFJets40MaxDeta1p6_DoubleCaloBTagDeepCSV_p71/B");
+      }
+      if(switchYear2018){
+	out->Branch("HLT_DiEle27_WPTightCaloOnly_L1DoubleEG",&HLT_DiEle27_WPTightCaloOnly_L1DoubleEG,"HLT_DiEle27_WPTightCaloOnly_L1DoubleEG/B");
+	out->Branch("HLT_Diphoton30PV_18PV_R9Id_AND_IsoCaloId_AND_HE_R9Id_PixelVeto_Mass55",&HLT_Diphoton30PV_18PV_R9Id_AND_IsoCaloId_AND_HE_R9Id_PixelVeto_Mass55,"HLT_Diphoton30PV_18PV_R9Id_AND_IsoCaloId_AND_HE_R9Id_PixelVeto_Mass55/B");
+	out->Branch("HLT_Diphoton30_18_R9IdL_AND_HE_AND_IsoCaloId_NoPixelVeto_Mass55",&HLT_Diphoton30_18_R9IdL_AND_HE_AND_IsoCaloId_NoPixelVeto_Mass55,"HLT_Diphoton30_18_R9IdL_AND_HE_AND_IsoCaloId_NoPixelVeto_Mass55/B");
+	out->Branch("HLT_DoubleEle25_CaloIdL_MW",&HLT_DoubleEle25_CaloIdL_MW,"HLT_DoubleEle25_CaloIdL_MW/B");
+	out->Branch("HLT_DoubleEle27_CaloIdL_MW",&HLT_DoubleEle27_CaloIdL_MW,"HLT_DoubleEle27_CaloIdL_MW/B");
+	out->Branch("HLT_DoubleEle33_CaloIdL_MW",&HLT_DoubleEle33_CaloIdL_MW,"HLT_DoubleEle33_CaloIdL_MW/B");
+	out->Branch("HLT_DoublePhoton70",&HLT_DoublePhoton70,"HLT_DoublePhoton70/B");
+	out->Branch("HLT_DoublePhoton85",&HLT_DoublePhoton85,"HLT_DoublePhoton85/B");
+	out->Branch("HLT_Ele135_CaloIdVT_GsfTrkIdT",&HLT_Ele135_CaloIdVT_GsfTrkIdT,"HLT_Ele135_CaloIdVT_GsfTrkIdT/B");
+	out->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",&HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ,"HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ/B");
+	out->Branch("HLT_Ele24_eta2p1_WPTight_Gsf_TightChargedIsoPFTauHPS30_eta2p1_TightID_CrossL1",&HLT_Ele24_eta2p1_WPTight_Gsf_TightChargedIsoPFTauHPS30_eta2p1_TightID_CrossL1,"HLT_Ele24_eta2p1_WPTight_Gsf_TightChargedIsoPFTauHPS30_eta2p1_TightID_CrossL1/B");
+	out->Branch("HLT_Ele27_Ele37_CaloIdL_MW",&HLT_Ele27_Ele37_CaloIdL_MW,"HLT_Ele27_Ele37_CaloIdL_MW/B");
+	out->Branch("HLT_Ele27_WPTight_Gsf",&HLT_Ele27_WPTight_Gsf,"HLT_Ele27_WPTight_Gsf/B");
+	out->Branch("HLT_Photon110EB_TightID_TightIso",&HLT_Photon110EB_TightID_TightIso,"HLT_Photon110EB_TightID_TightIso/B");
+	out->Branch("HLT_Photon200",&HLT_Photon200,"HLT_Photon200/B");
+	out->Branch("HLT_TriplePhoton_20_20_20_CaloIdLV2_R9IdVL",&HLT_TriplePhoton_20_20_20_CaloIdLV2_R9IdVL,"HLT_TriplePhoton_20_20_20_CaloIdLV2_R9IdVL/B");
+	out->Branch("HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_PFHT350",&HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_PFHT350,"HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_PFHT350/B");
+      }
+    }
+    if(switchBjets){
+      if(switchYear2017){
+	out->Branch("HLT_IsoMu27",&HLT_IsoMu27,"HLT_IsoMu27/B");
+	out->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ,"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ/B");
+	out->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8,"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8/B");
+	out->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8,"HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8/B");
+	out->Branch("HLT_DoubleMu43NoFiltersNoVtx",&HLT_DoubleMu43NoFiltersNoVtx,"HLT_DoubleMu43NoFiltersNoVtx/B");
+	out->Branch("HLT_DoubleMu48NoFiltersNoVtx",&HLT_DoubleMu48NoFiltersNoVtx,"HLT_DoubleMu48NoFiltersNoVtx/B");
+	out->Branch("HLT_BTagMu_AK4DiJet20_Mu5",&HLT_BTagMu_AK4DiJet20_Mu5,"HLT_BTagMu_AK4DiJet20_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet40_Mu5",&HLT_BTagMu_AK4DiJet40_Mu5,"HLT_BTagMu_AK4DiJet40_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet70_Mu5",&HLT_BTagMu_AK4DiJet70_Mu5,"HLT_BTagMu_AK4DiJet70_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet110_Mu5",&HLT_BTagMu_AK4DiJet110_Mu5,"HLT_BTagMu_AK4DiJet110_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet170_Mu5",&HLT_BTagMu_AK4DiJet170_Mu5,"HLT_BTagMu_AK4DiJet170_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet300_Mu5",&HLT_BTagMu_AK4DiJet300_Mu5,"HLT_BTagMu_AK4DiJet300_Mu5/B");
+	out->Branch("HLT_BTagMu_AK8DiJet170_Mu5",&HLT_BTagMu_AK8DiJet170_Mu5,"HLT_BTagMu_AK8DiJet170_Mu5/B");
+	out->Branch("HLT_BTagMu_AK8DiJet300_Mu5",&HLT_BTagMu_AK8DiJet300_Mu5,"HLT_BTagMu_AK8DiJet300_Mu5/B");
+	out->Branch("HLT_PFHT380_SixJet32_DoubleBTagCSV_p075",&HLT_PFHT380_SixJet32_DoubleBTagCSV_p075,"HLT_PFHT380_SixJet32_DoubleBTagCSV_p075/B");
+	out->Branch("HLT_PFHT430_SixJet40_DoubleBTagCSV_p080",&HLT_PFHT430_SixJet40_DoubleBTagCSV_p080,"HLT_PFHT430_SixJet40_DoubleBTagCSV_p080/B");
+      }
+      if(switchYear2018){
+	out->Branch("HLT_BTagMu_AK8Jet300_Mu5",&HLT_BTagMu_AK8Jet300_Mu5,"HLT_BTagMu_AK8Jet300_Mu5/B");
+	out->Branch("HLT_BTagMu_AK8Jet300_Mu5_noalgo",&HLT_BTagMu_AK8Jet300_Mu5_noalgo,"HLT_BTagMu_AK8Jet300_Mu5_noalgo/B");
+	out->Branch("HLT_BTagMu_AK8Jet170_DoubleMu5",&HLT_BTagMu_AK8Jet170_DoubleMu5,"HLT_BTagMu_AK8Jet170_DoubleMu5/B");
+	out->Branch("HLT_BTagMu_AK8Jet170_DoubleMu5_noalgo",&HLT_BTagMu_AK8Jet170_DoubleMu5_noalgo,"HLT_BTagMu_AK8Jet170_DoubleMu5_noalgo/B");
+	out->Branch("HLT_BTagMu_AK8DiJet170_Mu5",&HLT_BTagMu_AK8DiJet170_Mu5,"HLT_BTagMu_AK8DiJet170_Mu5/B");
+	out->Branch("HLT_BTagMu_AK8DiJet170_Mu5_noalgo",&HLT_BTagMu_AK8DiJet170_Mu5_noalgo,"HLT_BTagMu_AK8DiJet170_Mu5_noalgo/B");
+	out->Branch("HLT_BTagMu_AK4Jet300_Mu5",&HLT_BTagMu_AK4Jet300_Mu5,"HLT_BTagMu_AK4Jet300_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4Jet300_Mu5_noalgo",&HLT_BTagMu_AK4Jet300_Mu5_noalgo,"HLT_BTagMu_AK4Jet300_Mu5_noalgo/B");
+	out->Branch("HLT_BTagMu_AK4DiJet70_Mu5",&HLT_BTagMu_AK4DiJet70_Mu5,"HLT_BTagMu_AK4DiJet70_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet70_Mu5_noalgo",&HLT_BTagMu_AK4DiJet70_Mu5_noalgo,"HLT_BTagMu_AK4DiJet70_Mu5_noalgo/B");
+	out->Branch("HLT_BTagMu_AK4DiJet40_Mu5",&HLT_BTagMu_AK4DiJet40_Mu5,"HLT_BTagMu_AK4DiJet40_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet40_Mu5_noalgo",&HLT_BTagMu_AK4DiJet40_Mu5_noalgo,"HLT_BTagMu_AK4DiJet40_Mu5_noalgo/B");
+	out->Branch("HLT_BTagMu_AK4DiJet20_Mu5",&HLT_BTagMu_AK4DiJet20_Mu5,"HLT_BTagMu_AK4DiJet20_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet20_Mu5_noalgo",&HLT_BTagMu_AK4DiJet20_Mu5_noalgo,"HLT_BTagMu_AK4DiJet20_Mu5_noalgo/B");
+	out->Branch("HLT_BTagMu_AK4DiJet170_Mu5",&HLT_BTagMu_AK4DiJet170_Mu5,"HLT_BTagMu_AK4DiJet170_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet170_Mu5_noalgo",&HLT_BTagMu_AK4DiJet170_Mu5_noalgo,"HLT_BTagMu_AK4DiJet170_Mu5_noalgo/B");
+	out->Branch("HLT_BTagMu_AK4DiJet110_Mu5",&HLT_BTagMu_AK4DiJet110_Mu5,"HLT_BTagMu_AK4DiJet110_Mu5/B");
+	out->Branch("HLT_BTagMu_AK4DiJet110_Mu5_noalgo",&HLT_BTagMu_AK4DiJet110_Mu5_noalgo,"HLT_BTagMu_AK4DiJet110_Mu5_noalgo/B");
+      }
+    }
+    if(switchDisplacedJet){
+      if(switchYear2018){
+	out->Branch("HLT_HT400_DisplacedDijet40_DisplacedTrack",&HLT_HT400_DisplacedDijet40_DisplacedTrack,"HLT_HT400_DisplacedDijet40_DisplacedTrack/B");
+	out->Branch("HLT_HT425",&HLT_HT425,"HLT_HT425/B");
+	out->Branch("HLT_HT430_DisplacedDijet40_DisplacedTrack",&HLT_HT430_DisplacedDijet40_DisplacedTrack,"HLT_HT430_DisplacedDijet40_DisplacedTrack/B");
+	out->Branch("HLT_HT430_DisplacedDijet60_DisplacedTrack",&HLT_HT430_DisplacedDijet60_DisplacedTrack,"HLT_HT430_DisplacedDijet60_DisplacedTrack/B");
+	out->Branch("HLT_HT500_DisplacedDijet40_DisplacedTrack",&HLT_HT500_DisplacedDijet40_DisplacedTrack,"HLT_HT500_DisplacedDijet40_DisplacedTrack/B");
+	out->Branch("HLT_HT550_DisplacedDijet60_Inclusive",&HLT_HT550_DisplacedDijet60_Inclusive,"HLT_HT550_DisplacedDijet60_Inclusive/B");
+	out->Branch("HLT_HT650_DisplacedDijet60_Inclusive",&HLT_HT650_DisplacedDijet60_Inclusive,"HLT_HT650_DisplacedDijet60_Inclusive/B");
+      }
+    }
   }
 
   // In miniAOD this is empty (slimmed Vertex do not have the track ref.)
@@ -1390,6 +1579,7 @@ void TTreeMissingMass::Fill(){
 void TTreeMissingMass::Storing(){
   fileout->cd();
   out->Write();
+  hCounters->Write();
   fileout->Close();
 }
 

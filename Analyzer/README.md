@@ -1,88 +1,51 @@
-# Missing Mass Searches Analyzer
-Tool which produces the final samples used for Missing Mass Search analysis.
+# Missing Mass Searches Skimmer
+Skimmer code includes Forward Proton POG containers. Furthermore, it includes jets, leptons, particle flow collections used for Missing Mass Searches.
+Instructions how to produce your ntuples:
 
-### Compilation
-
-```sh
-cd MissingMass/Analyzer
-make
-```
-
-### Running Locally
-
-You can use test the following command:
+## Running Locally
 
 ```sh
-./MissingMassNtupleAnalyzer --f output2017.root --era B --mode Muon --jobid 1
+cmsrel CMSSW_10_6_0
+cd CMSSW_10_6_0/src
+cmsenv
+cd MissingMass/Skimmer/test
+cmsRun RunMissingMassSearchesAOD.py Mode=Muon (or Electron) Year=2017 (or 2018) [AOD]
+cmsRun RunMissingMassSearches.py Mode=Muon (or Electron) Year=2017 (or 2018) [miniAOD]
 ```
 
-Where the file 'output2017.root' has been produced by the Skimmer.
+## Running on Grid
 
-In order to check more options, run the option --help
+First, you need to set your crab environment doing:
 
 ```sh
-./MissingMassNtupleAnalyzer --help
+source /cvmfs/cms.cern.ch/crab3/crab.sh
 ```
 
-**Other options**
-
-```
-	 --f filename.root (input file)
-	 --era B (B, C, D, E or F)
-	 --mode Muon (or Electron)
-	 --jobid job1 (tag to be added in the outputfile, _option_)
-	 --outdir Output (Output dir for jobs, _option_)
-	 --protonfile (it generates a text file with info from protons)
-	 --eventfile (it generates a text file with run:ls:event_number format)
-	 --random (performing analysis using random protons)
-	 --single (fixing arm 45 with random protons.)
-	 --zerobias (option to run with zerobias triggers. It includes the option --noprotonsfilter)
-	 --noprotonsfilter (option to run with proton selection)
-
-```
-
-### Running on HTC Condor
-
-In order to produce your own sample for the final physics analysis, you can use a script which automatically produces condor jobs per each crab output file (produced by the Skimmer). @CERN, HTC condor is very recommended. 
-
-First, you need to generate a template xml file which includes automatically all the EOS folders output from your crab jobs. Please, note that in our case, the crab outputs are in "/eos/cms/store/group/phys_exotica/PPS-Exo/":
+This tool will submit on grid job tasks for a set of CMS datasets, which are defined in a XML file. As an example, check the file grid_samples_2017_aod.xml. In order to submit, please do [i.e]:
 
 ```sh
-source CreateTemplateXML.sh
+python GridTool.py -p "submit --file grid_samples_2017_timing_aod.xml" 
 ```
 
-After that, you must fill the template file with the needed inputs. Please, check the example file "condor_samples.xml". If you would like to use extra parameters for MissingMassNtupleAnalyzer, you should include them in &lt;parameters&gt;--random --single &lt;/parameters&gt; for instance.
+or
 
 ```sh
-python CondorTool.py
-
-Type ? to list commands
-condor_submission> help
-
-Documented commands (type help <topic>):
-========================================
-EOF  exit  help  kill  status  submit
+python GridTool.py
+submit --file grid_samples_2017_timing_aod.xml [press enter]
 ```
 
-#### Condor Commands
+For more options:
 
 ```sh
-condor_submit job_condor.sub (Submit with automatic output transfer)
-watch condor_q (Check job)
-condor_q (Check job)
-condor_submit -spool job_condor.sub (Submit, but not automatic output transfer)
-condor_transfer_data $LOGNAME -const 'JobStatus == 4' (Retrieve data when submitted with -spool option)
-condor_rm -all (kill all jobs)
-```
+python GridTool.py --h
+Usage: GridTool.py [options]
 
-**More information here:** [https://twiki.cern.ch/twiki/bin/view/ABPComputing/LxbatchHTCondor](https://twiki.cern.ch/twiki/bin/view/ABPComputing/LxbatchHTCondor)
-
-**Gui for Monitoring:** [https://monit-grafana.cern.ch/d/000000869/user-batch-jobs?orgId=5&refresh=5m&var-cluster=cernprod](https://monit-grafana.cern.ch/d/000000869/user-batch-jobs?orgId=5&refresh=5m&var-cluster=cernprod)
-
-
-### Debugging
-
-```sh
-gdb MissingMassNtupleAnalyzer
-run --f output2018.root --era C --mode Muon
+Options:
+  -h, --help            show this help message and exit
+  -f FILE, --filename=FILE
+                        XML mapping file
+  -p PARSING, --parsing=PARSING
+                        parsing: commands which can be passed from SHELL
+                        directly. [parsing: --p "submit --file filename.xml"]
+  -v, --verbose         make lots of noise [default]
 ```

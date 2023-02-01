@@ -84,6 +84,14 @@ MissingMassSearches::MissingMassSearches(const edm::ParameterSet& iConfig):
     includeElectrons_ = true;
     includeMuons_ = false;
   }
+  else if(physics_ == "DisplacedJet" || physics_ == "DISPLACEDJET" || physics_ == "displacedjet" || physics_ =="bjet" || physics_=="BJET" || physics_=="BJet"){
+    includeElectrons_ = true;
+    includeMuons_ = true;
+  }
+  else if(physics_ == "Electron" || physics_ == "ELECTRON" || physics_ == "electron"){
+    includeElectrons_ = true;
+    includeMuons_ = false;
+  }
   else if(physics_.find("ZeroBias") != std::string::npos || physics_.find("ZEROBIAS") != std::string::npos || physics_.find("zerobias") != std::string::npos){
     includeElectrons_ = false;
     includeMuons_ = true;
@@ -1214,7 +1222,7 @@ void MissingMassSearches::fetchPF(const edm::Event& iEvent, const edm::EventSetu
 // ------------ fetching over LHC info ----------------
 void MissingMassSearches::fetchLHCInfo(const edm::EventSetup& iSetup){
 
-  bool debug = true;
+  bool debug = false;
 
   edm::ESHandle<LHCInfo> hLHCInfo;
   iSetup.get<LHCInfoRcd>().get(lhcInfoLabel_, hLHCInfo);
@@ -3024,6 +3032,17 @@ MissingMassSearches::fillDescriptions(edm::ConfigurationDescriptions& descriptio
 }
 
 // ------------ templates ------------
+
+// ------------ DiSystemFilter
+template <class T, class W>
+bool MissingMassSearches::DiSystemFilter(T obj1_, W obj2_){
+  bool selected = false;
+  math::XYZTLorentzVector DiSys(0.,0.,0.,0.);
+  DiSys = MissingMassSearches::DiSystem(obj1_, obj2_);
+  if(DiSys.pt()>20.) selected = true;
+  return selected;
+}
+
 
 // ------------ Invariant Mass
 template <class T, class W>

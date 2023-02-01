@@ -6,12 +6,14 @@
 <use name="FWCore/ServiceRegistry"/>
 <use name="HLTrigger/HLTcore"/>
 <!-- used physics objects -->
+<use name="DataFormats/Math"/>
 <use name="DataFormats/PatCandidates"/>
 <use name="DataFormats/CTPPSDetId"/>
 <use name="DataFormats/CTPPSReco"/>
 <use name="DataFormats/ProtonReco"/>
 <use name="CommonTools/UtilAlgos"/>
 <use name="DataFormats/JetReco"/>
+<use name="DataFormats/BTauReco"/>
 <use name="DataFormats/HcalRecHit"/>
 <use name="DataFormats/HcalDetId"/>
 <use name="DataFormats/HcalDigi"/>

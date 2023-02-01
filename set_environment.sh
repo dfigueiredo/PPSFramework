@@ -12,6 +12,9 @@ then
 else
    echo -e "\nCreating a working dir.\n"
    mkdir $PPSFRAMEWORKROOT/working
+   cp $PPSFRAMEWORKROOT/Skimmer/test/RunMissingMassSearches.py $PPSFRAMEWORKROOT/working/.
+   cp $PPSFRAMEWORKROOT/Skimmer/data/*.root $PPSFRAMEWORKROOT/working/.
+   cp -r $PPSFRAMEWORKROOT/Skimmer/test/json_dpg $PPSFRAMEWORKROOT/working/.
    echo -e "\nChecking: $WORKINGPPSDIR\n"
 fi
 

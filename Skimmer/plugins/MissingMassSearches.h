@@ -130,7 +130,9 @@ class MissingMassSearches : public edm::one::EDAnalyzer<edm::one::SharedResource
 
     template <class T, class W>
       void fillingJets(T jet1, W jet2);
-
+ 
+    template <class T, class W>
+      bool DiSystemFilter(T obj1, W obj2);
 
     // Only for PF Jets
     //template <class T, class W>
