@@ -1,0 +1,4 @@
+cmsRun RunMissingMassSearches.py year=2017 physics=bjet trigger=False era=D mode=mc
+
+
+cmsRun RunMissingMassEfficiency.py trigger=False mode=mc physics=muon debugging=True verbosity=0 discriminator=False
