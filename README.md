@@ -1,6 +1,6 @@
 # PPS Framework
 
-This package is used for the Missing Mass Search analysis and acts on the CMSSW official datasets, producing a root NTuple which has pre-selected CMSSW collections (and physics-computing objects). Secondly, a tool which saves a root Ttree for final analysis. 
+This package is used for the Missing Mass Search analysis. The first tool acts on the CMSSW official datasets producing a root NTuple (Skimmer) which has a set of pre-selected CMSSW collections (and physics-computing objects) event by event. After that, another tool should be launched to produce the final analysis file (Analyzer). 
 
 ## Description
 
