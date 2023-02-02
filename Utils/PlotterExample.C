@@ -9,7 +9,7 @@ void PlotterExample(){
 
   TCut * ncut = new TCut("nLeptons>10");
 
-  TFile *f = new TFile("/eos/cms/store/group/phys_pps/MissingMassSearch/NtuplesAOD/Ntuples_aod-v5/data_muon_aod_v5.root");
+  TFile *f = new TFile("/eos/cms/store/group/phys_exotica/PPS-Exo/Ntuples/Ntuples_v35/doublemuon-2018-unmatching.root");
   TTree *T = (TTree*)f->Get("Events");
 
   // Case 1
