@@ -1,6 +1,15 @@
 # Missing Mass Searches Analyzer
 Tool to produce the final ttree for analysis.
 
+## Compiling the source 
+
+Before running, you should compile the code:
+
+```sh
+make clean
+make
+```
+
 ## Running Locally
 
 Example to run with detector data (produced by the Missing Mass Search Skimmer):
