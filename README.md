@@ -116,7 +116,7 @@ make
 | --output | It creates an output folder name (string) |
 | --f | Input file name |
 
-*** Important ***: the options "--protonfile" and "--random" _can not_ be used together! In case you do not have the random file with the protons xi, first run --protonfile to create the root file histogram used for the --random option.
+** Important **: the options "--protonfile" and "--random" *can not* be used together! In case you do not have the random file with the protons xi, first run --protonfile to create the root file histogram used for the --random option.
 
 ## Examples
 
