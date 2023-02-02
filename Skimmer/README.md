@@ -27,7 +27,7 @@ submit
 Where the samples_skimmer2018_bjets.json has the following contents: https://github.com/dfigueiredo/JobSubmitter/blob/master/samples_skimmer2018_bjets.json
 The same idea can be follow-up for all the samples_skimmer files.
 
-# Missing Mass Efficincy Studies
+# Missing Mass Efficiency Studies
 
 Tool to check analysis cuts and efficiencies.
 
