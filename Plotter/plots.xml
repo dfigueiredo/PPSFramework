@@ -2,7 +2,7 @@
 <plots>
         <drawing> 
 		<enable>1</enable>
-                <signal_file>"/eos/cms/store/group/phys_exotica/PPS-Exo/NtuplesAOD/Ntuples_aod-v22/muon-aod2018.root"</signal_file> 
+                <signal_file>"/eos/cms/store/group/phys_exotica/PPS-Exo/Ntuples/Ntuples_v35/doublemuon-2018-unmatching.root"</signal_file> 
                 <bkg_file>none</bkg_file> 
                 <variable_name>"missingMassDileptonRP210"</variable_name> 
                 <title_and_axis_name>"Missing Mass (RP210); Missing Mass [GeV]; PDF"</title_and_axis_name> 
@@ -20,7 +20,7 @@
 
         <drawing>
                 <enable>1</enable>
-                <signal_file>"/eos/cms/store/group/phys_exotica/PPS-Exo/NtuplesAOD/Ntuples_aod-v22/muon-aod2018.root"</signal_file>
+                <signal_file>"/eos/cms/store/group/phys_exotica/PPS-Exo/Ntuples/Ntuples_v35/doublemuon-2018-unmatching.root"</signal_file>
                 <bkg_file>none</bkg_file>
                 <variable_name>"missingMassDileptonRP220"</variable_name>
                 <title_and_axis_name>"Missing Mass (RP220); Missing Mass [GeV]; PDF"</title_and_axis_name>
@@ -38,7 +38,7 @@
 
         <drawing>
                 <enable>1</enable>
-                <signal_file>"/eos/cms/store/group/phys_exotica/PPS-Exo/NtuplesAOD/Ntuples_aod-v22/muon-aod2018.root"</signal_file>
+                <signal_file>"/eos/cms/store/group/phys_exotica/PPS-Exo/Ntuples/Ntuples_v35/doublemuon-2018-unmatching.root"</signal_file>
                 <bkg_file>none</bkg_file>
                 <variable_name>"missingMassDileptonMulti"</variable_name>
                 <title_and_axis_name>"Missing Mass (Multi); Missing Mass [GeV]; PDF"</title_and_axis_name>

@@ -2,20 +2,24 @@
 
 A tool which generates plots for your own analysis. By default, the xml file "plots.xml" will be loaded. All the configuration between the tags &lt;drawing&gt;(...)&lt;/drawing&gt; will automatically be loaded and will generate pdf files. Check the file "plots.xml" as an example.
 
-## Parameters
+## XML Parameters
 
-   * &lt;enable&gt;: 1 (plot), 0 (do not plot)
-   * &lt;signal_file&gt;: root signal file.
-   * &lt;bkg_file&gt;: root background file. if not specified, it needs to be "none"). Signal file will be used also as the background.
-   * &lt;variable_name&gt;: name of the branch to be plotted.
-   * &lt;title_and_axis_name&gt;: as root parameter.
-   * &lt;bin_size&gt;: as root parameter.
-   * &lt;first_bin&gt;: as root parameter.
-   * &lt;last_bin&gt;: as root parameter.
-   * &lt;signal_cuts&gt;: cuts for the signal (combination of branches). Please, use [ASCII for html](http://www.asciitable.com/) for your symbols (>, <, &).
-   * &lt;bkg_cuts&gt;: cuts for the background (combination of branches). Please, use [ASCII for html](http://www.asciitable.com/) for your symbols (>, <, &).
-   * &lt;tagname&gt;: name of the pdf file (it does not to specify .pdf). 
- 
+| Options       | Comments |
+| ------------- | -------------:|
+| enable | 1 (plot), 0 (do not plot) |
+| signal_file | root signal file |
+| bkg_file | root background file. If not needed, it must be set  "none" |
+| variable_name | name of the branch to be plotted |
+| title_and_axis_name | as root parameter |
+| bin_size | as root histogram plotter parameter |
+| first_bin | as root histogram plotter parameter |
+| last_bin | as root histogram plotter parameter |
+| signal_cuts | cuts for the signal (combination of branches). Please, use [ASCII for html](http://www.asciitable.com/) for your symbols (>, <, &) |
+| bkg_cuts | cuts for the background (combination of branches). Please, use [ASCII for html](http://www.asciitable.com/) for your symbols (>, <, &) |
+| tagname | name of the output pdf file (no need to specify .pdf) |
+
+As an example, check the file https://github.com/dfigueiredo/PPSFramework/blob/main/Plotter/plots.xml
+
 ```sh
 python PlotterTool.py
 draw --file your_file.xml [press enter]
@@ -35,4 +39,21 @@ Options:
                         parsing: commands which can be passed from SHELL
                         directly. [parsing: --p "draw --file filename.xml"]
   -v, --verbose         make lots of noise [default]
+```
+
+**Important**: all the histograms cosmetics should be changed in the Plotter.cc source code. Remember to compile it, otherwise the python frontend interface will not work.
+
+```sh
+make clean
+make
+```
+
+# Event List
+
+A tool to generate a file with the selected events after a pre-selected cut.
+
+```sh
+make clean
+make
+./EventList --f tree_pps.root
 ```
