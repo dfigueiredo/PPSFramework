@@ -1,0 +1,3 @@
+Skimmer/python/*.pyc
+.gitignore
+*.pyc
