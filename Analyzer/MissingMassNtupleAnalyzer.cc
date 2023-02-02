@@ -27,7 +27,7 @@
 #include "RangeEvents.h"
 #include "Constants.h"
 
-void MissingMassNtupleAnalyzer::Loop(char * mode, char * year, char *era, char * jobid, char * outdir, char * physics, bool createProtonFile, bool randomFlag, bool single, bool zerobias, bool protonsfilter, bool createEventFile, bool optshort, bool notrigger, bool debug)
+void MissingMassNtupleAnalyzer::Loop(char * mode, char * year, char *era, char * jobid, char * outdir, char * physics, bool createProtonFile, bool randomFlag, bool zerobias, bool protonsfilter, bool createEventFile, bool optshort, bool notrigger, bool debug)
 {
 
   std::list<TString> filestr;
@@ -123,7 +123,6 @@ void MissingMassNtupleAnalyzer::Loop(char * mode, char * year, char *era, char *
   std::cout << "\t\t Create Proton File: " << createProtonFile << std::endl;
   std::cout << "\t\t Create Event List File: " << createEventFile << std::endl;
   std::cout << "\t\t Random Protons: " << randomFlag << std::endl;
-  std::cout << "\t\t Random Proton in a single arm: " << single << std::endl;
   std::cout << "\t\t Short Option: " << optshort << std::endl;
   std::cout << "\t\t Mode: " << mode << std::endl;
   std::cout << "\t\t Year: " << year << std::endl;
@@ -1120,7 +1119,6 @@ int main(int argc, char * argv[])
     std::cout << "\t --protonfile (it generates a root file with info from protons)" << std::endl;
     std::cout << "\t --eventfile (it generates a text file with run:ls:event_number format)" << std::endl;
     std::cout << "\t --random (performing analysis using random protons)" << std::endl;
-    std::cout << "\t --single (fixing arm 45 with random protons.)" << std::endl;
     std::cout << "\t --zerobias (option to run with zerobias triggers. It includes the option --noppstagging)" << std::endl;
     std::cout << "\t --noppstagging (option to run without proton selection)" << std::endl;
     std::cout << "\t --debugging (option for debugging)\n" << std::endl;
@@ -1146,8 +1144,8 @@ int main(int argc, char * argv[])
     return 0;
   }
 
-  if((cmdOptionExists(argv, argv+argc, "--protonfile") || cmdOptionExists(argv, argv+argc, "--random") || cmdOptionExists(argv, argv+argc, "--single"))&&(cmdOptionExists(argv, argv+argc, "--zerobias")||cmdOptionExists(argv, argv+argc, "--noppstagging"))){
-    std::cout << "\n\t ---> Options (--protonfile or --random or --single) can not be used together with (--noppstagging and --zerobias) parameter! Please try again!\n" << std::endl;
+  if((cmdOptionExists(argv, argv+argc, "--protonfile") || cmdOptionExists(argv, argv+argc, "--random"))&&(cmdOptionExists(argv, argv+argc, "--zerobias")||cmdOptionExists(argv, argv+argc, "--noppstagging"))){
+    std::cout << "\n\t ---> Options (--protonfile or --random) can not be used together with (--noppstagging and --zerobias) parameter! Please try again!\n" << std::endl;
     return 0;
   }
 
@@ -1221,7 +1219,6 @@ int main(int argc, char * argv[])
     bool createProtonFile = false;
     bool createEventFile = false;
     bool randomFlag = false;
-    bool single = false;
     bool zerobias = false;
     bool protonsfilter = true;
     bool debug = false;
@@ -1244,7 +1241,6 @@ int main(int argc, char * argv[])
       notrigger = true;
     }
 
-    if(cmdOptionExists(argv, argv+argc, "--single")) single = true;
     if(cmdOptionExists(argv, argv+argc, "--zerobias")){
       zerobias = true;
     }
@@ -1260,7 +1256,7 @@ int main(int argc, char * argv[])
 
     // Accessing Missing Mass Object
     MissingMassNtupleAnalyzer m(tree); 
-    m.Loop(mode, year, era, jobid, outdir, physics, createProtonFile, randomFlag, single, zerobias, protonsfilter, createEventFile, optshort, notrigger, debug);
+    m.Loop(mode, year, era, jobid, outdir, physics, createProtonFile, randomFlag, zerobias, protonsfilter, createEventFile, optshort, notrigger, debug);
   }else{
     std::cout << "\n\t --> Please, insert --f filename.root, --mode mc (or data) and --physics muon (or electron or bjet or displacedjet) and --year 2017(2018)\n" << std::endl;
     return 0;

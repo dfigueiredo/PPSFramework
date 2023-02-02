@@ -50,14 +50,22 @@ if options.year == "2018" and options.mode =="zerobias":
           print("\n Please, zerobias is not yet configured to run over 2018 data!\n")
           sys.exit(0)
 
+# Example of Pythia SD top dataset, 2017 conditions
 #fileinput = '/store/user/dmf/PYTHIA8-SD-TOP-MINIAOD-eraB-2017-withpps-13TEV/crab_dmf_2021-06-25_UTC09-48-16/PYTHIA8-SD-TOP-GEN/PYTHIA8-SD-TOP-MINIAOD-eraB-2017-withpps-13TEV/210625_074911/0000/output_101.root'
 #fileinput = '/store/user/dmf/PYTHIA8-SD-TOP-MINIAOD-eraD-2017-withpps-13TEV/crab_dmf_2021-07-12_UTC18-52-49/PYTHIA8-SD-TOP-GEN/PYTHIA8-SD-TOP-MINIAOD-eraD-2017-withpps-13TEV/210712_165318/0000/output_1.root'
-fileinput = '/store/data/Run2017D/BTagCSV/MINIAOD/09Aug2019_UL2017-v1/60000/CAEC3BF9-E990-AD41-A55B-B28269E242C1.root'
-#fileinput = '/store/data/Run2018C/DoubleMuon/MINIAOD/ForValUL2018-v1/230000/1A9817AE-B1F4-A746-9460-34B48037B519.root'
 #fileinput = '/store/user/dmf/PYTHIA8-SD-TOP-MINIAOD-eraD-2017-withpps-13TEV/crab_dmf_2021-08-09_UTC16-52-30/PYTHIA8-SD-TOP-GEN/PYTHIA8-SD-TOP-MINIAOD-eraD-2017-withpps-13TEV_2021-08-09_UTC16-52-30/210809_145244/0000/output_138.root'
+
+# Example of ToyMC for ZX analysis
 #fileinput = '/store/user/dmf/ZXToyMC-13TeV-miniAOD_2020-03-23_UTC13-55-30/ZXToyMC-GEN_Muon_PostTS2_950_150/ZXToyMC-13TeV-miniAOD_2020-03-23_UTC13-55-30/200323_125619/0000/output_14.root'
 #fileinput = '/store/user/dmf/ZXToyMC-13TeV-miniAOD_2020-03-23_UTC13-55-30/ZXToyMC-GEN_Muon_PostTS2_950_150/ZXToyMC-13TeV-miniAOD_2020-03-23_UTC13-55-30/200323_125619/0000/output_53.root'
-#fileinput = 'file:///afs/cern.ch/user/d/dmf/private/work/private/CMSPhysicsAnalysis/PrivateMCProduction/PPSMCProduction/working/output.root'
+
+# Example of 2017 data, era D, miniAOD, BTAG Stream
+fileinput = '/store/data/Run2017D/BTagCSV/MINIAOD/09Aug2019_UL2017-v1/60000/CAEC3BF9-E990-AD41-A55B-B28269E242C1.root'
+
+# Example of 2018 data, era C, miniAOD, DoubleMuon Stream
+#fileinput = '/store/data/Run2018C/DoubleMuon/MINIAOD/ForValUL2018-v1/230000/1A9817AE-B1F4-A746-9460-34B48037B519.root'
+
+# Example of 2017 data, era A, miniAOD, ZeroBias Stream
 #fileinput='/store/data/Run2017A/ZeroBias2/RAW/v1/000/294/741/00000/1A36D36B-943E-E711-A0D7-02163E01A586.root'
 
 #-----------------------------

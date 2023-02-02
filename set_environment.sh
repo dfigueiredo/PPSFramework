@@ -2,6 +2,12 @@
 # set_environment.sh - preparing framework environment under GPL v2+
 #-------------------------------------------------------------------
 
+if voms-proxy-init --voms cms; then 
+     echo -e "\nvoms CMS enabled\n"
+else
+     echo -e "\nWarning: your grid certificate is not configured\n"
+fi
+
 export PPSFRAMEWORKROOT=`pwd`
 export WORKINGPPSDIR=$PPSFRAMEWORKROOT/working
 
