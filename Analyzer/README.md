@@ -1,22 +1,12 @@
-# Missing Mass Searches Skimmer
-Skimmer code includes Forward Proton POG containers. Furthermore, it includes jets, leptons, particle flow collections used for Missing Mass Searches.
-Instructions how to produce your ntuples:
+# Missing Mass Searches Analyzer
+Tool to produce the final ttree for analysis.
 
 ## Running Locally
 
-```sh
-cmsrel CMSSW_10_6_0
-cd CMSSW_10_6_0/src
-cmsenv
-cd MissingMass/Skimmer/test
-cmsRun RunMissingMassSearchesAOD.py Mode=Muon (or Electron) Year=2017 (or 2018) [AOD]
-cmsRun RunMissingMassSearches.py Mode=Muon (or Electron) Year=2017 (or 2018) [miniAOD]
-```
-
-## Running Locally
+Example to run with detector data (produced by the Missing Mass Search Skimmer):
 
 ```sh
-cmsRun RunMissingMassSearches.py year=2017 physics=bjet trigger=True era=D mode=data
+./MissingMassNtupleAnalyzer --f skimmer_output.root --year 2017 --era C --mode data --physics displacedjet --jobid 0
 ```
 
 ## Running on Condor
