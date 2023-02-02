@@ -72,7 +72,7 @@ Where all the options are following the Skimmer options (same year, era, mode, p
 
 ## Compilation
 
-Everytime the source code is changed, you need to recompile it to run (MissingMassNtupleAnalzer):
+Everytime the source code is changed, you need to recompile it to run (MissingMassNtupleAnalyzer.cc):
 
 ```bash
 make clean
