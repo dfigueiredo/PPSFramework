@@ -515,6 +515,13 @@ class TTreeMissingMass {
     double xi_rp220_Arm56 = 0.;
     double t_rp220_Arm56 = 0.;
 
+    bool flagmc_rp210_Arm45 = false;
+    bool flagmc_rp210_Arm56 = false;
+    bool flagmc_rp220_Arm45 = false;
+    bool flagmc_rp220_Arm56 = false;
+    bool flagmc_multiArm45 = false;
+    bool flagmc_multiArm56 = false;
+
     double xi_multiArm45 = 0.;
     double time_multiArm45 = 0.;
     double timeunc_multiArm45 = 0.;
@@ -1014,6 +1021,13 @@ void TTreeMissingMass::Clearing(){
   xi_rp210_Arm56 = 0;
   xi_rp220_Arm45 = 0;
   xi_rp220_Arm56 = 0;
+
+  flagmc_rp210_Arm45 = 0;
+  flagmc_rp210_Arm56 = 0;
+  flagmc_rp220_Arm45 = 0;
+  flagmc_rp220_Arm56 = 0;
+  flagmc_multiArm45 = 0;
+  flagmc_multiArm56 = 0;
 
   xi_multiArm45 = 0;
   time_multiArm45 = 0;
@@ -1555,11 +1569,17 @@ void TTreeMissingMass::CreateTTree(TString inputfile){
   out->Branch("xi_rp220_Arm45",&xi_rp220_Arm45,"xi_rp220_Arm45/D");
   out->Branch("xi_rp220_Arm56",&xi_rp220_Arm56,"xi_rp220_Arm56/D");
   out->Branch("xi_multiArm45",&xi_multiArm45,"xi_multiArm45/D");
+  out->Branch("xi_multiArm56",&xi_multiArm56,"xi_multiArm56/D");
+  out->Branch("flagmc_rp210_Arm45",&flagmc_rp210_Arm45,"flagmc_rp210_Arm45/B");
+  out->Branch("flagmc_rp210_Arm56",&flagmc_rp210_Arm56,"flagmc_rp210_Arm56/B");
+  out->Branch("flagmc_rp220_Arm45",&flagmc_rp220_Arm45,"flagmc_rp220_Arm45/B");
+  out->Branch("flagmc_rp220_Arm56",&flagmc_rp220_Arm56,"flagmc_rp220_Arm56/B");
+  out->Branch("flagmc_multiArm45",&flagmc_multiArm45,"flagmc_multiArm45/B");
+  out->Branch("flagmc_multiArm56",&flagmc_multiArm56,"flagmc_multiArm56/B");
   out->Branch("time_multiArm45",&time_multiArm45,"time_multiArm45/D");
   out->Branch("timeunc_multiArm45",&timeunc_multiArm45,"timeunc_multiArm45/D");
   out->Branch("thx_multiArm45",&thx_multiArm45,"thx_multiArm45/D");
   out->Branch("thy_multiArm45",&thy_multiArm45,"thy_multiArm45/D");
-  out->Branch("xi_multiArm56",&xi_multiArm56,"xi_multiArm56/D");
   out->Branch("time_multiArm56",&time_multiArm56,"time_multiArm56/D");
   out->Branch("timeunc_multiArm56",&timeunc_multiArm56,"timeunc_multiArm56/D");
   out->Branch("thx_multiArm56",&thx_multiArm56,"thx_multiArm56/D");
