@@ -209,43 +209,55 @@ void MissingMassNtupleAnalyzer::Loop(char * mode, char * year, char *era, char *
     if(strcmp(mode, "mc")==0 && randomFlag){
       if(ttreeAnalysis.nprotonRP210_sec45>0 && ttreeAnalysis.nprotonRP210_sec56==0){
 	ttreeAnalysis.xi_rp210_Arm56=protonsrnd.GetXiRp210Arm56();
+	ttreeAnalysis.flagmc_rp210_Arm56=true;
 	ttreeAnalysis.nprotonRP210_sec56 = 1;
       }
       if(ttreeAnalysis.nprotonRP210_sec45==0 && ttreeAnalysis.nprotonRP210_sec56>0){
 	ttreeAnalysis.xi_rp210_Arm45=protonsrnd.GetXiRp210Arm45();
+	ttreeAnalysis.flagmc_rp210_Arm45=true;
 	ttreeAnalysis.nprotonRP210_sec45 = 1;
       }
       if(ttreeAnalysis.nprotonRP210_sec45==0 && ttreeAnalysis.nprotonRP210_sec56==0){
 	ttreeAnalysis.xi_rp210_Arm45=protonsrnd.GetXiRp210Arm45();
 	ttreeAnalysis.xi_rp210_Arm56=protonsrnd.GetXiRp210Arm56();
+        ttreeAnalysis.flagmc_rp210_Arm45=true;
+        ttreeAnalysis.flagmc_rp210_Arm56=true;
 	ttreeAnalysis.nprotonRP210_sec45 = 1;
 	ttreeAnalysis.nprotonRP210_sec56 = 1;
       }
       if(ttreeAnalysis.nprotonRP220_sec45>0 && ttreeAnalysis.nprotonRP220_sec56==0){
 	ttreeAnalysis.xi_rp220_Arm56=protonsrnd.GetXiRp220Arm56();
+	ttreeAnalysis.flagmc_rp220_Arm56=true;
 	ttreeAnalysis.nprotonRP220_sec56 = 1;
       }
       if(ttreeAnalysis.nprotonRP220_sec45==0 && ttreeAnalysis.nprotonRP220_sec56>0){
 	ttreeAnalysis.nprotonRP220_sec45 = 1;
 	ttreeAnalysis.xi_rp220_Arm45=protonsrnd.GetXiRp220Arm45();
+	ttreeAnalysis.flagmc_rp220_Arm45=true;
       }
       if(ttreeAnalysis.nprotonRP220_sec45==0 && ttreeAnalysis.nprotonRP220_sec56==0){
 	ttreeAnalysis.xi_rp220_Arm45=protonsrnd.GetXiRp220Arm45();
 	ttreeAnalysis.xi_rp220_Arm56=protonsrnd.GetXiRp220Arm56();
+        ttreeAnalysis.flagmc_rp220_Arm45=true;
+        ttreeAnalysis.flagmc_rp220_Arm56=true;
 	ttreeAnalysis.nprotonRP220_sec45 = 1;
 	ttreeAnalysis.nprotonRP220_sec56 = 1;
       }
       if(ttreeAnalysis.nprotonMulti_sec45>0 && ttreeAnalysis.nprotonMulti_sec56==0){
 	ttreeAnalysis.nprotonMulti_sec56 = 1;
 	ttreeAnalysis.xi_multiArm56=protonsrnd.GetXiMultiArm56();
+	ttreeAnalysis.flagmc_multiArm56=true;
       }
       if(ttreeAnalysis.nprotonMulti_sec45==0 && ttreeAnalysis.nprotonMulti_sec56>0){
 	ttreeAnalysis.nprotonMulti_sec45 = 1;
 	ttreeAnalysis.xi_multiArm45=protonsrnd.GetXiMultiArm45();
+	ttreeAnalysis.flagmc_multiArm45=true;
       }
       if(ttreeAnalysis.nprotonMulti_sec45==0 && ttreeAnalysis.nprotonMulti_sec56==0){
 	ttreeAnalysis.xi_multiArm45=protonsrnd.GetXiMultiArm45();
 	ttreeAnalysis.xi_multiArm56=protonsrnd.GetXiMultiArm56();
+        ttreeAnalysis.flagmc_multiArm45=true;
+        ttreeAnalysis.flagmc_multiArm56=true;
 	ttreeAnalysis.nprotonMulti_sec45 = 1;
 	ttreeAnalysis.nprotonMulti_sec56 = 1;
       }
